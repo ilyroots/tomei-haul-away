@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand colors */
+  --color-navy: #0b1f33;
+  --color-orange: #f26a21;
+  --color-cream: #f7f4ed;
+  --color-charcoal: #17212b;
+  --color-sage: #728477;
+
+  /* Semantic tokens */
+  --background: var(--color-cream);
+  --foreground: var(--color-charcoal);
+  --heading: var(--color-navy);
+  --accent: var(--color-orange);
+  --muted: var(--color-sage);
+
+  /* Font variables are injected by next/font in layout.tsx */
+  --font-headline: var(--font-barlow-condensed);
+  --font-body: var(--font-inter);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family:
+      var(--font-body),
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--heading);
+    font-family: var(--font-headline), system-ui, sans-serif;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    font-family: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-navy);
+    color: var(--color-cream);
+    padding: 0.5rem 1rem;
+    z-index: 100;
+    transition: top 0.2s;
+  }
+
+  .skip-link:focus {
+    top: 0;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-orange px-6 py-3 font-semibold text-white transition-colors hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md border-2 border-navy bg-transparent px-6 py-3 font-semibold text-navy transition-colors hover:bg-navy hover:text-cream focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2;
+  }
+}

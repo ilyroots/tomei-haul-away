@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <rect width="600" height="400" fill="#F2F5F3"/>
+  <rect x="40" y="40" width="520" height="320" fill="#F7F4ED" stroke="#728477" stroke-width="2" stroke-dasharray="10 6"/>
+  <text x="50%" y="45%" text-anchor="middle" fill="#17212B" font-family="system-ui, sans-serif" font-size="20" font-weight="600">
+    Service photo placeholder
+  </text>
+  <text x="50%" y="55%" text-anchor="middle" fill="#728477" font-family="system-ui, sans-serif" font-size="14">
+    Replace with real service photo
+  </text>
+</svg>

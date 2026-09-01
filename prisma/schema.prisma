@@ -1,0 +1,411 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  NEEDS_INFO
+  QUOTED
+  SCHEDULED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DECLINED
+  ARCHIVED
+}
+
+enum AppointmentStatus {
+  REQUESTED
+  NEEDS_INFO
+  QUOTED
+  CONFIRMED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  DECLINED
+}
+
+enum ContactPreference {
+  PHONE
+  TEXT
+  EMAIL
+}
+
+enum PropertyType {
+  RESIDENTIAL_SINGLE_FAMILY
+  RESIDENTIAL_APARTMENT
+  RESIDENTIAL_CONDO
+  COMMERCIAL
+  STORAGE_UNIT
+  OTHER
+}
+
+enum LoadSize {
+  SINGLE_ITEM
+  SMALL_LOAD
+  QUARTER_LOAD
+  HALF_LOAD
+  THREE_QUARTER_LOAD
+  FULL_LOAD
+  MULTIPLE_LOADS
+  UNSURE
+}
+
+enum ArrivalWindow {
+  MORNING
+  AFTERNOON
+  EVENING
+  ANYTIME
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  role         String   @default("admin")
+  isActive     Boolean  @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  internalNotes InternalNote[]
+  statusChanges StatusHistory[]
+  auditLogs     AuditLog[]
+}
+
+model Lead {
+  id                       String          @id @default(cuid())
+  referenceNumber          String          @unique
+  status                   LeadStatus      @default(NEW)
+  source                   String? // e.g. "website", "referral", "phone"
+  submissionToken          String?         @unique
+
+  // Contact
+  firstName                String?
+  lastName                 String?
+  contactName              String
+  contactEmail             String
+  contactPhone             String?
+  contactPreference        ContactPreference @default(EMAIL)
+
+  // Service area
+  isInServiceArea          Boolean?
+  outOfServiceAreaNote     String?
+
+  // Job details
+  propertyType             PropertyType?
+  itemsDescription         String?         @db.Text
+  indoorOutdoor            String?
+  floorLevel               String?
+  hasStairs                Boolean?
+  hasElevator              Boolean?
+  longCarry                Boolean?
+  disassemblyRequired      Boolean?
+  heavySpecialtyItems      String?         @db.Text
+
+  // Timing
+  preferredDate            DateTime?
+  arrivalWindow            ArrivalWindow?
+
+  // Load / pricing
+  loadSize                 LoadSize?
+  estimatedPriceMin        Decimal?        @db.Decimal(10, 2)
+  estimatedPriceMax        Decimal?        @db.Decimal(10, 2)
+
+  // Consent
+  marketingConsent         Boolean         @default(false)
+  consentToContact         Boolean
+  privacyPolicyAcknowledged Boolean
+
+  // Relations
+  customerId               String?
+  addressId                String?
+  createdAt                DateTime        @default(now())
+  updatedAt                DateTime        @updatedAt
+
+  customer      Customer?       @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  address       Address?        @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  services      LeadService[]
+  quoteRequests QuoteRequest[]
+  appointments  Appointment[]
+  notes         InternalNote[]
+
+  @@index([status])
+  @@index([referenceNumber])
+  @@index([contactEmail])
+  @@index([contactPhone])
+  @@index([createdAt])
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  email     String?  @unique
+  phone     String?
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  leads         Lead[]
+  addresses     Address[]
+  appointments  Appointment[]
+  notes         InternalNote[]
+
+  @@index([email])
+  @@index([phone])
+  @@index([createdAt])
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  line1      String
+  line2      String?
+  city       String
+  state      String   @default("MA")
+  zip        String
+  customerId String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  customer     Customer?     @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  leads        Lead[]
+  appointments Appointment[]
+
+  @@index([zip])
+  @@index([createdAt])
+}
+
+model QuoteRequest {
+  id                String    @id @default(cuid())
+  leadId            String    @unique
+  estimatedLoadSize LoadSize?
+  estimatedPriceMin Decimal?  @db.Decimal(10, 2)
+  estimatedPriceMax Decimal?  @db.Decimal(10, 2)
+  notes             String?   @db.Text
+  status            String    @default("draft")
+  validUntil        DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Appointment {
+  id                String            @id @default(cuid())
+  leadId            String?
+  customerId        String?
+  addressId         String?
+  scheduledDate     DateTime
+  arrivalWindow     ArrivalWindow?
+  arrivalWindowLabel String?
+  status            AppointmentStatus @default(REQUESTED)
+  crewNotes         String?           @db.Text
+  estimatedPrice    Decimal?          @db.Decimal(10, 2)
+  finalPrice        Decimal?          @db.Decimal(10, 2)
+  durationMinutes   Int?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+
+  lead     Lead?     @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: SetNull)
+  address  Address?  @relation(fields: [addressId], references: [id], onDelete: SetNull)
+  notes    InternalNote[]
+
+  @@index([status])
+  @@index([scheduledDate])
+  @@index([createdAt])
+}
+
+model AvailabilityWindow {
+  id              Int      @id @default(autoincrement())
+  dayOfWeek       Int // 0 = Sunday, 6 = Saturday
+  startTime       String // HH:mm
+  endTime         String // HH:mm
+  label           String? // e.g. "Morning (8am–12pm)"
+  maxAppointments Int      @default(2)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([dayOfWeek])
+  @@index([isActive])
+}
+
+model BlackoutDate {
+  id        String   @id @default(cuid())
+  date      DateTime @unique @db.Date
+  reason    String?
+  createdAt DateTime @default(now())
+
+  @@index([date])
+}
+
+model UploadedAsset {
+  id           String   @id @default(cuid())
+  key          String   @unique
+  originalName String
+  contentType  String
+  sizeBytes    Int
+  ownerType    String // "Lead", "GalleryItem", etc.
+  ownerId      String
+  isPrivate    Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  @@index([ownerType, ownerId])
+  @@index([createdAt])
+}
+
+model Service {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  title            String
+  shortDescription String   @db.Text
+  description      String   @db.Text
+  sortOrder        Int      @default(0)
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  leads LeadService[]
+
+  @@index([slug])
+  @@index([isActive])
+  @@index([sortOrder])
+}
+
+model LeadService {
+  id        String @id @default(cuid())
+  leadId    String
+  serviceId String
+
+  lead    Lead    @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@unique([leadId, serviceId])
+  @@index([serviceId])
+}
+
+model ServiceArea {
+  id          String   @id @default(cuid())
+  city        String
+  zip         String   @unique
+  pageContent String?  @db.Text
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([zip])
+  @@index([isActive])
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  authorName  String
+  location    String?
+  content     String   @db.Text
+  rating      Int?
+  isApproved  Boolean  @default(false)
+  submittedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isApproved])
+  @@index([createdAt])
+}
+
+model GalleryItem {
+  id          String   @id @default(cuid())
+  title       String?
+  description String?  @db.Text
+  assetKey    String?
+  sortOrder   Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([isActive])
+  @@index([sortOrder])
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String   @db.Text
+  category  String?
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([category])
+  @@index([isActive])
+  @@index([sortOrder])
+}
+
+model InternalNote {
+  id            String    @id @default(cuid())
+  leadId        String?
+  customerId    String?
+  appointmentId String?
+  authorId      String
+  content       String    @db.Text
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  lead        Lead?        @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  customer    Customer?    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  appointment Appointment? @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+  author      Admin        @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([leadId])
+  @@index([customerId])
+  @@index([appointmentId])
+  @@index([createdAt])
+}
+
+model StatusHistory {
+  id          String    @id @default(cuid())
+  entityType  String // "Lead", "Appointment", "QuoteRequest"
+  entityId    String
+  fromStatus  String?
+  toStatus    String
+  changedById String?
+  reason      String?   @db.Text
+  createdAt   DateTime  @default(now())
+
+  changedBy Admin? @relation(fields: [changedById], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([toStatus])
+  @@index([createdAt])
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  action      String
+  entityType  String?
+  entityId    String?
+  actorId     String?
+  actorType   String? // "Admin", "Customer", "System"
+  metadata    Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+
+  actor Admin? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([action])
+  @@index([entityType, entityId])
+  @@index([actorId])
+  @@index([createdAt])
+}

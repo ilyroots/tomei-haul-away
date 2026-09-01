@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <rect width="800" height="500" fill="#E6EBF0"/>
+  <path d="M100 400 L200 100 L400 150 L600 80 L700 350 Z" fill="#DDE4DF" stroke="#728477" stroke-width="2"/>
+  <circle cx="400" cy="200" r="12" fill="#F26A21"/>
+  <text x="50%" y="90%" text-anchor="middle" fill="#17212B" font-family="system-ui, sans-serif" font-size="18" font-weight="600">
+    Map-style graphic placeholder — service area overview
+  </text>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600">
+  <rect width="1200" height="600" fill="#0B1F33"/>
+  <text x="50%" y="45%" text-anchor="middle" fill="#F7F4ED" font-family="system-ui, sans-serif" font-size="28" font-weight="600">
+    Hero photo placeholder
+  </text>
+  <text x="50%" y="55%" text-anchor="middle" fill="#F26A21" font-family="system-ui, sans-serif" font-size="18">
+    Replace with a real truck / team photo
+  </text>
+</svg>

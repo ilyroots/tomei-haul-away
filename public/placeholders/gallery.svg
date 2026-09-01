@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#E6EBF0"/>
+  <rect x="40" y="40" width="720" height="520" fill="#F7F4ED" stroke="#728477" stroke-width="2" stroke-dasharray="12 8"/>
+  <text x="50%" y="45%" text-anchor="middle" fill="#17212B" font-family="system-ui, sans-serif" font-size="24" font-weight="600">
+    Photo placeholder
+  </text>
+  <text x="50%" y="55%" text-anchor="middle" fill="#728477" font-family="system-ui, sans-serif" font-size="16">
+    Replace with real job photo
+  </text>
+</svg>

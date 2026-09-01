@@ -1,0 +1,93 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        navy: {
+          DEFAULT: "#0B1F33",
+          50: "#E6EBF0",
+          100: "#C1CED9",
+          200: "#9AB0C2",
+          300: "#7392AB",
+          400: "#547A97",
+          500: "#356283",
+          600: "#2E5470",
+          700: "#26455C",
+          800: "#1F3749",
+          900: "#172935",
+          950: "#0B1F33",
+        },
+        orange: {
+          DEFAULT: "#F26A21",
+          50: "#FEF0E8",
+          100: "#FDD8C5",
+          200: "#FBBF9F",
+          300: "#F9A579",
+          400: "#F88E5C",
+          500: "#F77840",
+          600: "#F26A21",
+          700: "#D95E1D",
+          800: "#C05219",
+          900: "#A84616",
+          950: "#7A3310",
+        },
+        cream: {
+          DEFAULT: "#F7F4ED",
+          50: "#FFFFFF",
+          100: "#FDFCFA",
+          200: "#FAF8F4",
+          300: "#F7F4ED",
+          400: "#EFEBE1",
+          500: "#E7E2D5",
+          600: "#DFD9C9",
+        },
+        charcoal: {
+          DEFAULT: "#17212B",
+          50: "#E8EAEC",
+          100: "#BFC5CB",
+          200: "#96A0A9",
+          300: "#6D7A87",
+          400: "#4E5E6D",
+          500: "#2F4354",
+          600: "#263846",
+          700: "#1E2D39",
+          800: "#17212B",
+          900: "#10161D",
+          950: "#080B0F",
+        },
+        sage: {
+          DEFAULT: "#728477",
+          50: "#F2F5F3",
+          100: "#DDE4DF",
+          200: "#C6D3C9",
+          300: "#9EB6A3",
+          400: "#859D8A",
+          500: "#728477",
+          600: "#637468",
+          700: "#556459",
+          800: "#47544A",
+          900: "#39443B",
+          950: "#2A322C",
+        },
+      },
+      fontFamily: {
+        headline: [
+          "var(--font-barlow-condensed)",
+          "var(--font-archivo-black)",
+          "system-ui",
+          "sans-serif",
+        ],
+        body: ["var(--font-inter)", "var(--font-manrope)", "system-ui", "sans-serif"],
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;

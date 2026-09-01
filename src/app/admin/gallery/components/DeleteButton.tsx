@@ -1,0 +1,20 @@
+"use client";
+
+import { useActionState } from "react";
+import { deleteGalleryItem, type ActionResult } from "../actions";
+import { Button } from "@/components/ui/Button";
+
+export function DeleteButton({ id }: { id: string }) {
+  const [, action, pending] = useActionState(
+    async (_prevState: ActionResult | undefined, _formData: FormData) => deleteGalleryItem(id),
+    undefined
+  );
+
+  return (
+    <form action={action}>
+      <Button type="submit" size="sm" variant="outline" isLoading={pending}>
+        Delete
+      </Button>
+    </form>
+  );
+}
