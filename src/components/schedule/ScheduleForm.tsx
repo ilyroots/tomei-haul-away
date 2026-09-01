@@ -157,7 +157,7 @@ export function ScheduleForm({ submissionToken, turnstileSiteKey }: ScheduleForm
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mx-auto max-w-2xl space-y-6 rounded-xl bg-white p-6 shadow-sm sm:p-8"
+      className="mx-auto max-w-2xl space-y-6 rounded-xl bg-brand-surface p-6 shadow-sm sm:p-8"
     >
       {(serverResult && !serverResult.success) || Object.keys(errors).length > 0 ? (
         <ErrorSummary
@@ -166,7 +166,7 @@ export function ScheduleForm({ submissionToken, turnstileSiteKey }: ScheduleForm
         />
       ) : null}
 
-      <div className="rounded-md border border-orange-200 bg-orange-50 p-4 text-orange-900">
+      <div className="rounded-md border border-brand-accent/30 bg-brand-accent/10 p-4 text-brand-accent-hover">
         <p className="font-semibold">Appointment requests are not confirmed immediately.</p>
         <p className="text-sm">
           We will review your request and follow up to confirm your appointment time.
@@ -200,7 +200,7 @@ export function ScheduleForm({ submissionToken, turnstileSiteKey }: ScheduleForm
         <Input id="zip" {...register("zip")} />
         {errors.zip && <p className="mt-1 text-sm text-red-700">{errors.zip.message}</p>}
         {zip && !isInServiceArea(normalizeZip(zip)) && (
-          <p className="mt-1 text-sm text-orange">
+          <p className="mt-1 text-sm text-brand-accent">
             This ZIP is outside our core service area, but we will still review your request.
           </p>
         )}
@@ -249,7 +249,7 @@ export function ScheduleForm({ submissionToken, turnstileSiteKey }: ScheduleForm
       )}
 
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-navy">Contact Information</h3>
+        <h3 className="text-lg font-semibold text-brand-primary">Contact Information</h3>
         <div>
           <Label htmlFor="contact.name" isRequired>
             Name
@@ -278,7 +278,7 @@ export function ScheduleForm({ submissionToken, turnstileSiteKey }: ScheduleForm
       </div>
 
       <div className="space-y-4">
-        <h3 className="text-lg font-semibold text-navy">Address</h3>
+        <h3 className="text-lg font-semibold text-brand-primary">Address</h3>
         <div>
           <Label htmlFor="address.line1" isRequired>
             Address line 1
@@ -359,13 +359,19 @@ export function ScheduleForm({ submissionToken, turnstileSiteKey }: ScheduleForm
         aria-hidden="true"
       />
 
-      <p className="text-sm text-charcoal-500">
+      <p className="text-sm text-brand-muted">
         Questions? Call or text{" "}
-        <a href={`tel:${PHONE}`} className="font-semibold text-navy hover:text-orange">
+        <a
+          href={`tel:${PHONE}`}
+          className="font-semibold text-brand-primary hover:text-brand-accent"
+        >
           {formatPhone(PHONE)}
         </a>{" "}
         or email{" "}
-        <a href={`mailto:${EMAIL}`} className="font-semibold text-navy hover:text-orange">
+        <a
+          href={`mailto:${EMAIL}`}
+          className="font-semibold text-brand-primary hover:text-brand-accent"
+        >
           {EMAIL}
         </a>
         .

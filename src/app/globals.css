@@ -10,12 +10,23 @@
   --color-charcoal: #17212b;
   --color-sage: #728477;
 
+  /* Semantic brand tokens */
+  --brand-primary: #0b1f33;
+  --brand-accent: #f26a21;
+  --brand-background: #f7f4ed;
+  --brand-surface: #ffffff;
+  --brand-text: #17212b;
+  --brand-muted: #607080;
+  --brand-border: #d8dad8;
+  --brand-navy-hover: #071625;
+  --brand-accent-hover: #d95712;
+
   /* Semantic tokens */
-  --background: var(--color-cream);
-  --foreground: var(--color-charcoal);
-  --heading: var(--color-navy);
-  --accent: var(--color-orange);
-  --muted: var(--color-sage);
+  --background: var(--brand-background);
+  --foreground: var(--brand-text);
+  --heading: var(--brand-primary);
+  --accent: var(--brand-accent);
+  --muted: var(--brand-muted);
 
   /* Font variables are injected by next/font in layout.tsx */
   --font-headline: var(--font-barlow-condensed);
@@ -100,10 +111,14 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-md bg-orange px-6 py-3 font-semibold text-white transition-colors hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange focus:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-md bg-brand-accent px-6 py-3 font-semibold text-brand-primary transition-colors hover:bg-brand-accent-hover focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-md border-2 border-navy bg-transparent px-6 py-3 font-semibold text-navy transition-colors hover:bg-navy hover:text-cream focus:outline-none focus:ring-2 focus:ring-navy focus:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-md bg-brand-primary px-6 py-3 font-semibold text-brand-surface transition-colors hover:bg-brand-navy-hover focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center rounded-md border-2 border-brand-primary bg-transparent px-6 py-3 font-semibold text-brand-primary transition-colors hover:bg-brand-primary hover:text-brand-background focus:outline-none focus:ring-2 focus:ring-brand-accent focus:ring-offset-2;
   }
 }

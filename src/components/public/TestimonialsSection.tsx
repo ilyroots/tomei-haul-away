@@ -8,28 +8,31 @@ export async function TestimonialsSection() {
   }
 
   return (
-    <section className="bg-cream py-16" aria-labelledby="testimonials-heading">
+    <section className="bg-brand-background py-16" aria-labelledby="testimonials-heading">
       <div className="container mx-auto px-4">
         <h2
           id="testimonials-heading"
-          className="text-center text-3xl font-bold text-navy md:text-4xl"
+          className="text-center text-3xl font-bold text-brand-primary md:text-4xl"
         >
           What customers say
         </h2>
         <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
-            <blockquote key={testimonial.id} className="rounded-xl bg-white p-6 shadow-sm">
+            <blockquote key={testimonial.id} className="rounded-xl bg-brand-surface p-6 shadow-sm">
               {testimonial.rating && (
-                <p className="text-orange" aria-label={`Rating: ${testimonial.rating} out of 5`}>
+                <p
+                  className="text-brand-accent"
+                  aria-label={`Rating: ${testimonial.rating} out of 5`}
+                >
                   {"★".repeat(testimonial.rating)}
                   {"☆".repeat(5 - testimonial.rating)}
                 </p>
               )}
-              <p className="mt-3 text-charcoal-700">{testimonial.content}</p>
+              <p className="mt-3 text-brand-text/90">{testimonial.content}</p>
               <footer className="mt-4">
-                <p className="font-semibold text-navy">{testimonial.authorName}</p>
+                <p className="font-semibold text-brand-primary">{testimonial.authorName}</p>
                 {testimonial.location && (
-                  <p className="text-sm text-charcoal-500">{testimonial.location}</p>
+                  <p className="text-sm text-brand-muted">{testimonial.location}</p>
                 )}
               </footer>
             </blockquote>

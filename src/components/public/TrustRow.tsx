@@ -22,9 +22,9 @@ export function TrustRow() {
   return (
     <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {TRUST_ITEMS.map((item) => (
-        <div key={item.title} className="rounded-lg bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold text-navy">{item.title}</h3>
-          <p className="mt-1 text-sm text-charcoal-600">{item.description}</p>
+        <div key={item.title} className="rounded-lg bg-brand-surface p-5 shadow-sm">
+          <h3 className="text-lg font-semibold text-brand-primary">{item.title}</h3>
+          <p className="mt-1 text-sm text-brand-text/80">{item.description}</p>
         </div>
       ))}
     </div>

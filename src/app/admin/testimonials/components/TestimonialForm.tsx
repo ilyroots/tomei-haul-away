@@ -26,7 +26,11 @@ export function TestimonialForm({ item }: { item?: Testimonial }) {
       {state?.success === false && <ErrorSummary message={state.message} />}
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <Label htmlFor={`author-${item?.id ?? "new"}`} className="text-cream-200" isRequired>
+          <Label
+            htmlFor={`author-${item?.id ?? "new"}`}
+            className="text-brand-background/80"
+            isRequired
+          >
             Author name
           </Label>
           <Input
@@ -34,24 +38,28 @@ export function TestimonialForm({ item }: { item?: Testimonial }) {
             name="authorName"
             defaultValue={item?.authorName ?? ""}
             required
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
-          <Label htmlFor={`location-${item?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`location-${item?.id ?? "new"}`} className="text-brand-background/80">
             Location
           </Label>
           <Input
             id={`location-${item?.id ?? "new"}`}
             name="location"
             defaultValue={item?.location ?? ""}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>
       <div className="grid gap-3 sm:grid-cols-4">
         <div className="sm:col-span-3">
-          <Label htmlFor={`content-${item?.id ?? "new"}`} className="text-cream-200" isRequired>
+          <Label
+            htmlFor={`content-${item?.id ?? "new"}`}
+            className="text-brand-background/80"
+            isRequired
+          >
             Content
           </Label>
           <Textarea
@@ -59,12 +67,12 @@ export function TestimonialForm({ item }: { item?: Testimonial }) {
             name="content"
             defaultValue={item?.content ?? ""}
             required
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
             rows={3}
           />
         </div>
         <div>
-          <Label htmlFor={`rating-${item?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`rating-${item?.id ?? "new"}`} className="text-brand-background/80">
             Rating
           </Label>
           <Input
@@ -74,7 +82,7 @@ export function TestimonialForm({ item }: { item?: Testimonial }) {
             min={1}
             max={5}
             defaultValue={item?.rating ?? ""}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>

@@ -48,7 +48,7 @@ export function AvailabilityWindowForm({ window }: { window?: AvailabilityWindow
       )}
       <div className="grid gap-3 sm:grid-cols-6">
         <div>
-          <Label htmlFor={`day-${window?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`day-${window?.id ?? "new"}`} className="text-brand-background/80">
             Day
           </Label>
           <Select
@@ -56,11 +56,11 @@ export function AvailabilityWindowForm({ window }: { window?: AvailabilityWindow
             name="dayOfWeek"
             options={dayOptions}
             defaultValue={String(window?.dayOfWeek ?? 1)}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
-          <Label htmlFor={`start-${window?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`start-${window?.id ?? "new"}`} className="text-brand-background/80">
             Start
           </Label>
           <Input
@@ -68,11 +68,11 @@ export function AvailabilityWindowForm({ window }: { window?: AvailabilityWindow
             name="startTime"
             type="time"
             defaultValue={window?.startTime ?? "08:00"}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
-          <Label htmlFor={`end-${window?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`end-${window?.id ?? "new"}`} className="text-brand-background/80">
             End
           </Label>
           <Input
@@ -80,11 +80,11 @@ export function AvailabilityWindowForm({ window }: { window?: AvailabilityWindow
             name="endTime"
             type="time"
             defaultValue={window?.endTime ?? "17:00"}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div className="sm:col-span-2">
-          <Label htmlFor={`label-${window?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`label-${window?.id ?? "new"}`} className="text-brand-background/80">
             Label
           </Label>
           <Input
@@ -92,11 +92,11 @@ export function AvailabilityWindowForm({ window }: { window?: AvailabilityWindow
             name="label"
             defaultValue={window?.label ?? ""}
             placeholder="e.g. Morning (8am–12pm)"
-            className="border-charcoal-600 bg-charcoal-700 text-cream placeholder:text-charcoal-400"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
           />
         </div>
         <div>
-          <Label htmlFor={`max-${window?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`max-${window?.id ?? "new"}`} className="text-brand-background/80">
             Max
           </Label>
           <Input
@@ -105,7 +105,7 @@ export function AvailabilityWindowForm({ window }: { window?: AvailabilityWindow
             type="number"
             min={1}
             defaultValue={window?.maxAppointments ?? 2}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>

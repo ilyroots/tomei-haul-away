@@ -22,9 +22,9 @@ export function PricingFactors() {
   return (
     <div className="grid gap-6 sm:grid-cols-2">
       {FACTORS.map((factor) => (
-        <div key={factor.title} className="rounded-lg bg-white p-5 shadow-sm">
-          <h3 className="text-lg font-semibold text-navy">{factor.title}</h3>
-          <p className="mt-1 text-charcoal-600">{factor.description}</p>
+        <div key={factor.title} className="rounded-lg bg-brand-surface p-5 shadow-sm">
+          <h3 className="text-lg font-semibold text-brand-primary">{factor.title}</h3>
+          <p className="mt-1 text-brand-text/80">{factor.description}</p>
         </div>
       ))}
     </div>

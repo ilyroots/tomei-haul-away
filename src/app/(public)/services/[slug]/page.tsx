@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { SERVICES, getServiceBySlug, COMPANY_NAME } from "@/lib/business/config";
+import { getServiceImage } from "@/lib/public/images";
 import { Button } from "@/components/ui/Button";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
@@ -45,6 +46,8 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
     notFound();
   }
 
+  const image = getServiceImage(slug);
+
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -70,24 +73,26 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
         <div className="mx-auto max-w-3xl">
           <Link
             href="/services"
-            className="text-sm font-semibold text-navy hover:text-orange hover:underline"
+            className="text-sm font-semibold text-brand-primary hover:text-brand-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
           >
             ← All services
           </Link>
-          <h1 className="mt-4 text-4xl font-bold text-navy md:text-5xl">{service.title}</h1>
-          <p className="mt-4 text-xl text-charcoal-700">{service.shortDescription}</p>
+          <h1 className="mt-4 text-4xl font-bold text-brand-primary md:text-5xl">
+            {service.title}
+          </h1>
+          <p className="mt-4 text-xl text-brand-text/90">{service.shortDescription}</p>
 
-          <div className="relative mt-8 aspect-[3/2] w-full overflow-hidden rounded-xl bg-cream-100">
+          <div className="relative mt-8 aspect-[3/2] w-full overflow-hidden rounded-xl bg-brand-background">
             <Image
-              src="/placeholders/service.svg"
-              alt={`${service.title} photo placeholder — replace with real service photo`}
+              src={image.src}
+              alt={image.alt}
               fill
               sizes="(max-width: 768px) 100vw, 800px"
               className="object-cover"
             />
           </div>
 
-          <div className="mt-8 space-y-4 text-charcoal-700">
+          <div className="mt-8 space-y-4 text-brand-text/90">
             {service.description.split("\n").map((paragraph, index) => (
               <p key={index}>{paragraph}</p>
             ))}

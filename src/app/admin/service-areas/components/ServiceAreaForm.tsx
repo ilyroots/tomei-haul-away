@@ -26,7 +26,11 @@ export function ServiceAreaForm({ item }: { item?: ServiceArea }) {
       {state?.success === false && <ErrorSummary message={state.message} />}
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <Label htmlFor={`city-${item?.id ?? "new"}`} className="text-cream-200" isRequired>
+          <Label
+            htmlFor={`city-${item?.id ?? "new"}`}
+            className="text-brand-background/80"
+            isRequired
+          >
             City
           </Label>
           <Input
@@ -34,11 +38,15 @@ export function ServiceAreaForm({ item }: { item?: ServiceArea }) {
             name="city"
             defaultValue={item?.city ?? ""}
             required
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
-          <Label htmlFor={`zip-${item?.id ?? "new"}`} className="text-cream-200" isRequired>
+          <Label
+            htmlFor={`zip-${item?.id ?? "new"}`}
+            className="text-brand-background/80"
+            isRequired
+          >
             ZIP
           </Label>
           <Input
@@ -46,19 +54,19 @@ export function ServiceAreaForm({ item }: { item?: ServiceArea }) {
             name="zip"
             defaultValue={item?.zip ?? ""}
             required
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>
       <div>
-        <Label htmlFor={`content-${item?.id ?? "new"}`} className="text-cream-200">
+        <Label htmlFor={`content-${item?.id ?? "new"}`} className="text-brand-background/80">
           Page content
         </Label>
         <Textarea
           id={`content-${item?.id ?? "new"}`}
           name="pageContent"
           defaultValue={item?.pageContent ?? ""}
-          className="border-charcoal-600 bg-charcoal-700 text-cream"
+          className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           rows={4}
         />
       </div>

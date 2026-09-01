@@ -9,6 +9,19 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Semantic brand tokens (preferred for new component styles)
+        brand: {
+          primary: "var(--brand-primary)",
+          accent: "var(--brand-accent)",
+          background: "var(--brand-background)",
+          surface: "var(--brand-surface)",
+          text: "var(--brand-text)",
+          muted: "var(--brand-muted)",
+          border: "var(--brand-border)",
+          "navy-hover": "var(--brand-navy-hover)",
+          "accent-hover": "var(--brand-accent-hover)",
+        },
+        // Legacy named colors (kept for backwards compatibility)
         navy: {
           DEFAULT: "#0B1F33",
           50: "#E6EBF0",
@@ -74,6 +87,20 @@ const config: Config = {
           800: "#47544A",
           900: "#39443B",
           950: "#2A322C",
+        },
+        slate: {
+          DEFAULT: "#607080",
+          50: "#F2F4F6",
+          100: "#E1E5EA",
+          200: "#C3CAD3",
+          300: "#A4AFBC",
+          400: "#8594A5",
+          500: "#607080",
+          600: "#4E5C6A",
+          700: "#3D4854",
+          800: "#2B333B",
+          900: "#1A1E23",
+          950: "#0D0F12",
         },
       },
       fontFamily: {

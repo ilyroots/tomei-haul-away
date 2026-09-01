@@ -20,10 +20,14 @@ export function SectionHeading({
   const Heading = level;
   return (
     <div className={cn(centered && "text-center", className)}>
-      <Heading id={id} className="text-3xl font-bold text-navy md:text-4xl">
+      <Heading id={id} className="text-3xl font-bold text-brand-primary md:text-4xl">
         {title}
       </Heading>
-      {subtitle && <p className="mt-3 max-w-2xl text-lg text-charcoal-600">{subtitle}</p>}
+      {subtitle && (
+        <p className={cn("mt-3 max-w-2xl text-lg text-brand-text/80", centered && "mx-auto")}>
+          {subtitle}
+        </p>
+      )}
     </div>
   );
 }

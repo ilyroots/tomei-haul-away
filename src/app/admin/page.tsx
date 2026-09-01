@@ -16,29 +16,33 @@ export default async function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold text-cream">Dashboard</h1>
-        <p className="mt-1 text-cream-200">Overview of today&apos;s activity.</p>
+        <h1 className="text-3xl font-bold text-brand-background">Dashboard</h1>
+        <p className="mt-1 text-brand-background/80">Overview of today&apos;s activity.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="rounded-lg bg-navy p-6 shadow">
-          <p className="text-sm font-medium text-cream-200">New leads</p>
-          <p className="mt-2 text-4xl font-bold text-orange">{summary.newLeadsCount}</p>
+        <div className="rounded-lg bg-brand-primary p-6 shadow">
+          <p className="text-sm font-medium text-brand-background/80">New leads</p>
+          <p className="mt-2 text-4xl font-bold text-brand-accent">{summary.newLeadsCount}</p>
         </div>
-        <div className="rounded-lg bg-navy p-6 shadow">
-          <p className="text-sm font-medium text-cream-200">Upcoming appointment requests</p>
-          <p className="mt-2 text-4xl font-bold text-orange">{summary.upcomingRequestsCount}</p>
+        <div className="rounded-lg bg-brand-primary p-6 shadow">
+          <p className="text-sm font-medium text-brand-background/80">
+            Upcoming appointment requests
+          </p>
+          <p className="mt-2 text-4xl font-bold text-brand-accent">
+            {summary.upcomingRequestsCount}
+          </p>
         </div>
-        <div className="rounded-lg bg-navy p-6 shadow">
-          <p className="text-sm font-medium text-cream-200">Leads needing follow-up</p>
-          <p className="mt-2 text-4xl font-bold text-orange">{summary.followUpLeadsCount}</p>
+        <div className="rounded-lg bg-brand-primary p-6 shadow">
+          <p className="text-sm font-medium text-brand-background/80">Leads needing follow-up</p>
+          <p className="mt-2 text-4xl font-bold text-brand-accent">{summary.followUpLeadsCount}</p>
         </div>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-2">
-        <section className="rounded-lg bg-navy p-6 shadow">
+        <section className="rounded-lg bg-brand-primary p-6 shadow">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-bold text-cream">Recent leads</h2>
+            <h2 className="text-xl font-bold text-brand-background">Recent leads</h2>
             <Link href="/admin/leads">
               <Button variant="outline" size="sm">
                 View all
@@ -47,22 +51,28 @@ export default async function AdminDashboardPage() {
           </div>
 
           {summary.recentLeads.length === 0 ? (
-            <p className="text-cream-200">No recent leads.</p>
+            <p className="text-brand-background/80">No recent leads.</p>
           ) : (
             <ul className="divide-y divide-navy-700">
               {summary.recentLeads.map((lead) => (
                 <li key={lead.id} className="py-3">
                   <Link
                     href={`/admin/leads/${lead.id}`}
-                    className="block rounded-md p-2 transition-colors hover:bg-navy-800"
+                    className="block rounded-md p-2 transition-colors hover:bg-brand-navy-hover"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-cream">{lead.referenceNumber}</span>
-                      <span className="text-sm text-cream-200">{formatDate(lead.createdAt)}</span>
+                      <span className="font-semibold text-brand-background">
+                        {lead.referenceNumber}
+                      </span>
+                      <span className="text-sm text-brand-background/80">
+                        {formatDate(lead.createdAt)}
+                      </span>
                     </div>
                     <div className="mt-1 flex items-center justify-between text-sm">
-                      <span className="text-cream-200">{lead.contactName || "Unknown"}</span>
-                      <span className="rounded-full bg-charcoal px-2 py-0.5 text-xs text-cream-200">
+                      <span className="text-brand-background/80">
+                        {lead.contactName || "Unknown"}
+                      </span>
+                      <span className="rounded-full bg-brand-text px-2 py-0.5 text-xs text-brand-background/80">
                         {lead.status}
                       </span>
                     </div>
@@ -73,9 +83,9 @@ export default async function AdminDashboardPage() {
           )}
         </section>
 
-        <section className="rounded-lg bg-navy p-6 shadow">
+        <section className="rounded-lg bg-brand-primary p-6 shadow">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-xl font-bold text-cream">Upcoming appointments</h2>
+            <h2 className="text-xl font-bold text-brand-background">Upcoming appointments</h2>
             <Link href="/admin/appointments">
               <Button variant="outline" size="sm">
                 View all
@@ -84,24 +94,24 @@ export default async function AdminDashboardPage() {
           </div>
 
           {summary.upcomingAppointments.length === 0 ? (
-            <p className="text-cream-200">No upcoming appointments.</p>
+            <p className="text-brand-background/80">No upcoming appointments.</p>
           ) : (
             <ul className="divide-y divide-navy-700">
               {summary.upcomingAppointments.map((appt) => (
                 <li key={appt.id} className="py-3">
                   <Link
                     href={`/admin/appointments/${appt.id}`}
-                    className="block rounded-md p-2 transition-colors hover:bg-navy-800"
+                    className="block rounded-md p-2 transition-colors hover:bg-brand-navy-hover"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-cream">
+                      <span className="font-semibold text-brand-background">
                         {formatDate(appt.scheduledDate)}
                       </span>
-                      <span className="rounded-full bg-charcoal px-2 py-0.5 text-xs text-cream-200">
+                      <span className="rounded-full bg-brand-text px-2 py-0.5 text-xs text-brand-background/80">
                         {appt.status}
                       </span>
                     </div>
-                    <div className="mt-1 text-sm text-cream-200">
+                    <div className="mt-1 text-sm text-brand-background/80">
                       {appt.contactName || "Unknown"}
                       {appt.arrivalWindow ? ` — ${appt.arrivalWindow}` : ""}
                     </div>

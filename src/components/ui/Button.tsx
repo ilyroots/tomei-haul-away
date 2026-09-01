@@ -34,11 +34,13 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       "inline-flex items-center justify-center rounded-md font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60";
 
     const variants = {
-      primary: "bg-orange text-white hover:bg-orange-700 focus:ring-orange",
-      secondary: "bg-navy text-cream hover:bg-navy-800 focus:ring-navy",
+      primary:
+        "bg-brand-accent text-brand-primary hover:bg-brand-accent-hover focus:ring-brand-accent",
+      secondary:
+        "bg-brand-primary text-brand-surface hover:bg-brand-navy-hover focus:ring-brand-primary",
       outline:
-        "border-2 border-navy bg-transparent text-navy hover:bg-navy hover:text-cream focus:ring-navy",
-      ghost: "bg-transparent text-navy hover:bg-navy-50 focus:ring-navy",
+        "border-2 border-brand-primary bg-transparent text-brand-primary hover:bg-brand-primary hover:text-brand-background focus:ring-brand-accent",
+      ghost: "bg-transparent text-brand-primary hover:bg-brand-primary/10 focus:ring-brand-accent",
     };
 
     const sizes = {

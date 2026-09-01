@@ -21,15 +21,15 @@ export function AppointmentNoteForm({
   }, undefined);
 
   return (
-    <section className="rounded-lg bg-navy p-6 shadow">
-      <h2 className="mb-4 text-xl font-bold text-cream">Internal notes</h2>
+    <section className="rounded-lg bg-brand-primary p-6 shadow">
+      <h2 className="mb-4 text-xl font-bold text-brand-background">Internal notes</h2>
       {state?.success === false && <ErrorSummary message={state.message} className="mb-4" />}
       <form action={action} className="space-y-3">
         <Textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           placeholder="Add a note..."
-          className="border-charcoal-600 bg-charcoal-700 text-cream placeholder:text-charcoal-400"
+          className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
           rows={3}
         />
         <Button type="submit" size="sm" isLoading={pending}>
@@ -38,15 +38,15 @@ export function AppointmentNoteForm({
       </form>
       <div className="mt-6 space-y-4">
         {notes.length === 0 ? (
-          <p className="text-cream-200">No notes yet.</p>
+          <p className="text-brand-background/80">No notes yet.</p>
         ) : (
           notes.map((note) => (
             <div
               key={note.id}
-              className="rounded-md border border-charcoal-600 bg-charcoal-800 p-4"
+              className="rounded-md border border-brand-text/30 bg-brand-text/70 p-4"
             >
-              <p className="whitespace-pre-wrap text-cream">{note.content}</p>
-              <p className="mt-2 text-xs text-cream-200">
+              <p className="whitespace-pre-wrap text-brand-background">{note.content}</p>
+              <p className="mt-2 text-xs text-brand-background/80">
                 {note.author.name || note.author.email} ·{" "}
                 {new Date(note.createdAt).toLocaleString("en-US")}
               </p>

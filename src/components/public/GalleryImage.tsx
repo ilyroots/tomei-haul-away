@@ -9,7 +9,7 @@ interface GalleryImageProps {
 
 export function GalleryImage({ src, alt, caption, priority = false }: GalleryImageProps) {
   return (
-    <figure className="group relative overflow-hidden rounded-xl bg-cream-100 shadow-sm">
+    <figure className="group relative overflow-hidden rounded-xl bg-brand-background shadow-sm">
       <div className="relative aspect-[4/3] w-full">
         <Image
           src={src}
@@ -21,7 +21,7 @@ export function GalleryImage({ src, alt, caption, priority = false }: GalleryIma
         />
       </div>
       {caption && (
-        <figcaption className="bg-white px-4 py-3 text-sm font-medium text-charcoal">
+        <figcaption className="bg-brand-surface px-4 py-3 text-sm font-medium text-brand-text">
           {caption}
         </figcaption>
       )}

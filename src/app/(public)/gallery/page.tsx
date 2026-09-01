@@ -3,6 +3,7 @@ import { COMPANY_NAME } from "@/lib/business/config";
 import { getActiveGalleryItems } from "@/lib/public/data";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { GalleryImage } from "@/components/public/GalleryImage";
+import { galleryPairs } from "@/lib/public/images";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
@@ -37,7 +38,7 @@ export default async function GalleryPage() {
           {galleryItems.map((item, index) => (
             <GalleryImage
               key={item.id}
-              src={item.assetKey ? `/api/assets/${item.assetKey}` : "/placeholders/gallery.svg"}
+              src={item.assetKey ? `/api/assets/${item.assetKey}` : galleryPairs[0].before.src}
               alt={item.description ?? item.title ?? "Gallery photo"}
               caption={item.title}
               priority={index < 3}
@@ -46,14 +47,22 @@ export default async function GalleryPage() {
         </div>
       ) : (
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <GalleryImage
-              key={i}
-              src="/placeholders/gallery.svg"
-              alt="Photo placeholder — replace with real job photo"
-              caption={`Job photo ${i + 1} — replace with real photo`}
-            />
-          ))}
+          {galleryPairs
+            .slice(0, 6)
+            .flatMap((pair, i) => [
+              <GalleryImage
+                key={`before-${i}`}
+                src={pair.before.src}
+                alt={pair.before.alt}
+                caption={pair.before.caption}
+              />,
+              <GalleryImage
+                key={`after-${i}`}
+                src={pair.after.src}
+                alt={pair.after.alt}
+                caption={pair.after.caption}
+              />,
+            ])}
         </div>
       )}
     </div>

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
   COMPANY_NAME,
@@ -13,6 +14,7 @@ import {
 } from "@/lib/business/config";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/public/SectionHeading";
+import { getServiceAreaImage } from "@/lib/public/images";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
@@ -54,13 +56,15 @@ export default async function CityPage({ params }: CityPageProps) {
 
   const zips = getZipsForCity(cityName);
   const neighbors = getNeighboringCities(cityName);
+  const cityIndex = SERVICE_AREA.cities.indexOf(cityName);
+  const headerImage = getServiceAreaImage(cityIndex);
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <Link
           href="/service-areas"
-          className="text-sm font-semibold text-navy hover:text-orange hover:underline"
+          className="text-sm font-semibold text-brand-primary hover:text-brand-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
         >
           ← All service areas
         </Link>
@@ -71,7 +75,17 @@ export default async function CityPage({ params }: CityPageProps) {
           className="mt-4"
         />
 
-        <div className="mt-8 space-y-4 text-charcoal-700">
+        <div className="relative mt-8 aspect-[21/9] w-full overflow-hidden rounded-xl">
+          <Image
+            src={headerImage.src}
+            alt={`Junk removal services in ${cityName}, MA`}
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+        </div>
+
+        <div className="mt-8 space-y-4 text-brand-text/90">
           <p>
             Whether you are clearing out a garage, removing old furniture, or handling an estate
             cleanout, our crew can help in {cityName}.
@@ -82,19 +96,21 @@ export default async function CityPage({ params }: CityPageProps) {
           </p>
         </div>
 
-        <div className="mt-10 rounded-xl bg-cream-100 p-6">
-          <h2 className="text-xl font-bold text-navy">ZIP codes we serve near {cityName}</h2>
-          <p className="mt-2 text-sm text-charcoal-700">{zips.join(", ")}</p>
+        <div className="mt-10 rounded-xl bg-brand-background p-6">
+          <h2 className="text-xl font-bold text-brand-primary">
+            ZIP codes we serve near {cityName}
+          </h2>
+          <p className="mt-2 text-sm text-brand-text/90">{zips.join(", ")}</p>
         </div>
 
         <div className="mt-10">
-          <h2 className="text-xl font-bold text-navy">Neighboring communities</h2>
+          <h2 className="text-xl font-bold text-brand-primary">Neighboring communities</h2>
           <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
             {neighbors.map((neighbor) => (
               <li key={neighbor}>
                 <Link
                   href={`/service-areas/${slugifyCity(neighbor)}`}
-                  className="text-charcoal-700 hover:text-orange hover:underline"
+                  className="text-brand-text/90 hover:text-brand-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
                 >
                   {neighbor}, MA
                 </Link>
@@ -104,8 +120,8 @@ export default async function CityPage({ params }: CityPageProps) {
         </div>
 
         <div className="mt-10">
-          <h2 className="text-xl font-bold text-navy">Scheduling</h2>
-          <p className="mt-2 text-charcoal-700">
+          <h2 className="text-xl font-bold text-brand-primary">Scheduling</h2>
+          <p className="mt-2 text-brand-text/90">
             You can request a specific date and arrival window when you schedule online. We will
             follow up to confirm. Same-day and next-day appointments may be available depending on
             crew availability.

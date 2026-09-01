@@ -39,13 +39,13 @@ function SearchForm({ filters }: { filters: LeadFilters }) {
         name="search"
         placeholder="Search name, phone, email, ref, ZIP, address..."
         defaultValue={filters.search ?? ""}
-        className="border-charcoal-600 bg-charcoal-700 text-cream placeholder:text-charcoal-400 sm:flex-1"
+        className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70 sm:flex-1"
       />
       <Select
         name="status"
         options={statusOptions}
         defaultValue={filters.status ?? ""}
-        className="border-charcoal-600 bg-charcoal-700 text-cream sm:w-48"
+        className="border-brand-text/30 bg-brand-text/90 text-brand-background sm:w-48"
       />
       <Button type="submit" variant="secondary">
         Filter
@@ -59,9 +59,9 @@ async function LeadsTable({ filters }: { filters: LeadFilters }) {
 
   return (
     <>
-      <div className="overflow-x-auto rounded-lg border border-charcoal-700">
+      <div className="overflow-x-auto rounded-lg border border-brand-background/20">
         <table className="w-full text-left text-sm">
-          <thead className="bg-charcoal-800 text-cream-200">
+          <thead className="bg-brand-text/70 text-brand-background/80">
             <tr>
               <th className="px-4 py-3 font-semibold">Reference</th>
               <th className="px-4 py-3 font-semibold">Name</th>
@@ -74,37 +74,39 @@ async function LeadsTable({ filters }: { filters: LeadFilters }) {
           <tbody className="divide-y divide-charcoal-700">
             {result.leads.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-cream-200">
+                <td colSpan={6} className="px-4 py-8 text-center text-brand-background/80">
                   No leads found.
                 </td>
               </tr>
             ) : (
               result.leads.map((lead) => (
-                <tr key={lead.id} className="hover:bg-charcoal-800/50">
+                <tr key={lead.id} className="hover:bg-brand-text/20">
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/leads/${lead.id}`}
-                      className="font-medium text-orange hover:underline"
+                      className="font-medium text-brand-accent hover:underline"
                     >
                       {lead.referenceNumber}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-cream">{lead.contactName}</td>
-                  <td className="px-4 py-3 text-cream-200">
+                  <td className="px-4 py-3 text-brand-background">{lead.contactName}</td>
+                  <td className="px-4 py-3 text-brand-background/80">
                     <div>{lead.contactEmail}</div>
                     <div>{formatPhone(lead.contactPhone)}</div>
                   </td>
-                  <td className="px-4 py-3 text-cream-200">
+                  <td className="px-4 py-3 text-brand-background/80">
                     {lead.address
                       ? `${lead.address.city}, ${lead.address.state} ${lead.address.zip}`
                       : "—"}
                   </td>
                   <td className="px-4 py-3">
-                    <span className="rounded-full bg-navy px-2 py-0.5 text-xs text-cream-200">
+                    <span className="rounded-full bg-brand-primary px-2 py-0.5 text-xs text-brand-background/80">
                       {lead.status.replace(/_/g, " ")}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-cream-200">{formatDate(lead.createdAt)}</td>
+                  <td className="px-4 py-3 text-brand-background/80">
+                    {formatDate(lead.createdAt)}
+                  </td>
                 </tr>
               ))
             )}
@@ -113,7 +115,7 @@ async function LeadsTable({ filters }: { filters: LeadFilters }) {
       </div>
 
       {result.totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-cream-200">
+        <div className="flex items-center justify-between text-sm text-brand-background/80">
           <p>
             Page {result.page} of {result.totalPages} ({result.total} total)
           </p>
@@ -169,15 +171,17 @@ export default async function LeadsPage({
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-cream">Leads</h1>
-          <p className="mt-1 text-cream-200">Manage quote requests and customer inquiries.</p>
+          <h1 className="text-3xl font-bold text-brand-background">Leads</h1>
+          <p className="mt-1 text-brand-background/80">
+            Manage quote requests and customer inquiries.
+          </p>
         </div>
         <CsvExportButton filters={filters} />
       </div>
 
       <SearchForm filters={filters} />
 
-      <Suspense fallback={<p className="text-cream-200">Loading leads...</p>}>
+      <Suspense fallback={<p className="text-brand-background/80">Loading leads...</p>}>
         <LeadsTable filters={filters} />
       </Suspense>
     </div>

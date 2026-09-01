@@ -2,6 +2,12 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { COMPANY_NAME, OWNER_NAME, HOME_CITY } from "@/lib/business/config";
 import { SectionHeading } from "@/components/public/SectionHeading";
+import {
+  aboutOwnerImage,
+  aboutCrewImage,
+  aboutTruckImage,
+  aboutCommunityImage,
+} from "@/lib/public/images";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
@@ -22,7 +28,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <div className="container mx-auto px-4 py-16">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-4xl">
         <SectionHeading
           title={`About ${COMPANY_NAME}`}
           subtitle={`Local junk removal and cleanout services based in ${HOME_CITY}.`}
@@ -30,17 +36,28 @@ export default function AboutPage() {
           centered
         />
 
-        <div className="relative mx-auto mt-10 aspect-square w-full max-w-sm overflow-hidden rounded-xl bg-cream-100">
-          <Image
-            src="/placeholders/owner.svg"
-            alt={`${OWNER_NAME} owner photo placeholder — replace with real headshot`}
-            fill
-            sizes="(max-width: 768px) 100vw, 400px"
-            className="object-cover"
-          />
+        <div className="mt-10 grid gap-8 md:grid-cols-2">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl md:aspect-square">
+            <Image
+              src={aboutOwnerImage.src}
+              alt={aboutOwnerImage.alt}
+              fill
+              sizes="(max-width: 768px) 100vw, 400px"
+              className="object-cover"
+            />
+          </div>
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl md:aspect-square">
+            <Image
+              src={aboutCrewImage.src}
+              alt={aboutCrewImage.alt}
+              fill
+              sizes="(max-width: 768px) 100vw, 400px"
+              className="object-cover"
+            />
+          </div>
         </div>
 
-        <div className="mt-10 space-y-4 text-charcoal-700">
+        <div className="mt-10 space-y-4 text-brand-text/90">
           <p>
             {COMPANY_NAME} is a locally owned junk removal and cleanout business serving homes,
             businesses, and estates in the {HOME_CITY} area.
@@ -60,14 +77,40 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="mt-10 rounded-xl bg-cream-100 p-6">
-          <h2 className="text-xl font-bold text-navy">What we believe</h2>
-          <ul className="mt-3 list-inside list-disc space-y-2 text-charcoal-700">
-            <li>Clear communication beats surprise fees.</li>
-            <li>Your time and property deserve respect.</li>
-            <li>Usable items should get a second life when possible.</li>
-            <li>Local businesses should show up for their communities.</li>
-          </ul>
+        <div className="mt-10 grid gap-8 md:grid-cols-2">
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
+            <Image
+              src={aboutTruckImage.src}
+              alt={aboutTruckImage.alt}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="rounded-xl bg-brand-background p-6">
+            <h2 className="text-xl font-bold text-brand-primary">What we believe</h2>
+            <ul className="mt-3 list-inside list-disc space-y-2 text-brand-text/90">
+              <li>Clear communication beats surprise fees.</li>
+              <li>Your time and property deserve respect.</li>
+              <li>Usable items should get a second life when possible.</li>
+              <li>Local businesses should show up for their communities.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-10">
+          <div className="relative aspect-[21/9] w-full overflow-hidden rounded-xl">
+            <Image
+              src={aboutCommunityImage.src}
+              alt={aboutCommunityImage.alt}
+              fill
+              sizes="100vw"
+              className="object-cover"
+            />
+          </div>
+          <p className="mt-3 text-center text-sm text-brand-muted">
+            Proudly serving the {HOME_CITY} area and surrounding communities.
+          </p>
         </div>
       </div>
     </div>

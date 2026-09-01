@@ -14,12 +14,14 @@ export default function AdminLoginPage() {
   );
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-navy px-4">
-      <div className="w-full max-w-md rounded-lg bg-charcoal p-8 shadow-xl">
-        <h1 className="mb-2 text-center font-headline text-3xl font-bold text-cream">
+    <div className="flex min-h-screen items-center justify-center bg-brand-primary px-4">
+      <div className="w-full max-w-md rounded-lg bg-brand-text p-8 shadow-xl">
+        <h1 className="mb-2 text-center font-headline text-3xl font-bold text-brand-background">
           Tomei Admin
         </h1>
-        <p className="mb-8 text-center text-cream-200">Sign in to manage leads and appointments.</p>
+        <p className="mb-8 text-center text-brand-background/80">
+          Sign in to manage leads and appointments.
+        </p>
 
         {state?.success === false && (
           <ErrorSummary message={state.message} errors={state.errors} className="mb-6" />
@@ -36,7 +38,7 @@ export default function AdminLoginPage() {
               type="email"
               autoComplete="email"
               required
-              className="border-charcoal-600 bg-charcoal-700 text-cream placeholder:text-charcoal-400"
+              className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
             />
           </div>
 
@@ -50,7 +52,7 @@ export default function AdminLoginPage() {
               type="password"
               autoComplete="current-password"
               required
-              className="border-charcoal-600 bg-charcoal-700 text-cream placeholder:text-charcoal-400"
+              className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
             />
           </div>
 

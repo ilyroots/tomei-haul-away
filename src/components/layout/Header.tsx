@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { COMPANY_NAME, PHONE, formatPhone } from "@/lib/business/config";
+import { logoHorizontal, logoIcon } from "@/lib/public/images";
 
 const NAV_LINKS = [
   { href: "/services", label: "Services" },
@@ -16,14 +18,29 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-charcoal-200 bg-cream/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-40 w-full border-b border-brand-border bg-brand-background/95 backdrop-blur-sm">
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
         <Link
           href="/"
-          className="text-2xl font-bold tracking-tight text-navy focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+          className="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
           aria-label={`${COMPANY_NAME} home`}
         >
-          {COMPANY_NAME}
+          <Image
+            src={logoHorizontal.src}
+            alt={logoHorizontal.alt}
+            width={180}
+            height={65}
+            priority
+            className="hidden h-auto w-44 md:block"
+          />
+          <Image
+            src={logoIcon.src}
+            alt={logoIcon.alt}
+            width={48}
+            height={48}
+            priority
+            className="block h-12 w-auto md:hidden"
+          />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
@@ -32,7 +49,7 @@ export function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-base font-medium text-charcoal transition-colors hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+                  className="text-base font-medium text-brand-text transition-colors hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
                 >
                   {link.label}
                 </Link>
@@ -42,13 +59,13 @@ export function Header() {
           <div className="flex items-center gap-4">
             <a
               href={`tel:${PHONE}`}
-              className="text-base font-semibold text-navy hover:text-orange focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+              className="text-base font-semibold text-brand-primary hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
             >
               {formatPhone(PHONE)}
             </a>
             <Link
               href="/quote"
-              className="rounded-md bg-orange px-5 py-2.5 text-base font-semibold text-white transition-colors hover:bg-orange-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
+              className="rounded-md bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-primary transition-colors hover:bg-brand-accent-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
             >
               Get a Free Quote
             </Link>
@@ -61,7 +78,7 @@ export function Header() {
           aria-expanded={mobileOpen}
           aria-controls="mobile-menu"
           onClick={() => setMobileOpen((prev) => !prev)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-navy hover:bg-navy-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 md:hidden"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-md text-brand-primary hover:bg-brand-primary/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2 md:hidden"
         >
           <svg
             className="h-6 w-6"
@@ -92,7 +109,7 @@ export function Header() {
       {mobileOpen && (
         <div
           id="mobile-menu"
-          className="absolute left-0 right-0 top-full border-b border-charcoal-200 bg-cream shadow-lg md:hidden"
+          className="absolute left-0 right-0 top-full border-b border-brand-border bg-brand-surface shadow-lg md:hidden"
         >
           <nav aria-label="Mobile" className="container mx-auto px-4 py-4">
             <ul className="space-y-2">
@@ -101,24 +118,24 @@ export function Header() {
                   <Link
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block rounded-md px-3 py-3 text-lg font-medium text-charcoal hover:bg-navy-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-orange"
+                    className="block rounded-md px-3 py-3 text-lg font-medium text-brand-text hover:bg-brand-background focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
                   >
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
-            <div className="mt-4 flex flex-col gap-3 border-t border-charcoal-200 pt-4">
+            <div className="mt-4 flex flex-col gap-3 border-t border-brand-border pt-4">
               <a
                 href={`tel:${PHONE}`}
-                className="block rounded-md px-3 py-3 text-lg font-semibold text-navy hover:bg-navy-50"
+                className="block rounded-md px-3 py-3 text-lg font-semibold text-brand-primary hover:bg-brand-background"
               >
                 Call {formatPhone(PHONE)}
               </a>
               <Link
                 href="/quote"
                 onClick={() => setMobileOpen(false)}
-                className="block rounded-md bg-orange px-3 py-3 text-center text-lg font-semibold text-white hover:bg-orange-700"
+                className="block rounded-md bg-brand-accent px-3 py-3 text-center text-lg font-semibold text-brand-primary hover:bg-brand-accent-hover"
               >
                 Get a Free Quote
               </Link>

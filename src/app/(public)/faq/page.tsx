@@ -36,24 +36,24 @@ export default async function FaqPage() {
         />
 
         {faqs.length > 0 ? (
-          <div className="mx-auto mt-10 max-w-3xl divide-y divide-charcoal-200 rounded-xl bg-white shadow-sm">
+          <div className="mx-auto mt-10 max-w-3xl divide-y divide-brand-border rounded-xl bg-brand-surface shadow-sm">
             {faqs.map((faq) => (
               <details key={faq.id} className="group p-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-navy focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2">
+                <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-brand-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2">
                   {faq.question}
                   <span
-                    className="ml-4 text-orange transition-transform group-open:rotate-180"
+                    className="ml-4 text-brand-accent transition-transform group-open:rotate-180"
                     aria-hidden="true"
                   >
                     ▼
                   </span>
                 </summary>
-                <p className="mt-3 text-charcoal-700">{faq.answer}</p>
+                <p className="mt-3 text-brand-text/90">{faq.answer}</p>
               </details>
             ))}
           </div>
         ) : (
-          <p className="mt-10 text-center text-charcoal-600">
+          <p className="mt-10 text-center text-brand-text/70">
             No FAQs available yet. Please call or text us with your questions.
           </p>
         )}

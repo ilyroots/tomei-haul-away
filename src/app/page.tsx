@@ -3,6 +3,14 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { COMPANY_NAME, PHONE, SERVICES, SERVICE_AREA, formatPhone } from "@/lib/business/config";
 import { getActiveFaqs, getActiveGalleryItems } from "@/lib/public/data";
+import {
+  heroImage,
+  galleryPairs,
+  teamImage,
+  getServiceAreaImage,
+  finalCtaImage,
+  processImages,
+} from "@/lib/public/images";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { TrustRow } from "@/components/public/TrustRow";
@@ -33,18 +41,21 @@ const STEPS = [
   {
     number: "01",
     title: "Request a quote",
+    image: processImages.quote,
     description:
       "Fill out the quick form or call us. Share photos and details so we can understand the job.",
   },
   {
     number: "02",
     title: "Review your estimate",
+    image: processImages.estimate,
     description:
       "We will contact you with questions and a clear, upfront estimate before any work begins.",
   },
   {
     number: "03",
     title: "We haul it away",
+    image: processImages.haul,
     description: "Our crew arrives on time, removes your items, and sweeps up before we leave.",
   },
 ];
@@ -76,6 +87,7 @@ async function getHomeData() {
 export default async function HomePage() {
   const { faqs, galleryItems } = await getHomeData();
   const hasGalleryItems = galleryItems.length > 0;
+  const serviceAreaImage = getServiceAreaImage(0);
 
   return (
     <>
@@ -84,14 +96,25 @@ export default async function HomePage() {
       />
 
       {/* 1. Hero */}
-      <section className="relative overflow-hidden bg-navy py-20 text-cream md:py-28">
+      <section className="relative overflow-hidden py-20 text-brand-background md:py-28">
+        <div className="absolute inset-0">
+          <Image
+            src={heroImage.src}
+            alt={heroImage.alt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-brand-primary/80" />
+        </div>
         <div className="container relative z-10 mx-auto px-4">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
-              <h1 className="text-4xl font-bold leading-tight text-cream md:text-5xl lg:text-6xl">
+              <h1 className="text-4xl font-bold leading-tight text-brand-background md:text-5xl lg:text-6xl">
                 Clear the clutter. We&apos;ll handle the heavy lifting.
               </h1>
-              <p className="mt-5 max-w-xl text-lg text-cream/90">
+              <p className="mt-5 max-w-xl text-lg text-brand-background/90">
                 {COMPANY_NAME} removes junk, furniture, appliances, and debris from homes,
                 businesses, and estates across the Haverhill area.
               </p>
@@ -104,16 +127,7 @@ export default async function HomePage() {
                 </Button>
               </div>
             </div>
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-navy-800 lg:aspect-square">
-              <Image
-                src="/placeholders/hero.svg"
-                alt="Tomei Haul Away truck or team photo placeholder — replace with real photo"
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
+            <div className="hidden lg:block" />
           </div>
           <div className="mt-12">
             <TrustRow />
@@ -152,7 +166,10 @@ export default async function HomePage() {
       </section>
 
       {/* 4. How it works */}
-      <section className="bg-cream-100 py-16 md:py-24" aria-labelledby="how-it-works-heading">
+      <section
+        className="bg-brand-background py-16 md:py-24"
+        aria-labelledby="how-it-works-heading"
+      >
         <div className="container mx-auto px-4">
           <SectionHeading
             id="how-it-works-heading"
@@ -162,10 +179,24 @@ export default async function HomePage() {
           />
           <div className="mt-10 grid gap-8 md:grid-cols-3">
             {STEPS.map((step) => (
-              <div key={step.number} className="rounded-xl bg-white p-6 shadow-sm">
-                <span className="text-4xl font-bold text-orange">{step.number}</span>
-                <h3 className="mt-3 text-xl font-bold text-navy">{step.title}</h3>
-                <p className="mt-2 text-charcoal-600">{step.description}</p>
+              <div
+                key={step.number}
+                className="overflow-hidden rounded-xl bg-brand-surface shadow-sm"
+              >
+                <div className="relative aspect-[3/2] w-full">
+                  <Image
+                    src={step.image.src}
+                    alt={step.image.alt}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <span className="text-4xl font-bold text-brand-accent">{step.number}</span>
+                  <h3 className="mt-3 text-xl font-bold text-brand-primary">{step.title}</h3>
+                  <p className="mt-2 text-brand-text/80">{step.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -187,20 +218,28 @@ export default async function HomePage() {
                   <GalleryImage
                     key={item.id}
                     src={
-                      item.assetKey ? `/api/assets/${item.assetKey}` : "/placeholders/gallery.svg"
+                      item.assetKey ? `/api/assets/${item.assetKey}` : galleryPairs[0].before.src
                     }
                     alt={item.title ?? "Gallery photo"}
                     caption={item.title}
                   />
                 ))
-              : Array.from({ length: 6 }).map((_, i) => (
-                  <GalleryImage
-                    key={i}
-                    src="/placeholders/gallery.svg"
-                    alt="Photo placeholder — replace with real job photo"
-                    caption={`Job photo ${i + 1} — replace with real photo`}
-                  />
-                ))}
+              : galleryPairs
+                  .slice(0, 6)
+                  .flatMap((pair, i) => [
+                    <GalleryImage
+                      key={`before-${i}`}
+                      src={pair.before.src}
+                      alt={pair.before.alt}
+                      caption={pair.before.caption}
+                    />,
+                    <GalleryImage
+                      key={`after-${i}`}
+                      src={pair.after.src}
+                      alt={pair.after.alt}
+                      caption={pair.after.caption}
+                    />,
+                  ])}
           </div>
           <div className="mt-10 text-center">
             <Button asChild variant="outline">
@@ -211,7 +250,10 @@ export default async function HomePage() {
       </section>
 
       {/* 6. Pricing explanation */}
-      <section className="bg-navy py-16 text-cream md:py-24" aria-labelledby="pricing-heading">
+      <section
+        className="bg-brand-primary py-16 text-brand-background md:py-24"
+        aria-labelledby="pricing-heading"
+      >
         <div className="container mx-auto px-4">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
@@ -222,7 +264,7 @@ export default async function HomePage() {
                 level="h2"
               />
               <div className="mt-6">
-                <p className="text-cream/80">
+                <p className="text-brand-background/80">
                   Send photos through our quote form and we will reply quickly with an estimate.
                   There is no obligation until you approve the work.
                 </p>
@@ -241,31 +283,47 @@ export default async function HomePage() {
       {/* 7. Why Tomei */}
       <section className="py-16 md:py-24" aria-labelledby="why-heading">
         <div className="container mx-auto px-4">
-          <SectionHeading
-            id="why-heading"
-            title="Why choose Tomei Haul Away"
-            subtitle="Practical differences you will notice from the first call."
-            centered
-          />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {WHY_ITEMS.map((item) => (
-              <div key={item.title} className="rounded-xl bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-bold text-navy">{item.title}</h3>
-                <p className="mt-2 text-charcoal-600">{item.description}</p>
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl lg:aspect-square">
+              <Image
+                src={teamImage.src}
+                alt={teamImage.alt}
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+            <div>
+              <SectionHeading
+                id="why-heading"
+                title="Why choose Tomei Haul Away"
+                subtitle="Practical differences you will notice from the first call."
+                level="h2"
+              />
+              <div className="mt-6 grid gap-6 sm:grid-cols-2">
+                {WHY_ITEMS.map((item) => (
+                  <div key={item.title} className="rounded-xl bg-brand-surface p-6 shadow-sm">
+                    <h3 className="text-lg font-bold text-brand-primary">{item.title}</h3>
+                    <p className="mt-2 text-brand-text/80">{item.description}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* 8. Service area */}
-      <section className="bg-cream-100 py-16 md:py-24" aria-labelledby="service-area-heading">
+      <section
+        className="bg-brand-background py-16 md:py-24"
+        aria-labelledby="service-area-heading"
+      >
         <div className="container mx-auto px-4">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-cream-200">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
               <Image
-                src="/placeholders/map.svg"
-                alt="Service area map placeholder — replace with real area overview"
+                src={serviceAreaImage.src}
+                alt={serviceAreaImage.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
@@ -279,12 +337,12 @@ export default async function HomePage() {
                 level="h2"
               />
               <div className="mt-6">
-                <h3 className="text-lg font-semibold text-navy">Cities</h3>
-                <p className="mt-1 text-charcoal-700">{SERVICE_AREA.cities.join(", ")}</p>
+                <h3 className="text-lg font-semibold text-brand-primary">Cities</h3>
+                <p className="mt-1 text-brand-text/90">{SERVICE_AREA.cities.join(", ")}</p>
               </div>
               <div className="mt-4">
-                <h3 className="text-lg font-semibold text-navy">ZIP codes</h3>
-                <p className="mt-1 text-sm text-charcoal-700">{SERVICE_AREA.zips.join(", ")}</p>
+                <h3 className="text-lg font-semibold text-brand-primary">ZIP codes</h3>
+                <p className="mt-1 text-sm text-brand-text/90">{SERVICE_AREA.zips.join(", ")}</p>
               </div>
               <div className="mt-6">
                 <Button asChild variant="outline">
@@ -304,24 +362,24 @@ export default async function HomePage() {
         <div className="container mx-auto px-4">
           <SectionHeading id="faq-heading" title="Frequently asked questions" centered />
           {faqs.length > 0 ? (
-            <div className="mx-auto mt-10 max-w-3xl divide-y divide-charcoal-200 rounded-xl bg-white shadow-sm">
+            <div className="mx-auto mt-10 max-w-3xl divide-y divide-brand-border rounded-xl bg-brand-surface shadow-sm">
               {faqs.map((faq) => (
                 <details key={faq.id} className="group p-5">
-                  <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-navy focus:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2">
+                  <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-brand-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2">
                     {faq.question}
                     <span
-                      className="ml-4 text-orange transition-transform group-open:rotate-180"
+                      className="ml-4 text-brand-accent transition-transform group-open:rotate-180"
                       aria-hidden="true"
                     >
                       ▼
                     </span>
                   </summary>
-                  <p className="mt-3 text-charcoal-700">{faq.answer}</p>
+                  <p className="mt-3 text-brand-text/90">{faq.answer}</p>
                 </details>
               ))}
             </div>
           ) : (
-            <p className="mt-6 text-center text-charcoal-600">
+            <p className="mt-6 text-center text-brand-text/70">
               No FAQs available yet. Call or text us with your questions.
             </p>
           )}
@@ -334,12 +392,28 @@ export default async function HomePage() {
       </section>
 
       {/* 11. Final CTA */}
-      <section className="bg-orange py-16 text-white md:py-24" aria-labelledby="final-cta-heading">
-        <div className="container mx-auto px-4 text-center">
-          <h2 id="final-cta-heading" className="text-3xl font-bold text-white md:text-4xl">
+      <section
+        className="relative overflow-hidden py-16 md:py-24"
+        aria-labelledby="final-cta-heading"
+      >
+        <div className="absolute inset-0">
+          <Image
+            src={finalCtaImage.src}
+            alt={finalCtaImage.alt}
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-brand-primary/80" />
+        </div>
+        <div className="container relative z-10 mx-auto px-4 text-center">
+          <h2
+            id="final-cta-heading"
+            className="text-3xl font-bold text-brand-background md:text-4xl"
+          >
             Ready to get your space back?
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90">
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-brand-background/90">
             Request a free, no-obligation quote today. We will respond quickly and schedule around
             your availability.
           </p>

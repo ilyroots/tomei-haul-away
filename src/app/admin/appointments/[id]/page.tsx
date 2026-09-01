@@ -30,16 +30,18 @@ export default async function AppointmentDetailPage({
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-sm font-medium text-orange">{appointment.status.replace(/_/g, " ")}</p>
-        <h1 className="text-3xl font-bold text-cream">
+        <p className="text-sm font-medium text-brand-accent">
+          {appointment.status.replace(/_/g, " ")}
+        </p>
+        <h1 className="text-3xl font-bold text-brand-background">
           Appointment on {formatDate(appointment.scheduledDate)}
         </h1>
         {appointment.leadId && (
-          <p className="mt-1 text-cream-200">
+          <p className="mt-1 text-brand-background/80">
             Lead:{" "}
             <Link
               href={`/admin/leads/${appointment.leadId}`}
-              className="text-orange hover:underline"
+              className="text-brand-accent hover:underline"
             >
               {appointment.lead?.referenceNumber || "View lead"}
             </Link>
@@ -52,21 +54,26 @@ export default async function AppointmentDetailPage({
           <AppointmentEditForm appointment={appointment} />
           <AppointmentNoteForm appointmentId={appointment.id} notes={appointment.notes} />
 
-          <section className="rounded-lg bg-navy p-6 shadow">
-            <h2 className="mb-4 text-xl font-bold text-cream">Status history</h2>
+          <section className="rounded-lg bg-brand-primary p-6 shadow">
+            <h2 className="mb-4 text-xl font-bold text-brand-background">Status history</h2>
             {appointment.statusHistory.length === 0 ? (
-              <p className="text-cream-200">No status changes yet.</p>
+              <p className="text-brand-background/80">No status changes yet.</p>
             ) : (
               <ul className="space-y-3">
                 {appointment.statusHistory.map((change) => (
-                  <li key={change.id} className="border-l-2 border-orange pl-4 text-cream">
+                  <li
+                    key={change.id}
+                    className="border-l-2 border-brand-accent pl-4 text-brand-background"
+                  >
                     <p className="font-medium">
                       {change.fromStatus ?? "(none)"} → {change.toStatus}
                     </p>
                     {change.reason && (
-                      <p className="mt-1 text-sm text-cream-200">Reason: {change.reason}</p>
+                      <p className="mt-1 text-sm text-brand-background/80">
+                        Reason: {change.reason}
+                      </p>
                     )}
-                    <p className="mt-1 text-xs text-cream-200">
+                    <p className="mt-1 text-xs text-brand-background/80">
                       {change.changedBy?.name || change.changedBy?.email || "System"} ·{" "}
                       {new Date(change.createdAt).toLocaleString("en-US")}
                     </p>
@@ -78,22 +85,22 @@ export default async function AppointmentDetailPage({
         </div>
 
         <aside className="space-y-6">
-          <section className="rounded-lg bg-navy p-6 shadow">
-            <h2 className="mb-4 text-xl font-bold text-cream">Customer</h2>
+          <section className="rounded-lg bg-brand-primary p-6 shadow">
+            <h2 className="mb-4 text-xl font-bold text-brand-background">Customer</h2>
             <dl className="space-y-3 text-sm">
               <div>
-                <dt className="text-cream-200">Name</dt>
-                <dd className="font-medium text-cream">
+                <dt className="text-brand-background/80">Name</dt>
+                <dd className="font-medium text-brand-background">
                   {appointment.lead?.contactName || appointment.customer?.name || "—"}
                 </dd>
               </div>
               <div>
-                <dt className="text-cream-200">Email</dt>
-                <dd className="font-medium text-cream">
+                <dt className="text-brand-background/80">Email</dt>
+                <dd className="font-medium text-brand-background">
                   {appointment.lead?.contactEmail || appointment.customer?.email ? (
                     <a
                       href={`mailto:${appointment.lead?.contactEmail || appointment.customer?.email}`}
-                      className="hover:text-orange hover:underline"
+                      className="hover:text-brand-accent hover:underline"
                     >
                       {appointment.lead?.contactEmail || appointment.customer?.email}
                     </a>
@@ -103,12 +110,12 @@ export default async function AppointmentDetailPage({
                 </dd>
               </div>
               <div>
-                <dt className="text-cream-200">Phone</dt>
-                <dd className="font-medium text-cream">
+                <dt className="text-brand-background/80">Phone</dt>
+                <dd className="font-medium text-brand-background">
                   {appointment.lead?.contactPhone || appointment.customer?.phone ? (
                     <a
                       href={`tel:${appointment.lead?.contactPhone || appointment.customer?.phone}`}
-                      className="hover:text-orange hover:underline"
+                      className="hover:text-brand-accent hover:underline"
                     >
                       {appointment.lead?.contactPhone || appointment.customer?.phone}
                     </a>
@@ -120,10 +127,10 @@ export default async function AppointmentDetailPage({
             </dl>
           </section>
 
-          <section className="rounded-lg bg-navy p-6 shadow">
-            <h2 className="mb-4 text-xl font-bold text-cream">Address</h2>
+          <section className="rounded-lg bg-brand-primary p-6 shadow">
+            <h2 className="mb-4 text-xl font-bold text-brand-background">Address</h2>
             {appointment.address ? (
-              <address className="not-italic text-cream">
+              <address className="not-italic text-brand-background">
                 <p className="font-medium">{appointment.address.line1}</p>
                 {appointment.address.line2 && <p>{appointment.address.line2}</p>}
                 <p>
@@ -131,7 +138,7 @@ export default async function AppointmentDetailPage({
                 </p>
               </address>
             ) : (
-              <p className="text-cream-200">No address on file.</p>
+              <p className="text-brand-background/80">No address on file.</p>
             )}
           </section>
         </aside>

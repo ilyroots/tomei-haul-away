@@ -35,27 +35,27 @@ function FilterForm({ filters }: { filters: AppointmentFilters }) {
         name="search"
         placeholder="Search name, email, ref, address..."
         defaultValue={filters.search ?? ""}
-        className="border-charcoal-600 bg-charcoal-700 text-cream placeholder:text-charcoal-400 lg:col-span-2"
+        className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70 lg:col-span-2"
       />
       <Select
         name="status"
         options={statusOptions}
         defaultValue={filters.status ?? ""}
-        className="border-charcoal-600 bg-charcoal-700 text-cream"
+        className="border-brand-text/30 bg-brand-text/90 text-brand-background"
       />
       <Input
         name="dateFrom"
         type="date"
         placeholder="From"
         defaultValue={filters.dateFrom ?? ""}
-        className="border-charcoal-600 bg-charcoal-700 text-cream"
+        className="border-brand-text/30 bg-brand-text/90 text-brand-background"
       />
       <Input
         name="dateTo"
         type="date"
         placeholder="To"
         defaultValue={filters.dateTo ?? ""}
-        className="border-charcoal-600 bg-charcoal-700 text-cream"
+        className="border-brand-text/30 bg-brand-text/90 text-brand-background"
       />
       <Button type="submit" variant="secondary" className="sm:col-span-2 lg:col-span-5">
         Filter
@@ -69,9 +69,9 @@ async function AppointmentsTable({ filters }: { filters: AppointmentFilters }) {
 
   return (
     <>
-      <div className="overflow-x-auto rounded-lg border border-charcoal-700">
+      <div className="overflow-x-auto rounded-lg border border-brand-background/20">
         <table className="w-full text-left text-sm">
-          <thead className="bg-charcoal-800 text-cream-200">
+          <thead className="bg-brand-text/70 text-brand-background/80">
             <tr>
               <th className="px-4 py-3 font-semibold">Date</th>
               <th className="px-4 py-3 font-semibold">Customer</th>
@@ -83,26 +83,30 @@ async function AppointmentsTable({ filters }: { filters: AppointmentFilters }) {
           <tbody className="divide-y divide-charcoal-700">
             {result.appointments.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-cream-200">
+                <td colSpan={5} className="px-4 py-8 text-center text-brand-background/80">
                   No appointments found.
                 </td>
               </tr>
             ) : (
               result.appointments.map((appt) => (
-                <tr key={appt.id} className="hover:bg-charcoal-800/50">
+                <tr key={appt.id} className="hover:bg-brand-text/20">
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/appointments/${appt.id}`}
-                      className="font-medium text-orange hover:underline"
+                      className="font-medium text-brand-accent hover:underline"
                     >
                       {formatDate(appt.scheduledDate)}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-cream">{appt.contactName || "—"}</td>
-                  <td className="px-4 py-3 text-cream-200">{appt.addressSummary || "—"}</td>
-                  <td className="px-4 py-3 text-cream-200">{appt.arrivalWindow || "—"}</td>
+                  <td className="px-4 py-3 text-brand-background">{appt.contactName || "—"}</td>
+                  <td className="px-4 py-3 text-brand-background/80">
+                    {appt.addressSummary || "—"}
+                  </td>
+                  <td className="px-4 py-3 text-brand-background/80">
+                    {appt.arrivalWindow || "—"}
+                  </td>
                   <td className="px-4 py-3">
-                    <span className="rounded-full bg-navy px-2 py-0.5 text-xs text-cream-200">
+                    <span className="rounded-full bg-brand-primary px-2 py-0.5 text-xs text-brand-background/80">
                       {appt.status.replace(/_/g, " ")}
                     </span>
                   </td>
@@ -114,7 +118,7 @@ async function AppointmentsTable({ filters }: { filters: AppointmentFilters }) {
       </div>
 
       {result.totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-cream-200">
+        <div className="flex items-center justify-between text-sm text-brand-background/80">
           <p>
             Page {result.page} of {result.totalPages} ({result.total} total)
           </p>
@@ -175,13 +179,13 @@ export default async function AppointmentsPage({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-cream">Appointments</h1>
-        <p className="mt-1 text-cream-200">View and manage scheduled appointments.</p>
+        <h1 className="text-3xl font-bold text-brand-background">Appointments</h1>
+        <p className="mt-1 text-brand-background/80">View and manage scheduled appointments.</p>
       </div>
 
       <FilterForm filters={filters} />
 
-      <Suspense fallback={<p className="text-cream-200">Loading appointments...</p>}>
+      <Suspense fallback={<p className="text-brand-background/80">Loading appointments...</p>}>
         <AppointmentsTable filters={filters} />
       </Suspense>
     </div>

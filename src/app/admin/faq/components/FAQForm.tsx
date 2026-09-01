@@ -26,7 +26,11 @@ export function FAQForm({ item }: { item?: FAQ }) {
       {state?.success === false && <ErrorSummary message={state.message} />}
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <Label htmlFor={`question-${item?.id ?? "new"}`} className="text-cream-200" isRequired>
+          <Label
+            htmlFor={`question-${item?.id ?? "new"}`}
+            className="text-brand-background/80"
+            isRequired
+          >
             Question
           </Label>
           <Input
@@ -34,24 +38,28 @@ export function FAQForm({ item }: { item?: FAQ }) {
             name="question"
             defaultValue={item?.question ?? ""}
             required
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
-          <Label htmlFor={`category-${item?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`category-${item?.id ?? "new"}`} className="text-brand-background/80">
             Category
           </Label>
           <Input
             id={`category-${item?.id ?? "new"}`}
             name="category"
             defaultValue={item?.category ?? ""}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>
       <div className="grid gap-3 sm:grid-cols-4">
         <div className="sm:col-span-3">
-          <Label htmlFor={`answer-${item?.id ?? "new"}`} className="text-cream-200" isRequired>
+          <Label
+            htmlFor={`answer-${item?.id ?? "new"}`}
+            className="text-brand-background/80"
+            isRequired
+          >
             Answer
           </Label>
           <Textarea
@@ -59,12 +67,12 @@ export function FAQForm({ item }: { item?: FAQ }) {
             name="answer"
             defaultValue={item?.answer ?? ""}
             required
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
             rows={3}
           />
         </div>
         <div>
-          <Label htmlFor={`sort-${item?.id ?? "new"}`} className="text-cream-200">
+          <Label htmlFor={`sort-${item?.id ?? "new"}`} className="text-brand-background/80">
             Sort order
           </Label>
           <Input
@@ -72,7 +80,7 @@ export function FAQForm({ item }: { item?: FAQ }) {
             name="sortOrder"
             type="number"
             defaultValue={item?.sortOrder ?? 0}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>

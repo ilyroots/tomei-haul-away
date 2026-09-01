@@ -21,9 +21,10 @@ export function ProgressIndicator({ steps, currentStep, className }: ProgressInd
                 <span
                   className={cn(
                     "flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold",
-                    isCompleted && "bg-navy text-cream",
-                    isCurrent && "bg-orange text-white ring-2 ring-orange ring-offset-2",
-                    isUpcoming && "bg-charcoal-200 text-charcoal-500"
+                    isCompleted && "bg-brand-primary text-brand-background",
+                    isCurrent &&
+                      "bg-brand-accent text-brand-primary ring-2 ring-brand-accent ring-offset-2",
+                    isUpcoming && "bg-brand-border text-brand-muted"
                   )}
                   aria-current={isCurrent ? "step" : undefined}
                 >
@@ -49,7 +50,7 @@ export function ProgressIndicator({ steps, currentStep, className }: ProgressInd
                 <span
                   className={cn(
                     "mt-2 hidden text-center text-xs font-medium sm:block",
-                    isCurrent ? "text-charcoal" : "text-charcoal-500"
+                    isCurrent ? "text-brand-text" : "text-brand-muted"
                   )}
                 >
                   {step}
@@ -59,7 +60,7 @@ export function ProgressIndicator({ steps, currentStep, className }: ProgressInd
                 <div
                   className={cn(
                     "mx-2 h-1 flex-1 rounded",
-                    isCompleted ? "bg-navy" : "bg-charcoal-200"
+                    isCompleted ? "bg-brand-primary" : "bg-brand-border"
                   )}
                 />
               )}

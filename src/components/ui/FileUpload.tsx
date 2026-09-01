@@ -161,8 +161,8 @@ export function FileUpload({
   return (
     <div className={cn("space-y-3", className)}>
       <div className="flex items-center justify-between">
-        <span className="text-sm font-semibold text-charcoal">{label}</span>
-        <span className="text-xs text-charcoal-500">
+        <span className="text-sm font-semibold text-brand-text">{label}</span>
+        <span className="text-xs text-brand-muted">
           {files.length} of {maxFiles}
         </span>
       </div>
@@ -181,14 +181,14 @@ export function FileUpload({
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
         className={cn(
-          "cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors focus:outline-none focus:ring-2 focus:ring-orange",
+          "cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors focus:outline-none focus:ring-2 focus:ring-brand-accent",
           isDragging
-            ? "border-orange bg-orange-50"
-            : "border-charcoal-300 bg-cream-100 hover:border-orange"
+            ? "border-brand-accent bg-brand-accent/10"
+            : "border-brand-border bg-brand-background hover:border-brand-accent"
         )}
       >
-        <p className="text-sm text-charcoal-700">{helperText}</p>
-        <p className="mt-1 text-xs text-charcoal-500">{privacyNote}</p>
+        <p className="text-sm text-brand-text/90">{helperText}</p>
+        <p className="mt-1 text-xs text-brand-muted">{privacyNote}</p>
       </div>
 
       <input
@@ -209,7 +209,7 @@ export function FileUpload({
           {files.map((file) => (
             <li
               key={file.id}
-              className="relative rounded-md border border-charcoal-200 bg-white p-2"
+              className="relative rounded-md border border-brand-border bg-brand-surface p-2"
             >
               {file.previewUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element -- Preview thumbnails use temporary object URLs and are not optimized images.
@@ -219,17 +219,17 @@ export function FileUpload({
                   className="mb-2 aspect-square w-full rounded object-cover"
                 />
               ) : (
-                <div className="mb-2 flex aspect-square w-full items-center justify-center rounded bg-cream-200 text-xs text-charcoal-500">
+                <div className="mb-2 flex aspect-square w-full items-center justify-center rounded bg-brand-background/80 text-xs text-brand-muted">
                   No preview
                 </div>
               )}
-              <p className="truncate text-xs font-medium text-charcoal">{file.file.name}</p>
-              <p className="text-xs text-charcoal-500">{formatFileSize(file.file.size)}</p>
+              <p className="truncate text-xs font-medium text-brand-text">{file.file.name}</p>
+              <p className="text-xs text-brand-muted">{formatFileSize(file.file.size)}</p>
 
               {file.status === "uploading" && (
-                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-cream-200">
+                <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-brand-background/80">
                   <div
-                    className="h-full bg-orange transition-all"
+                    className="h-full bg-brand-accent transition-all"
                     style={{ width: `${file.progress}%` }}
                   />
                 </div>
@@ -242,7 +242,7 @@ export function FileUpload({
                   <button
                     type="button"
                     onClick={() => retryFile(file.id)}
-                    className="text-xs font-semibold text-orange hover:underline"
+                    className="text-xs font-semibold text-brand-accent hover:underline"
                   >
                     Retry
                   </button>
@@ -250,14 +250,14 @@ export function FileUpload({
                 <button
                   type="button"
                   onClick={() => removeFile(file.id)}
-                  className="text-xs font-semibold text-charcoal-500 hover:text-red-700"
+                  className="text-xs font-semibold text-brand-muted hover:text-red-700"
                 >
                   Remove
                 </button>
               </div>
 
               {file.status === "complete" && (
-                <span className="absolute right-2 top-2 rounded-full bg-navy p-1 text-cream">
+                <span className="absolute right-2 top-2 rounded-full bg-brand-primary p-1 text-brand-background">
                   <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
                       strokeLinecap="round"

@@ -15,14 +15,14 @@ export default function TermsPage() {
   return (
     <div className="container mx-auto px-4 py-16">
       <div className="mx-auto max-w-3xl">
-        <h1 className="text-4xl font-bold text-navy">Terms of Service</h1>
-        <p className="mt-2 text-charcoal-600">
+        <h1 className="text-4xl font-bold text-brand-primary">Terms of Service</h1>
+        <p className="mt-2 text-brand-text/80">
           Last updated: {new Date().toLocaleDateString("en-US")}
         </p>
 
-        <div className="mt-8 space-y-6 text-charcoal-700">
+        <div className="mt-8 space-y-6 text-brand-text/90">
           <section>
-            <h2 className="text-xl font-bold text-navy">Agreement to terms</h2>
+            <h2 className="text-xl font-bold text-brand-primary">Agreement to terms</h2>
             <p className="mt-2">
               By using this website and requesting services from {COMPANY_NAME}, you agree to these
               terms. If you do not agree, please do not use our services.
@@ -30,7 +30,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-navy">Services</h2>
+            <h2 className="text-xl font-bold text-brand-primary">Services</h2>
             <p className="mt-2">
               We provide junk removal, cleanout, and related hauling services. All estimates are
               subject to on-site review and final approval before work begins.
@@ -38,7 +38,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-navy">Quotes and pricing</h2>
+            <h2 className="text-xl font-bold text-brand-primary">Quotes and pricing</h2>
             <p className="mt-2">
               Online and phone estimates are based on the information you provide. Final pricing may
               change after an in-person assessment of volume, access, item type, and other job-site
@@ -47,7 +47,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-navy">Appointments</h2>
+            <h2 className="text-xl font-bold text-brand-primary">Appointments</h2>
             <p className="mt-2">
               Appointment requests submitted through our website are not confirmed until we contact
               you. We reserve the right to reschedule due to weather, availability, or unsafe
@@ -56,7 +56,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-navy">Prohibited items</h2>
+            <h2 className="text-xl font-bold text-brand-primary">Prohibited items</h2>
             <p className="mt-2">
               We do not remove hazardous materials, chemicals, explosives, or items that are illegal
               to transport or dispose of. Please ask us if you are unsure about a specific item.
@@ -64,7 +64,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-navy">Limitation of liability</h2>
+            <h2 className="text-xl font-bold text-brand-primary">Limitation of liability</h2>
             <p className="mt-2">
               {COMPANY_NAME} is not liable for indirect, incidental, or consequential damages
               arising from our services beyond the amount paid for the specific service.
@@ -72,7 +72,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-navy">Changes to terms</h2>
+            <h2 className="text-xl font-bold text-brand-primary">Changes to terms</h2>
             <p className="mt-2">
               We may update these terms from time to time. Continued use of our website and services
               after changes constitutes acceptance of the updated terms.
@@ -80,10 +80,13 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-bold text-navy">Contact us</h2>
+            <h2 className="text-xl font-bold text-brand-primary">Contact us</h2>
             <p className="mt-2">
               Questions about these terms? Contact us at{" "}
-              <a href={`mailto:${EMAIL}`} className="text-navy hover:text-orange hover:underline">
+              <a
+                href={`mailto:${EMAIL}`}
+                className="text-brand-primary hover:text-brand-accent hover:underline"
+              >
                 {EMAIL}
               </a>
               .

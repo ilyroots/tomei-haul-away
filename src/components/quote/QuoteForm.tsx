@@ -348,7 +348,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="mx-auto max-w-3xl space-y-8 rounded-xl bg-white p-6 shadow-sm sm:p-8"
+        className="mx-auto max-w-3xl space-y-8 rounded-xl bg-brand-surface p-6 shadow-sm sm:p-8"
       >
         <ProgressIndicator steps={STEPS} currentStep={step} />
 
@@ -361,7 +361,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
 
         {step === 0 && (
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-navy">Contact Information</h2>
+            <h2 className="text-2xl font-bold text-brand-primary">Contact Information</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="firstName" isRequired>
@@ -414,7 +414,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
 
         {step === 1 && (
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-navy">Job Location</h2>
+            <h2 className="text-2xl font-bold text-brand-primary">Job Location</h2>
             <div>
               <Label htmlFor="line1" isRequired>
                 Address line 1
@@ -456,7 +456,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
               <Input id="zip" autoComplete="postal-code" {...register("zip")} />
               {errors.zip && <p className="mt-1 text-sm text-red-700">{errors.zip.message}</p>}
               {zip && !isInServiceArea(normalizeZip(zip)) && (
-                <p className="mt-1 text-sm text-orange">
+                <p className="mt-1 text-sm text-brand-accent">
                   This ZIP is outside our core service area, but we will still review your request
                   and let you know if we can help.
                 </p>
@@ -467,7 +467,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
 
         {step === 2 && (
           <div className="space-y-5">
-            <h2 className="text-2xl font-bold text-navy">Job Details</h2>
+            <h2 className="text-2xl font-bold text-brand-primary">Job Details</h2>
             <div>
               <Label isRequired>What service(s) do you need?</Label>
               <div className="grid gap-2 sm:grid-cols-2">
@@ -478,8 +478,8 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
                     onClick={() => toggleService(service.slug)}
                     className={`rounded-md border px-4 py-3 text-left text-sm font-medium transition-colors ${
                       selectedServices.includes(service.slug)
-                        ? "border-orange bg-orange-50 text-navy"
-                        : "border-charcoal-200 bg-white text-charcoal hover:border-orange"
+                        ? "border-brand-accent bg-brand-accent/10 text-brand-primary"
+                        : "border-brand-border bg-brand-surface text-brand-text hover:border-brand-accent"
                     }`}
                     aria-pressed={selectedServices.includes(service.slug)}
                   >
@@ -574,7 +574,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
             </div>
 
             <div className="space-y-2">
-              <p className="text-sm font-semibold text-charcoal">Access details</p>
+              <p className="text-sm font-semibold text-brand-text">Access details</p>
               <div className="grid gap-2 sm:grid-cols-2">
                 <Checkbox label="Stairs involved" {...register("hasStairs")} />
                 <Checkbox label="Elevator available" {...register("hasElevator")} />
@@ -599,8 +599,8 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
 
         {step === 3 && (
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-navy">Photos</h2>
-            <p className="text-charcoal-600">
+            <h2 className="text-2xl font-bold text-brand-primary">Photos</h2>
+            <p className="text-brand-text/80">
               Photos help us provide a more accurate estimate. They are optional.
             </p>
             <FileUpload
@@ -617,7 +617,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
 
         {step === 4 && (
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold text-navy">Timing</h2>
+            <h2 className="text-2xl font-bold text-brand-primary">Timing</h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="preferredDate">Preferred date</Label>
@@ -655,58 +655,62 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
 
         {step === 5 && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-navy">Review & Consent</h2>
+            <h2 className="text-2xl font-bold text-brand-primary">Review & Consent</h2>
 
-            <section className="rounded-md bg-cream-100 p-4">
-              <h3 className="font-semibold text-navy">Contact</h3>
-              <p className="text-charcoal">
+            <section className="rounded-md bg-brand-background p-4">
+              <h3 className="font-semibold text-brand-primary">Contact</h3>
+              <p className="text-brand-text">
                 {firstName} {lastName}
               </p>
-              <p className="text-charcoal">{email}</p>
-              <p className="text-charcoal">{phone || "No phone provided"}</p>
-              <p className="text-charcoal capitalize">
+              <p className="text-brand-text">{email}</p>
+              <p className="text-brand-text">{phone || "No phone provided"}</p>
+              <p className="text-brand-text capitalize">
                 Preferred: {contactPreference?.toLowerCase()}
               </p>
             </section>
 
-            <section className="rounded-md bg-cream-100 p-4">
-              <h3 className="font-semibold text-navy">Location</h3>
-              <p className="text-charcoal">{line1}</p>
-              {line2 && <p className="text-charcoal">{line2}</p>}
-              <p className="text-charcoal">
+            <section className="rounded-md bg-brand-background p-4">
+              <h3 className="font-semibold text-brand-primary">Location</h3>
+              <p className="text-brand-text">{line1}</p>
+              {line2 && <p className="text-brand-text">{line2}</p>}
+              <p className="text-brand-text">
                 {city}, {state} {zip}
               </p>
               {zip && !isInServiceArea(normalizeZip(zip)) && (
-                <p className="mt-1 text-sm text-orange">
+                <p className="mt-1 text-sm text-brand-accent">
                   Outside core service area — request will be reviewed.
                 </p>
               )}
             </section>
 
-            <section className="rounded-md bg-cream-100 p-4">
-              <h3 className="font-semibold text-navy">Job Details</h3>
-              <p className="text-charcoal">
+            <section className="rounded-md bg-brand-background p-4">
+              <h3 className="font-semibold text-brand-primary">Job Details</h3>
+              <p className="text-brand-text">
                 Services:{" "}
                 {selectedServices
                   .map((slug) => SERVICES.find((s) => s.slug === slug)?.title ?? slug)
                   .join(", ") || "None selected"}
               </p>
-              {!!loadSize && <p className="text-charcoal">Load size: {String(loadSize)}</p>}
-              {!!propertyType && <p className="text-charcoal">Property: {String(propertyType)}</p>}
-              {!!itemsDescription && (
-                <p className="text-charcoal">Items: {String(itemsDescription)}</p>
+              {!!loadSize && <p className="text-brand-text">Load size: {String(loadSize)}</p>}
+              {!!propertyType && (
+                <p className="text-brand-text">Property: {String(propertyType)}</p>
               )}
-              {files.length > 0 && <p className="text-charcoal">Photos: {files.length}</p>}
+              {!!itemsDescription && (
+                <p className="text-brand-text">Items: {String(itemsDescription)}</p>
+              )}
+              {files.length > 0 && <p className="text-brand-text">Photos: {files.length}</p>}
             </section>
 
-            <section className="rounded-md bg-cream-100 p-4">
-              <h3 className="font-semibold text-navy">Timing</h3>
-              <p className="text-charcoal">Preferred date: {formatOptionalDate(preferredDate)}</p>
+            <section className="rounded-md bg-brand-background p-4">
+              <h3 className="font-semibold text-brand-primary">Timing</h3>
+              <p className="text-brand-text">Preferred date: {formatOptionalDate(preferredDate)}</p>
               {!!secondaryDate && (
-                <p className="text-charcoal">Secondary date: {formatOptionalDate(secondaryDate)}</p>
+                <p className="text-brand-text">
+                  Secondary date: {formatOptionalDate(secondaryDate)}
+                </p>
               )}
               {!!arrivalWindow && (
-                <p className="text-charcoal">
+                <p className="text-brand-text">
                   Window:{" "}
                   {ARRIVAL_WINDOW_OPTIONS.find((o) => o.value === String(arrivalWindow ?? ""))
                     ?.label ?? String(arrivalWindow)}
@@ -719,7 +723,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
                 label={
                   <>
                     I consent to being contacted about my request via my selected contact method.{" "}
-                    <span className="text-orange">*</span>
+                    <span className="text-brand-accent">*</span>
                   </>
                 }
                 {...register("consentToContact")}
@@ -732,10 +736,10 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
                 label={
                   <>
                     I have read and acknowledge the{" "}
-                    <a href="/privacy" className="underline hover:text-orange">
+                    <a href="/privacy" className="underline hover:text-brand-accent">
                       privacy policy
                     </a>
-                    . <span className="text-orange">*</span>
+                    . <span className="text-brand-accent">*</span>
                   </>
                 }
                 {...register("privacyPolicyAcknowledged")}
@@ -753,7 +757,7 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
                 label={
                   <>
                     I understand that submitting this form does not guarantee an appointment or
-                    final price. <span className="text-orange">*</span>
+                    final price. <span className="text-brand-accent">*</span>
                   </>
                 }
                 {...register("submissionAcknowledged")}
@@ -771,13 +775,19 @@ export function QuoteForm({ submissionToken, turnstileSiteKey }: QuoteFormProps)
               />
             )}
 
-            <p className="text-sm text-charcoal-500">
+            <p className="text-sm text-brand-muted">
               Questions? Call or text{" "}
-              <a href={`tel:${PHONE}`} className="font-semibold text-navy hover:text-orange">
+              <a
+                href={`tel:${PHONE}`}
+                className="font-semibold text-brand-primary hover:text-brand-accent"
+              >
                 {formatPhone(PHONE)}
               </a>{" "}
               or email{" "}
-              <a href={`mailto:${EMAIL}`} className="font-semibold text-navy hover:text-orange">
+              <a
+                href={`mailto:${EMAIL}`}
+                className="font-semibold text-brand-primary hover:text-brand-accent"
+              >
                 {EMAIL}
               </a>
               .

@@ -34,7 +34,7 @@ export function PriceUpdateForm({
       {state?.success === false && <ErrorSummary message={state.message} />}
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <Label htmlFor="min" className="text-cream-200">
+          <Label htmlFor="min" className="text-brand-background/80">
             Min
           </Label>
           <Input
@@ -45,11 +45,11 @@ export function PriceUpdateForm({
             step="0.01"
             value={min}
             onChange={(e) => setMin(e.target.value)}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
-          <Label htmlFor="max" className="text-cream-200">
+          <Label htmlFor="max" className="text-brand-background/80">
             Max
           </Label>
           <Input
@@ -60,7 +60,7 @@ export function PriceUpdateForm({
             step="0.01"
             value={max}
             onChange={(e) => setMax(e.target.value)}
-            className="border-charcoal-600 bg-charcoal-700 text-cream"
+            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>
