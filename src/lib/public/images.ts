@@ -1,7 +1,7 @@
 /**
  * Centralized public image content for the Tomei Haul Away site.
  *
- * NOTE: All placeholder images below are generated brand-colored illustrations.
+ * NOTE: All placeholder images below are AI-generated photo-realistic placeholders.
  * Replace them with real Tomei photography as it becomes available.
  */
 
@@ -76,7 +76,7 @@ export const heroImage: SiteImage = {
   caption: "Serving homes, businesses, and estates across the Haverhill area.",
   isPlaceholder: true,
   replacementNotes:
-    "Replace with a real photo of the Tomei crew and truck on a residential street.",
+    "AI-generated placeholder. Replace with a real photo of the Tomei crew and truck on a residential street.",
 };
 
 export const quickQuoteImage: SiteImage = {
@@ -88,7 +88,7 @@ export const quickQuoteImage: SiteImage = {
   caption: "Get a fast, upfront estimate.",
   isPlaceholder: true,
   replacementNotes:
-    "Replace with a real photo of a crew member reviewing an estimate with a customer.",
+    "AI-generated placeholder. Replace with a real photo of a crew member reviewing an estimate with a customer.",
 };
 
 export const pricingImage: SiteImage = {
@@ -100,7 +100,7 @@ export const pricingImage: SiteImage = {
   caption: "Honest, personalized pricing.",
   isPlaceholder: true,
   replacementNotes:
-    "Replace with a real photo showing a written estimate or crew discussing a job.",
+    "AI-generated placeholder. Replace with a real photo showing a written estimate or crew discussing a job.",
 };
 
 export const quoteImage: SiteImage = {
@@ -112,7 +112,7 @@ export const quoteImage: SiteImage = {
   caption: "Request your free quote.",
   isPlaceholder: true,
   replacementNotes:
-    "Replace with a real photo of the crew preparing for a pickup or customer interaction.",
+    "AI-generated placeholder. Replace with a real photo of the crew preparing for a pickup or customer interaction.",
 };
 
 export const scheduleImage: SiteImage = {
@@ -123,7 +123,8 @@ export const scheduleImage: SiteImage = {
   category: "page",
   caption: "Pick a time that works for you.",
   isPlaceholder: true,
-  replacementNotes: "Replace with a real photo of the crew arriving at a scheduled appointment.",
+  replacementNotes:
+    "AI-generated placeholder. Replace with a real photo of the crew arriving at a scheduled appointment.",
 };
 
 export const finalCtaImage: SiteImage = {
@@ -134,7 +135,8 @@ export const finalCtaImage: SiteImage = {
   category: "page",
   caption: "Ready to reclaim your space?",
   isPlaceholder: true,
-  replacementNotes: "Replace with a real before/after or clean-space photo from a completed job.",
+  replacementNotes:
+    "AI-generated placeholder. Replace with a real before/after or clean-space photo from a completed job.",
 };
 
 // ---------------------------------------------------------------------------
@@ -149,7 +151,7 @@ export const aboutOwnerImage: SiteImage = {
   category: "page",
   caption: "Owner-operated and local.",
   isPlaceholder: true,
-  replacementNotes: "Replace with a real headshot or photo of the owner.",
+  replacementNotes: "AI-generated placeholder. Replace with a real headshot or photo of the owner.",
 };
 
 export const aboutCrewImage: SiteImage = {
@@ -160,7 +162,7 @@ export const aboutCrewImage: SiteImage = {
   category: "page",
   caption: "Experienced, respectful crew.",
   isPlaceholder: true,
-  replacementNotes: "Replace with a real crew photo.",
+  replacementNotes: "AI-generated placeholder. Replace with a real crew photo.",
 };
 
 export const aboutTruckImage: SiteImage = {
@@ -171,7 +173,8 @@ export const aboutTruckImage: SiteImage = {
   category: "page",
   caption: "Equipped for jobs of all sizes.",
   isPlaceholder: true,
-  replacementNotes: "Replace with a real photo of the Tomei truck and equipment.",
+  replacementNotes:
+    "AI-generated placeholder. Replace with a real photo of the Tomei truck and equipment.",
 };
 
 export const aboutCommunityImage: SiteImage = {
@@ -183,7 +186,7 @@ export const aboutCommunityImage: SiteImage = {
   caption: "Proudly serving local communities.",
   isPlaceholder: true,
   replacementNotes:
-    "Replace with a real local neighborhood or community photo from the service area.",
+    "AI-generated placeholder. Replace with a real local neighborhood or community photo from the service area.",
 };
 
 // ---------------------------------------------------------------------------
@@ -199,7 +202,7 @@ export const contactImage: SiteImage = {
   caption: "We are here to help.",
   isPlaceholder: true,
   replacementNotes:
-    "Replace with a real photo of the owner or crew member answering a call or greeting a customer.",
+    "AI-generated placeholder. Replace with a real photo of the owner or crew member answering a call or greeting a customer.",
 };
 
 // ---------------------------------------------------------------------------
@@ -215,7 +218,7 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Furniture removal",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real photo of removed furniture.",
+    replacementNotes: "AI-generated placeholder. Replace with a real photo of removed furniture.",
   },
   "appliance-removal": {
     src: "/images/placeholders/services/tomei-service-appliance-removal-placeholder.webp",
@@ -225,7 +228,7 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Appliance removal",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real photo of removed appliances.",
+    replacementNotes: "AI-generated placeholder. Replace with a real photo of removed appliances.",
   },
   "garage-home-cleanouts": {
     src: "/images/placeholders/services/tomei-service-garage-home-cleanouts-placeholder.webp",
@@ -235,7 +238,8 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Garage & home cleanouts",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real garage or home cleanout photo.",
+    replacementNotes:
+      "AI-generated placeholder. Replace with a real garage or home cleanout photo.",
   },
   "estate-cleanouts": {
     src: "/images/placeholders/services/tomei-service-estate-cleanouts-placeholder.webp",
@@ -245,7 +249,7 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Estate cleanouts",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real estate cleanout photo.",
+    replacementNotes: "AI-generated placeholder. Replace with a real estate cleanout photo.",
   },
   "yard-debris": {
     src: "/images/placeholders/services/tomei-service-yard-debris-placeholder.webp",
@@ -255,7 +259,7 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Yard debris",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real yard debris removal photo.",
+    replacementNotes: "AI-generated placeholder. Replace with a real yard debris removal photo.",
   },
   "construction-renovation-debris": {
     src: "/images/placeholders/services/tomei-service-construction-renovation-debris-placeholder.webp",
@@ -265,7 +269,8 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Construction & renovation debris",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real construction debris removal photo.",
+    replacementNotes:
+      "AI-generated placeholder. Replace with a real construction debris removal photo.",
   },
   "storage-unit-cleanouts": {
     src: "/images/placeholders/services/tomei-service-storage-unit-cleanouts-placeholder.webp",
@@ -275,7 +280,7 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Storage-unit cleanouts",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real storage unit cleanout photo.",
+    replacementNotes: "AI-generated placeholder. Replace with a real storage unit cleanout photo.",
   },
   "commercial-junk-removal": {
     src: "/images/placeholders/services/tomei-service-commercial-junk-removal-placeholder.webp",
@@ -285,7 +290,8 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Commercial junk removal",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real commercial junk removal photo.",
+    replacementNotes:
+      "AI-generated placeholder. Replace with a real commercial junk removal photo.",
   },
   "single-item-pickup": {
     src: "/images/placeholders/services/tomei-service-single-item-pickup-placeholder.webp",
@@ -295,7 +301,7 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Single-item pickup",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real single-item pickup photo.",
+    replacementNotes: "AI-generated placeholder. Replace with a real single-item pickup photo.",
   },
   "specialty-item-removal": {
     src: "/images/placeholders/services/tomei-service-specialty-item-removal-placeholder.webp",
@@ -305,7 +311,7 @@ export const serviceImages: Record<string, SiteImage> = {
     category: "service",
     caption: "Specialty-item removal",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real specialty item removal photo.",
+    replacementNotes: "AI-generated placeholder. Replace with a real specialty item removal photo.",
   },
 };
 
@@ -339,7 +345,7 @@ export const galleryPairs: Array<{ before: SiteImage; after: SiteImage }> = Arra
         category: "gallery",
         caption: `Before — Job ${i + 1}`,
         isPlaceholder: true,
-        replacementNotes: `Replace before photo ${i + 1} with a real before shot from a completed job.`,
+        replacementNotes: `AI-generated placeholder. Replace before photo ${i + 1} with a real before shot from a completed job.`,
       },
       after: {
         src: `/images/placeholders/gallery/tomei-gallery-after-${num}-placeholder.webp`,
@@ -349,7 +355,7 @@ export const galleryPairs: Array<{ before: SiteImage; after: SiteImage }> = Arra
         category: "gallery",
         caption: `After — Job ${i + 1}`,
         isPlaceholder: true,
-        replacementNotes: `Replace after photo ${i + 1} with the matching real after shot.`,
+        replacementNotes: `AI-generated placeholder. Replace after photo ${i + 1} with the matching real after shot.`,
       },
     };
   }
@@ -367,7 +373,7 @@ export const teamImage: SiteImage = {
   category: "team",
   caption: "Meet the crew.",
   isPlaceholder: true,
-  replacementNotes: "Replace with a real team or crew photo.",
+  replacementNotes: "AI-generated placeholder. Replace with a real team or crew photo.",
 };
 
 // ---------------------------------------------------------------------------
@@ -384,7 +390,7 @@ export const processImages = {
     caption: "Request a quote",
     isPlaceholder: true,
     replacementNotes:
-      "Replace with a real photo of a customer submitting a quote request or crew reviewing details.",
+      "AI-generated placeholder. Replace with a real photo of a customer submitting a quote request or crew reviewing details.",
   },
   estimate: {
     src: "/images/placeholders/process/tomei-process-estimate-placeholder.webp",
@@ -395,7 +401,7 @@ export const processImages = {
     caption: "Review your estimate",
     isPlaceholder: true,
     replacementNotes:
-      "Replace with a real photo of an estimate being reviewed or calendar scheduling.",
+      "AI-generated placeholder. Replace with a real photo of an estimate being reviewed or calendar scheduling.",
   },
   haul: {
     src: "/images/placeholders/process/tomei-process-haul-placeholder.webp",
@@ -405,7 +411,8 @@ export const processImages = {
     category: "process" as ImageCategory,
     caption: "We haul it away",
     isPlaceholder: true,
-    replacementNotes: "Replace with a real photo of the crew loading items into the truck.",
+    replacementNotes:
+      "AI-generated placeholder. Replace with a real photo of the crew loading items into the truck.",
   },
 };
 
@@ -423,7 +430,7 @@ export const serviceAreaImages: SiteImage[] = Array.from({ length: 5 }, (_, i) =
     category: "service-area",
     caption: `Local service area`,
     isPlaceholder: true,
-    replacementNotes: `Replace service area illustration ${i + 1} with a real neighborhood or landmark photo from the service area.`,
+    replacementNotes: `AI-generated placeholder. Replace service area illustration ${i + 1} with a real neighborhood or landmark photo from the service area.`,
   };
 });
 
