@@ -29,7 +29,7 @@ export default function AdminLoginPage() {
 
         <form action={action} className="space-y-5">
           <div>
-            <Label htmlFor="email" isRequired>
+            <Label htmlFor="email" isRequired className="text-brand-background/80">
               Email
             </Label>
             <Input
@@ -38,12 +38,11 @@ export default function AdminLoginPage() {
               type="email"
               autoComplete="email"
               required
-              className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
             />
           </div>
 
           <div>
-            <Label htmlFor="password" isRequired>
+            <Label htmlFor="password" isRequired className="text-brand-background/80">
               Password
             </Label>
             <Input
@@ -52,7 +51,6 @@ export default function AdminLoginPage() {
               type="password"
               autoComplete="current-password"
               required
-              className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
             />
           </div>
 
