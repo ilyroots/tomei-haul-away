@@ -29,19 +29,13 @@ const LEGAL_LINKS = [
   { href: "/terms", label: "Terms of Service" },
 ];
 
-const SOCIAL_PLACEHOLDERS = [
-  { name: "Facebook", href: "#" },
-  { name: "Instagram", href: "#" },
-  { name: "Google Business", href: "#" },
-];
-
 export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className="bg-brand-primary py-12 text-brand-background">
       <div className="container mx-auto px-4">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-10 md:grid-cols-3">
           <div>
             <Link
               href="/"
@@ -107,26 +101,6 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
-
-          <div>
-            <h2 className="text-lg font-semibold text-brand-background">Connect</h2>
-            <ul className="mt-3 space-y-2 text-brand-background/80">
-              {SOCIAL_PLACEHOLDERS.map((social) => (
-                <li key={social.name}>
-                  <a
-                    href={social.href}
-                    aria-label={`${social.name} placeholder — link not yet configured`}
-                    className="hover:text-brand-accent hover:underline"
-                  >
-                    {social.name}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <p className="mt-3 text-sm text-brand-background/60">
-              Social links are placeholders until profiles are set up.
-            </p>
           </div>
         </div>
 

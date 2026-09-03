@@ -46,7 +46,13 @@ export const quoteContactSchema = z.object({
   firstName: z.string().min(1, "First name is required.").max(100),
   lastName: z.string().min(1, "Last name is required.").max(100),
   email: z.string().min(1, "Email is required.").email("Please enter a valid email address."),
-  phone: phoneSchema,
+  phone: z
+    .string()
+    .min(1, "Phone number is required.")
+    .transform(normalizePhone)
+    .refine((val) => phoneRegex.test(val), {
+      message: "Please enter a valid 10-digit phone number.",
+    }),
   contactPreference: z.nativeEnum(ContactPreference, {
     message: "Please select a contact preference.",
   }),
@@ -54,29 +60,14 @@ export const quoteContactSchema = z.object({
 
 export type QuoteContactInput = z.infer<typeof quoteContactSchema>;
 
-export const quoteLocationSchema = z.object({
-  line1: z.string().min(1, "Address line 1 is required.").max(200),
-  line2: z.string().max(200).optional(),
-  city: z.string().min(1, "City is required.").max(100),
-  state: z.string().length(2, "State must be 2 characters.").toUpperCase(),
-  zip: zipSchema,
-});
-
-export type QuoteLocationInput = z.infer<typeof quoteLocationSchema>;
-
 export const quoteJobDetailsSchema = z.object({
-  serviceSlugs: z.array(z.string()).min(1, "Please select at least one service."),
+  zip: zipSchema,
+  serviceSlug: z.string().min(1, "Please select a service type.").max(100),
+  removalItems: z
+    .array(z.string().min(1).max(100))
+    .min(1, "Select at least one item that needs to go.")
+    .max(30),
   itemsDescription: z.string().max(5000).optional(),
-  loadSize: z.nativeEnum(LoadSize).optional(),
-  propertyType: z.nativeEnum(PropertyType).optional(),
-  indoorOutdoor: z.enum(["indoor", "outdoor", "both"]).optional(),
-  floorLevel: z.string().max(50).optional(),
-  hasStairs: z.boolean().optional(),
-  hasElevator: z.boolean().optional(),
-  longCarry: z.boolean().optional(),
-  disassemblyRequired: z.boolean().optional(),
-  heavySpecialtyItems: z.string().max(2000).optional(),
-  notes: z.string().max(2000).optional(),
 });
 
 export type QuoteJobDetailsInput = z.infer<typeof quoteJobDetailsSchema>;
@@ -97,11 +88,11 @@ export const quotePhotosSchema = z.object({
 export type QuotePhotosInput = z.infer<typeof quotePhotosSchema>;
 
 export const quoteTimingSchema = z.object({
-  preferredDate: z.coerce.date().optional(),
-  secondaryDate: z.coerce.date().optional(),
-  arrivalWindow: z.string().optional(),
-  asSoonAsPossible: z.boolean().optional(),
-  flexibleDate: z.boolean().optional(),
+  preferredDate: z.preprocess(
+    (val) => (val === "" || val == null ? undefined : val),
+    z.coerce.date().optional()
+  ),
+  arrivalWindow: z.string().max(50).optional(),
 });
 
 export type QuoteTimingInput = z.infer<typeof quoteTimingSchema>;
@@ -122,7 +113,6 @@ export type QuoteConsentInput = z.infer<typeof quoteConsentSchema>;
 // ---------------------------------------------------------------------------
 
 export const quoteSubmissionSchema = quoteContactSchema
-  .merge(quoteLocationSchema)
   .merge(quoteJobDetailsSchema)
   .merge(quotePhotosSchema)
   .merge(quoteTimingSchema)

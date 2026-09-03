@@ -1,8 +1,9 @@
 /**
  * Centralized public image content for the Tomei Haul Away site.
  *
- * NOTE: All placeholder images below are AI-generated photo-realistic placeholders.
- * Replace them with real Tomei photography as it becomes available.
+ * Real Tomei photography lives in /public/images/tomei (isPlaceholder: false).
+ * Remaining AI-generated placeholders are flagged with isPlaceholder: true and
+ * should be replaced with real photography as it becomes available.
  */
 
 export type ImageCategory =
@@ -68,15 +69,14 @@ export const logoSocial: SiteImage = {
 // ---------------------------------------------------------------------------
 
 export const heroImage: SiteImage = {
-  src: "/images/placeholders/hero/tomei-hero-crew-placeholder.webp",
-  alt: "Tomei Haul Away truck and crew serving a residential neighborhood",
-  width: 1200,
+  src: "/images/tomei/hero-truck-crew.webp",
+  alt: "Tomei Haul Away truck and crew ready for a junk removal job",
+  width: 1600,
   height: 800,
   category: "hero",
   caption: "Serving homes, businesses, and estates across the Haverhill area.",
-  isPlaceholder: true,
-  replacementNotes:
-    "AI-generated placeholder. Replace with a real photo of the Tomei crew and truck on a residential street.",
+  isPlaceholder: false,
+  replacementNotes: "Real Tomei photography: crew and truck on location.",
 };
 
 export const quickQuoteImage: SiteImage = {
@@ -128,15 +128,78 @@ export const scheduleImage: SiteImage = {
 };
 
 export const finalCtaImage: SiteImage = {
-  src: "/images/placeholders/pages/tomei-final-cta-placeholder.webp",
-  alt: "Clean home after junk removal",
+  src: "/images/tomei/garage-empty-after.webp",
+  alt: "Clean, empty garage after a Tomei Haul Away cleanout",
   width: 1200,
   height: 800,
   category: "page",
   caption: "Ready to reclaim your space?",
-  isPlaceholder: true,
-  replacementNotes:
-    "AI-generated placeholder. Replace with a real before/after or clean-space photo from a completed job.",
+  isPlaceholder: false,
+  replacementNotes: "Real Tomei photography: completed garage cleanout.",
+};
+
+// ---------------------------------------------------------------------------
+// Real job photography (public/images/tomei)
+// ---------------------------------------------------------------------------
+
+export const garageBeforeImage: SiteImage = {
+  src: "/images/tomei/garage-cluttered-before.webp",
+  alt: "Cluttered garage before a Tomei Haul Away cleanout",
+  width: 1200,
+  height: 800,
+  category: "gallery",
+  caption: "Before",
+  isPlaceholder: false,
+};
+
+export const garageAfterImage: SiteImage = {
+  src: "/images/tomei/garage-empty-after.webp",
+  alt: "Same garage emptied out after a Tomei Haul Away cleanout",
+  width: 1200,
+  height: 800,
+  category: "gallery",
+  caption: "After",
+  isPlaceholder: false,
+};
+
+export const sofaRemovalImage: SiteImage = {
+  src: "/images/tomei/sofa-removal.webp",
+  alt: "Tomei crew members carrying a sofa out of a home",
+  width: 1200,
+  height: 900,
+  category: "service",
+  caption: "Furniture removal",
+  isPlaceholder: false,
+};
+
+export const refrigeratorRemovalImage: SiteImage = {
+  src: "/images/tomei/refrigerator-removal.webp",
+  alt: "Tomei crew loading a refrigerator for appliance removal",
+  width: 1200,
+  height: 900,
+  category: "service",
+  caption: "Appliance removal",
+  isPlaceholder: false,
+};
+
+export const yardDebrisTrailerImage: SiteImage = {
+  src: "/images/tomei/yard-debris-trailer.webp",
+  alt: "Trailer loaded with yard debris after a cleanup",
+  width: 1200,
+  height: 900,
+  category: "service",
+  caption: "Yard debris removal",
+  isPlaceholder: false,
+};
+
+export const renovationDebrisTrailerImage: SiteImage = {
+  src: "/images/tomei/renovation-debris-trailer.webp",
+  alt: "Trailer loaded with renovation and construction debris",
+  width: 1200,
+  height: 900,
+  category: "service",
+  caption: "Renovation debris removal",
+  isPlaceholder: false,
 };
 
 // ---------------------------------------------------------------------------
@@ -211,66 +274,58 @@ export const contactImage: SiteImage = {
 
 export const serviceImages: Record<string, SiteImage> = {
   "furniture-removal": {
-    src: "/images/placeholders/services/tomei-service-furniture-removal-placeholder.webp",
-    alt: "Furniture removal service",
+    src: "/images/tomei/sofa-removal.webp",
+    alt: "Crew members carrying a sofa out of a home during a furniture removal job",
     width: 1200,
-    height: 800,
+    height: 900,
     category: "service",
     caption: "Furniture removal",
-    isPlaceholder: true,
-    replacementNotes: "AI-generated placeholder. Replace with a real photo of removed furniture.",
+    isPlaceholder: false,
   },
   "appliance-removal": {
-    src: "/images/placeholders/services/tomei-service-appliance-removal-placeholder.webp",
-    alt: "Appliance removal service",
+    src: "/images/tomei/refrigerator-removal.webp",
+    alt: "Crew loading a refrigerator onto the truck for appliance removal",
     width: 1200,
-    height: 800,
+    height: 900,
     category: "service",
     caption: "Appliance removal",
-    isPlaceholder: true,
-    replacementNotes: "AI-generated placeholder. Replace with a real photo of removed appliances.",
+    isPlaceholder: false,
   },
   "garage-home-cleanouts": {
-    src: "/images/placeholders/services/tomei-service-garage-home-cleanouts-placeholder.webp",
-    alt: "Garage and home cleanout service",
+    src: "/images/tomei/garage-cluttered-before.webp",
+    alt: "Cluttered garage before a home cleanout",
     width: 1200,
     height: 800,
     category: "service",
     caption: "Garage & home cleanouts",
-    isPlaceholder: true,
-    replacementNotes:
-      "AI-generated placeholder. Replace with a real garage or home cleanout photo.",
+    isPlaceholder: false,
   },
   "estate-cleanouts": {
-    src: "/images/placeholders/services/tomei-service-estate-cleanouts-placeholder.webp",
-    alt: "Estate cleanout service",
+    src: "/images/tomei/sofa-removal.webp",
+    alt: "Crew carefully removing furniture during an estate cleanout",
     width: 1200,
-    height: 800,
+    height: 900,
     category: "service",
     caption: "Estate cleanouts",
-    isPlaceholder: true,
-    replacementNotes: "AI-generated placeholder. Replace with a real estate cleanout photo.",
+    isPlaceholder: false,
   },
   "yard-debris": {
-    src: "/images/placeholders/services/tomei-service-yard-debris-placeholder.webp",
-    alt: "Yard debris removal service",
+    src: "/images/tomei/yard-debris-trailer.webp",
+    alt: "Trailer loaded with branches and yard debris after a property cleanup",
     width: 1200,
-    height: 800,
+    height: 900,
     category: "service",
     caption: "Yard debris",
-    isPlaceholder: true,
-    replacementNotes: "AI-generated placeholder. Replace with a real yard debris removal photo.",
+    isPlaceholder: false,
   },
   "construction-renovation-debris": {
-    src: "/images/placeholders/services/tomei-service-construction-renovation-debris-placeholder.webp",
-    alt: "Construction and renovation debris removal service",
+    src: "/images/tomei/renovation-debris-trailer.webp",
+    alt: "Trailer loaded with construction and renovation debris from a remodel",
     width: 1200,
-    height: 800,
+    height: 900,
     category: "service",
     caption: "Construction & renovation debris",
-    isPlaceholder: true,
-    replacementNotes:
-      "AI-generated placeholder. Replace with a real construction debris removal photo.",
+    isPlaceholder: false,
   },
   "storage-unit-cleanouts": {
     src: "/images/placeholders/services/tomei-service-storage-unit-cleanouts-placeholder.webp",
@@ -283,15 +338,13 @@ export const serviceImages: Record<string, SiteImage> = {
     replacementNotes: "AI-generated placeholder. Replace with a real storage unit cleanout photo.",
   },
   "commercial-junk-removal": {
-    src: "/images/placeholders/services/tomei-service-commercial-junk-removal-placeholder.webp",
-    alt: "Commercial junk removal service",
+    src: "/images/tomei/renovation-debris-trailer.webp",
+    alt: "Trailer loaded with commercial junk and debris from a business cleanout",
     width: 1200,
-    height: 800,
+    height: 900,
     category: "service",
     caption: "Commercial junk removal",
-    isPlaceholder: true,
-    replacementNotes:
-      "AI-generated placeholder. Replace with a real commercial junk removal photo.",
+    isPlaceholder: false,
   },
   "single-item-pickup": {
     src: "/images/placeholders/services/tomei-service-single-item-pickup-placeholder.webp",

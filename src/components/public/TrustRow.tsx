@@ -1,32 +1,39 @@
 const TRUST_ITEMS = [
-  {
-    title: "Locally owned",
-    description: "Serving the Haverhill area and neighboring communities.",
-  },
-  {
-    title: "Upfront estimates",
-    description:
-      "No hidden fees. We review your details and explain the estimate before any work begins.",
-  },
-  {
-    title: "Convenient scheduling",
-    description: "Request a date online or by phone. We will confirm what works for you.",
-  },
-  {
-    title: "Responsible disposal",
-    description: "Usable items are routed to donation or recycling whenever possible.",
-  },
+  "Locally Owned",
+  "Upfront Estimates",
+  "Flexible Scheduling",
+  "Responsible Disposal",
 ];
 
 export function TrustRow() {
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {TRUST_ITEMS.map((item) => (
-        <div key={item.title} className="rounded-lg bg-brand-surface p-5 shadow-sm">
-          <h3 className="text-lg font-semibold text-brand-primary">{item.title}</h3>
-          <p className="mt-1 text-sm text-brand-text/80">{item.description}</p>
-        </div>
-      ))}
+    <div className="border-b border-brand-border bg-brand-surface">
+      <div className="container mx-auto px-4 py-6">
+        <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+          {TRUST_ITEMS.map((item) => (
+            <li
+              key={item}
+              className="flex items-center gap-2 text-sm font-semibold text-brand-primary"
+            >
+              <svg
+                className="h-4 w-4 shrink-0 text-brand-accent"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={3}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

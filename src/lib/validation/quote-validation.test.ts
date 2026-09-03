@@ -2,11 +2,8 @@ import { describe, it, expect } from "vitest";
 import {
   quoteSubmissionSchema,
   quoteContactSchema,
-  quoteLocationSchema,
   quoteJobDetailsSchema,
   ContactPreference,
-  PropertyType,
-  LoadSize,
 } from "./schemas";
 import { isInServiceArea } from "@/lib/business/config";
 
@@ -16,17 +13,10 @@ const validQuote = {
   email: "jane@example.com",
   phone: "(978) 555-0100",
   contactPreference: ContactPreference.EMAIL,
-  line1: "123 Main St",
-  city: "Haverhill",
-  state: "MA",
   zip: "01830",
-  serviceSlugs: ["furniture-removal"],
+  serviceSlug: "furniture-removal",
+  removalItems: ["Furniture"],
   itemsDescription: "Old couch and mattress",
-  loadSize: LoadSize.SMALL_LOAD,
-  propertyType: PropertyType.RESIDENTIAL_SINGLE_FAMILY,
-  indoorOutdoor: "indoor",
-  hasStairs: false,
-  notes: "",
   photos: [],
   consentToContact: true,
   privacyPolicyAcknowledged: true,
@@ -53,6 +43,7 @@ describe("quoteContactSchema", () => {
       firstName: "",
       lastName: "Doe",
       email: "jane@example.com",
+      phone: "9785550100",
       contactPreference: ContactPreference.EMAIL,
     });
     expect(result.success).toBe(false);
@@ -63,6 +54,18 @@ describe("quoteContactSchema", () => {
       firstName: "Jane",
       lastName: "Doe",
       email: "not-an-email",
+      phone: "9785550100",
+      contactPreference: ContactPreference.EMAIL,
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects missing phone", () => {
+    const result = quoteContactSchema.safeParse({
+      firstName: "Jane",
+      lastName: "Doe",
+      email: "jane@example.com",
+      phone: "",
       contactPreference: ContactPreference.EMAIL,
     });
     expect(result.success).toBe(false);
@@ -80,58 +83,54 @@ describe("quoteContactSchema", () => {
   });
 });
 
-describe("quoteLocationSchema", () => {
-  it("accepts valid address", () => {
-    const result = quoteLocationSchema.safeParse({
-      line1: "123 Main St",
-      city: "Haverhill",
-      state: "MA",
+describe("quoteJobDetailsSchema", () => {
+  it("accepts a valid ZIP-only job", () => {
+    const result = quoteJobDetailsSchema.safeParse({
       zip: "01830",
+      serviceSlug: "furniture-removal",
+      removalItems: ["Furniture"],
+      itemsDescription: "Old couch",
     });
     expect(result.success).toBe(true);
   });
 
   it("rejects invalid ZIP", () => {
-    const result = quoteLocationSchema.safeParse({
-      line1: "123 Main St",
-      city: "Haverhill",
-      state: "MA",
+    const result = quoteJobDetailsSchema.safeParse({
       zip: "123",
+      serviceSlug: "furniture-removal",
+      removalItems: ["Furniture"],
     });
     expect(result.success).toBe(false);
   });
 
   it("does not reject out-of-area ZIPs", () => {
-    const result = quoteLocationSchema.safeParse({
-      line1: "123 Main St",
-      city: "Boston",
-      state: "MA",
+    const result = quoteJobDetailsSchema.safeParse({
       zip: "02101",
+      serviceSlug: "furniture-removal",
+      removalItems: ["Furniture"],
     });
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.zip).toBe("02101");
     }
   });
-});
 
-describe("quoteJobDetailsSchema", () => {
-  it("requires at least one service", () => {
+  it("requires a service type", () => {
     const result = quoteJobDetailsSchema.safeParse({
-      serviceSlugs: [],
+      zip: "01830",
+      serviceSlug: "",
+      removalItems: ["Furniture"],
     });
     expect(result.success).toBe(false);
   });
 
-  it("accepts valid job details", () => {
+  it("requires at least one removal item", () => {
     const result = quoteJobDetailsSchema.safeParse({
-      serviceSlugs: ["furniture-removal"],
-      itemsDescription: "Couch",
-      loadSize: LoadSize.SINGLE_ITEM,
-      propertyType: PropertyType.RESIDENTIAL_APARTMENT,
-      indoorOutdoor: "indoor",
+      zip: "01830",
+      serviceSlug: "furniture-removal",
+      removalItems: [],
     });
-    expect(result.success).toBe(true);
+    expect(result.success).toBe(false);
   });
 });
 
@@ -142,6 +141,7 @@ describe("quoteSubmissionSchema", () => {
     if (result.success) {
       expect(result.data.isInServiceArea).toBe(true);
       expect(result.data.consentToContact).toBe(true);
+      expect(result.data.phone).toBe("9785550100");
     }
   });
 
@@ -162,6 +162,20 @@ describe("quoteSubmissionSchema", () => {
       consentToContact: false,
     });
     expect(result.success).toBe(false);
+  });
+
+  it("rejects a street-address-style payload without ZIP fields", () => {
+    const result = quoteSubmissionSchema.safeParse({
+      ...validQuote,
+      line1: "123 Main St",
+      city: "Haverhill",
+      state: "MA",
+    });
+    // line1/city/state are no longer part of the schema; extra keys are stripped
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect("line1" in result.data).toBe(false);
+    }
   });
 
   it("rejects too-fast submissions", () => {

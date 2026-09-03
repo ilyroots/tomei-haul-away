@@ -1,25 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
-import { COMPANY_NAME, PHONE, SERVICES, SERVICE_AREA, formatPhone } from "@/lib/business/config";
-import { getActiveFaqs, getActiveGalleryItems } from "@/lib/public/data";
-import {
-  heroImage,
-  galleryPairs,
-  teamImage,
-  getServiceAreaImage,
-  finalCtaImage,
-  processImages,
-} from "@/lib/public/images";
+import { COMPANY_NAME, PHONE, SERVICE_AREA, formatPhone } from "@/lib/business/config";
+import { getActiveFaqs } from "@/lib/public/data";
+import { heroImage, garageBeforeImage, garageAfterImage, finalCtaImage } from "@/lib/public/images";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { TrustRow } from "@/components/public/TrustRow";
-import { QuickQuoteStrip } from "@/components/public/QuickQuoteStrip";
 import { ServiceCard } from "@/components/public/ServiceCard";
-import { GalleryImage } from "@/components/public/GalleryImage";
-import { PricingFactors } from "@/components/public/PricingFactors";
 import { FaqStructuredData } from "@/components/public/FaqStructuredData";
-import { TestimonialsSection } from "@/components/public/TestimonialsSection";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
@@ -37,57 +26,80 @@ export const metadata: Metadata = {
   },
 };
 
+const HOME_SERVICES = [
+  {
+    slug: "furniture-removal",
+    title: "Furniture Removal",
+    shortDescription: "Couches, mattresses, dressers, and more — we carry it out carefully.",
+  },
+  {
+    slug: "appliance-removal",
+    title: "Appliance Removal",
+    shortDescription: "Refrigerators, washers, dryers, and ovens hauled away safely.",
+  },
+  {
+    slug: "garage-home-cleanouts",
+    title: "Home & Garage Cleanouts",
+    shortDescription: "Reclaim your garage, basement, or attic — we handle the whole cleanout.",
+  },
+  {
+    slug: "yard-debris",
+    title: "Yard Debris",
+    shortDescription: "Branches, brush, and storm debris hauled off your property.",
+  },
+  {
+    slug: "construction-renovation-debris",
+    title: "Renovation Debris",
+    shortDescription: "Drywall, lumber, and remodel leftovers off your job site.",
+  },
+  {
+    slug: "estate-cleanouts",
+    title: "Commercial & Estate Cleanouts",
+    shortDescription: "Respectful, efficient cleanouts for estates, offices, and rentals.",
+  },
+];
+
 const STEPS = [
   {
-    number: "01",
-    title: "Request a quote",
-    image: processImages.quote,
+    title: "Show us what needs to go",
     description:
-      "Fill out the quick form or call us. Share photos and details so we can understand the job.",
+      "Fill out the quick quote form with a few details or photos — or just call or text us.",
   },
   {
-    number: "02",
-    title: "Review your estimate",
-    image: processImages.estimate,
+    title: "Choose a pickup window",
     description:
-      "We will contact you with questions and a clear, upfront estimate before any work begins.",
+      "We reply with an upfront estimate and schedule a time that works for you, often within days.",
   },
   {
-    number: "03",
-    title: "We haul it away",
-    image: processImages.haul,
-    description: "Our crew arrives on time, removes your items, and sweeps up before we leave.",
+    title: "We load, haul, and clean up",
+    description:
+      "Our crew does all the lifting, sweeps up when we are done, and disposes of everything responsibly.",
   },
 ];
 
 const WHY_ITEMS = [
   {
-    title: "Straightforward communication",
-    description: "You will know when we are arriving and what to expect before we start.",
+    title: "Clear communication",
+    description:
+      "You get a real answer fast — a straightforward estimate and a confirmed arrival window.",
   },
   {
-    title: "Respectful of your space",
-    description: "We protect floors and doorways and clean up after the job.",
+    title: "Respect for your property",
+    description: "We protect floors and doorways, work neatly, and leave the space broom-clean.",
   },
   {
-    title: "Local focus",
-    description: "We live and work in the same communities we serve.",
-  },
-  {
-    title: "Flexible options",
-    description: "Single-item pickups, full cleanouts, and recurring commercial service available.",
+    title: "Careful loading and cleanup",
+    description:
+      "Every item is loaded safely and routed to donation, recycling, or disposal — never dumped.",
   },
 ];
 
-async function getHomeData() {
-  const [faqs, galleryItems] = await Promise.all([getActiveFaqs(), getActiveGalleryItems(6)]);
-  return { faqs, galleryItems };
-}
+const FAQ_COUNT = 5;
 
 export default async function HomePage() {
-  const { faqs, galleryItems } = await getHomeData();
-  const hasGalleryItems = galleryItems.length > 0;
-  const serviceAreaImage = getServiceAreaImage(0);
+  const faqs = await getActiveFaqs();
+  const homeFaqs = faqs.slice(0, FAQ_COUNT);
+  const mainCities = SERVICE_AREA.cities.slice(0, 6);
 
   return (
     <>
@@ -96,7 +108,7 @@ export default async function HomePage() {
       />
 
       {/* 1. Hero */}
-      <section className="relative overflow-hidden py-20 text-brand-background md:py-28">
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0">
           <Image
             src={heroImage.src}
@@ -106,49 +118,43 @@ export default async function HomePage() {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-brand-primary/80" />
+          <div className="absolute inset-0 bg-navy-950/60" />
         </div>
-        <div className="container relative z-10 mx-auto px-4">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div>
-              <h1 className="text-4xl font-bold leading-tight text-brand-background md:text-5xl lg:text-6xl">
-                Clear the clutter. We&apos;ll handle the heavy lifting.
-              </h1>
-              <p className="mt-5 max-w-xl text-lg text-brand-background/90">
-                {COMPANY_NAME} removes junk, furniture, appliances, and debris from homes,
-                businesses, and estates across the Haverhill area.
-              </p>
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg">
-                  <Link href="/quote">Get a Free Quote</Link>
-                </Button>
-                <Button asChild variant="outline" size="lg">
-                  <a href={`tel:${PHONE}`}>Call {formatPhone(PHONE)}</a>
-                </Button>
-              </div>
+        <div className="container relative z-10 mx-auto flex min-h-[70vh] flex-col justify-center px-4 py-24 md:py-32">
+          <div className="max-w-2xl">
+            <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+              Make Room for What&apos;s Next.
+            </h1>
+            <p className="mt-5 max-w-xl text-lg text-white/90">
+              {COMPANY_NAME} removes junk, furniture, appliances, and debris from homes and
+              businesses across the Haverhill area — you point, we haul.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Button asChild size="lg">
+                <Link href="/quote">Get a Free Quote</Link>
+              </Button>
+              <Button asChild variant="secondary" size="lg">
+                <a href={`tel:${PHONE}`}>Call {formatPhone(PHONE)}</a>
+              </Button>
             </div>
-            <div className="hidden lg:block" />
-          </div>
-          <div className="mt-12">
-            <TrustRow />
           </div>
         </div>
       </section>
 
-      {/* 2. Quick quote strip */}
-      <QuickQuoteStrip />
+      {/* 2. Trust strip */}
+      <TrustRow />
 
-      {/* 3. Service grid */}
+      {/* 3. Services */}
       <section className="py-16 md:py-24" aria-labelledby="services-heading">
         <div className="container mx-auto px-4">
           <SectionHeading
             id="services-heading"
-            title="Junk removal services"
-            subtitle="From single-item pickups to full property cleanouts, we handle the heavy lifting."
+            title="What we haul"
+            subtitle="Six services, one call. If it needs to go, we can probably take it."
             centered
           />
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES.map((service) => (
+            {HOME_SERVICES.map((service) => (
               <ServiceCard
                 key={service.slug}
                 slug={service.slug}
@@ -167,203 +173,119 @@ export default async function HomePage() {
 
       {/* 4. How it works */}
       <section
-        className="bg-brand-background py-16 md:py-24"
+        className="bg-brand-primary py-16 text-brand-background md:py-24"
         aria-labelledby="how-it-works-heading"
       >
         <div className="container mx-auto px-4">
           <SectionHeading
             id="how-it-works-heading"
             title="How it works"
-            subtitle="Three simple steps to a cleaner space."
+            subtitle="Three steps and your space is clear."
             centered
           />
-          <div className="mt-10 grid gap-8 md:grid-cols-3">
-            {STEPS.map((step) => (
-              <div
-                key={step.number}
-                className="overflow-hidden rounded-xl bg-brand-surface shadow-sm"
-              >
-                <div className="relative aspect-[3/2] w-full">
-                  <Image
-                    src={step.image.src}
-                    alt={step.image.alt}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <span className="text-4xl font-bold text-brand-accent">{step.number}</span>
-                  <h3 className="mt-3 text-xl font-bold text-brand-primary">{step.title}</h3>
-                  <p className="mt-2 text-brand-text/80">{step.description}</p>
-                </div>
+          <div className="mx-auto mt-12 grid max-w-4xl gap-10 md:grid-cols-3">
+            {STEPS.map((step, index) => (
+              <div key={step.title} className="text-center">
+                <span className="text-4xl font-bold text-brand-accent">{index + 1}</span>
+                <h3 className="mt-3 text-xl font-bold text-brand-background">{step.title}</h3>
+                <p className="mt-2 text-brand-background/80">{step.description}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Button asChild variant="secondary" size="lg">
+              <Link href="/quote">Start with a free quote</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* 5. Before & after */}
+      <section className="py-16 md:py-24" aria-labelledby="before-after-heading">
+        <div className="container mx-auto px-4">
+          <SectionHeading
+            id="before-after-heading"
+            title="Real results"
+            subtitle="A recent garage cleanout — from packed to pristine in one visit."
+            centered
+          />
+          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2">
+            <figure>
+              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl">
+                <Image
+                  src={garageBeforeImage.src}
+                  alt={garageBeforeImage.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <figcaption className="absolute left-3 top-3 rounded-md bg-navy-950/80 px-3 py-1 text-sm font-semibold uppercase tracking-wide text-white">
+                  Before
+                </figcaption>
+              </div>
+            </figure>
+            <figure>
+              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl">
+                <Image
+                  src={garageAfterImage.src}
+                  alt={garageAfterImage.alt}
+                  fill
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  className="object-cover"
+                />
+                <figcaption className="absolute left-3 top-3 rounded-md bg-brand-accent px-3 py-1 text-sm font-semibold uppercase tracking-wide text-brand-primary">
+                  After
+                </figcaption>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      {/* 6. Why Tomei */}
+      <section className="bg-brand-background py-16 md:py-24" aria-labelledby="why-heading">
+        <div className="container mx-auto px-4">
+          <SectionHeading
+            id="why-heading"
+            title="Why homeowners call Tomei"
+            subtitle="Three things you can count on every time."
+            centered
+          />
+          <div className="mx-auto mt-12 grid max-w-4xl gap-8 md:grid-cols-3">
+            {WHY_ITEMS.map((item) => (
+              <div key={item.title} className="border-t-4 border-brand-accent pt-5">
+                <h3 className="text-xl font-bold text-brand-primary">{item.title}</h3>
+                <p className="mt-2 text-brand-text/80">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 5. Before-and-after gallery */}
-      <section className="py-16 md:py-24" aria-labelledby="gallery-heading">
-        <div className="container mx-auto px-4">
+      {/* 7. Service area */}
+      <section className="py-16 md:py-24" aria-labelledby="service-area-heading">
+        <div className="container mx-auto px-4 text-center">
           <SectionHeading
-            id="gallery-heading"
-            title="Before & after"
-            subtitle="Real transformations start with a single call."
+            id="service-area-heading"
+            title={`Local to ${SERVICE_AREA.cities[0]} and nearby towns`}
+            subtitle={`We work within roughly ${SERVICE_AREA.radiusMiles} miles of ${SERVICE_AREA.cities[0]}, Massachusetts — including ${mainCities.join(", ")}, and more.`}
             centered
           />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {hasGalleryItems
-              ? galleryItems.map((item) => (
-                  <GalleryImage
-                    key={item.id}
-                    src={
-                      item.assetKey ? `/api/assets/${item.assetKey}` : galleryPairs[0].before.src
-                    }
-                    alt={item.title ?? "Gallery photo"}
-                    caption={item.title}
-                  />
-                ))
-              : galleryPairs
-                  .slice(0, 6)
-                  .flatMap((pair, i) => [
-                    <GalleryImage
-                      key={`before-${i}`}
-                      src={pair.before.src}
-                      alt={pair.before.alt}
-                      caption={pair.before.caption}
-                    />,
-                    <GalleryImage
-                      key={`after-${i}`}
-                      src={pair.after.src}
-                      alt={pair.after.alt}
-                      caption={pair.after.caption}
-                    />,
-                  ])}
-          </div>
-          <div className="mt-10 text-center">
+          <div className="mt-8">
             <Button asChild variant="outline">
-              <Link href="/gallery">View full gallery</Link>
+              <Link href="/service-areas">See all service areas</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* 6. Pricing explanation */}
-      <section
-        className="bg-brand-primary py-16 text-brand-background md:py-24"
-        aria-labelledby="pricing-heading"
-      >
+      {/* 8. FAQs */}
+      <section className="bg-brand-background py-16 md:py-24" aria-labelledby="faq-heading">
         <div className="container mx-auto px-4">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div>
-              <SectionHeading
-                id="pricing-heading"
-                title="Honest, upfront pricing"
-                subtitle="Every job is different. We base estimates on what you actually need removed, not flat-rate guesses."
-                level="h2"
-              />
-              <div className="mt-6">
-                <p className="text-brand-background/80">
-                  Send photos through our quote form and we will reply quickly with an estimate.
-                  There is no obligation until you approve the work.
-                </p>
-                <div className="mt-6">
-                  <Button asChild>
-                    <Link href="/quote">Send photos for a fast estimate</Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-            <PricingFactors />
-          </div>
-        </div>
-      </section>
-
-      {/* 7. Why Tomei */}
-      <section className="py-16 md:py-24" aria-labelledby="why-heading">
-        <div className="container mx-auto px-4">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl lg:aspect-square">
-              <Image
-                src={teamImage.src}
-                alt={teamImage.alt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <SectionHeading
-                id="why-heading"
-                title="Why choose Tomei Haul Away"
-                subtitle="Practical differences you will notice from the first call."
-                level="h2"
-              />
-              <div className="mt-6 grid gap-6 sm:grid-cols-2">
-                {WHY_ITEMS.map((item) => (
-                  <div key={item.title} className="rounded-xl bg-brand-surface p-6 shadow-sm">
-                    <h3 className="text-lg font-bold text-brand-primary">{item.title}</h3>
-                    <p className="mt-2 text-brand-text/80">{item.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. Service area */}
-      <section
-        className="bg-brand-background py-16 md:py-24"
-        aria-labelledby="service-area-heading"
-      >
-        <div className="container mx-auto px-4">
-          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
-              <Image
-                src={serviceAreaImage.src}
-                alt={serviceAreaImage.alt}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <SectionHeading
-                id="service-area-heading"
-                title={`Serving ${SERVICE_AREA.cities[0]} and surrounding communities`}
-                subtitle={`We work within roughly ${SERVICE_AREA.radiusMiles} miles of ${SERVICE_AREA.cities[0]}, Massachusetts.`}
-                level="h2"
-              />
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold text-brand-primary">Cities</h3>
-                <p className="mt-1 text-brand-text/90">{SERVICE_AREA.cities.join(", ")}</p>
-              </div>
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold text-brand-primary">ZIP codes</h3>
-                <p className="mt-1 text-sm text-brand-text/90">{SERVICE_AREA.zips.join(", ")}</p>
-              </div>
-              <div className="mt-6">
-                <Button asChild variant="outline">
-                  <Link href="/service-areas">View service areas</Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 9. Testimonials */}
-      <TestimonialsSection />
-
-      {/* 10. FAQ */}
-      <section className="py-16 md:py-24" aria-labelledby="faq-heading">
-        <div className="container mx-auto px-4">
-          <SectionHeading id="faq-heading" title="Frequently asked questions" centered />
-          {faqs.length > 0 ? (
+          <SectionHeading id="faq-heading" title="Common questions" centered />
+          {homeFaqs.length > 0 ? (
             <div className="mx-auto mt-10 max-w-3xl divide-y divide-brand-border rounded-xl bg-brand-surface shadow-sm">
-              {faqs.map((faq) => (
+              {homeFaqs.map((faq) => (
                 <details key={faq.id} className="group p-5">
                   <summary className="flex cursor-pointer list-none items-center justify-between text-lg font-semibold text-brand-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2">
                     {faq.question}
@@ -391,9 +313,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 11. Final CTA */}
+      {/* 9. Final CTA */}
       <section
-        className="relative overflow-hidden py-16 md:py-24"
+        className="relative overflow-hidden py-20 md:py-28"
         aria-labelledby="final-cta-heading"
       >
         <div className="absolute inset-0">
@@ -404,24 +326,20 @@ export default async function HomePage() {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-brand-primary/80" />
+          <div className="absolute inset-0 bg-navy-950/60" />
         </div>
         <div className="container relative z-10 mx-auto px-4 text-center">
-          <h2
-            id="final-cta-heading"
-            className="text-3xl font-bold text-brand-background md:text-4xl"
-          >
+          <h2 id="final-cta-heading" className="text-3xl font-bold text-white md:text-4xl">
             Ready to get your space back?
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-brand-background/90">
-            Request a free, no-obligation quote today. We will respond quickly and schedule around
-            your availability.
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90">
+            Get a free, no-obligation quote in minutes. We respond fast and schedule around you.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Button asChild variant="secondary" size="lg">
+            <Button asChild size="lg">
               <Link href="/quote">Get a Free Quote</Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
+            <Button asChild variant="secondary" size="lg">
               <a href={`tel:${PHONE}`}>Call {formatPhone(PHONE)}</a>
             </Button>
           </div>

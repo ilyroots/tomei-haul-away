@@ -233,7 +233,7 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
 
     // Normalize
     const normalizedEmail = normalizeEmail(data.email);
-    const normalizedPhone = data.phone ? normalizePhone(data.phone) : null;
+    const normalizedPhone = normalizePhone(data.phone);
     const normalizedZip = normalizeZip(data.zip);
     const inServiceArea = isInServiceArea(normalizedZip);
 
@@ -260,21 +260,29 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
     }
 
     const arrivalWindowData = parseArrivalWindow(data.arrivalWindow);
-    const serviceSlugs = data.serviceSlugs;
+    const serviceSlugs = [data.serviceSlug];
     const contactName = `${data.firstName} ${data.lastName}`.trim();
 
-    // Resolve services to real database IDs
+    // Resolve the service to a real database ID
     const serviceRecords = await prisma.service.findMany({
       where: { slug: { in: serviceSlugs } },
       select: { id: true, slug: true, title: true },
     });
 
-    if (serviceRecords.length === 0 && serviceSlugs.length > 0) {
+    if (serviceRecords.length === 0) {
       return {
         success: false,
-        message: "One or more selected services are not available. Please refresh and try again.",
+        message: "The selected service is not available. Please refresh and try again.",
       };
     }
+
+    // ZIP-only jobs have no street address, so no Address record is created.
+    // The ZIP and the selected removal items are stored on the QuoteRequest notes.
+    const quoteNotes = [
+      `ZIP: ${normalizedZip}`,
+      `Items: ${data.removalItems.join(", ")}`,
+      ...(data.itemsDescription ? [data.itemsDescription] : []),
+    ].join("\n");
 
     // Create records in a transaction
     const lead = await prisma.$transaction(async (tx) => {
@@ -282,23 +290,12 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
         where: { email: normalizedEmail },
         update: {
           name: contactName,
-          phone: normalizedPhone ?? undefined,
+          phone: normalizedPhone,
         },
         create: {
           email: normalizedEmail,
           name: contactName,
           phone: normalizedPhone,
-        },
-      });
-
-      const address = await tx.address.create({
-        data: {
-          line1: data.line1,
-          line2: data.line2,
-          city: data.city,
-          state: data.state.toUpperCase(),
-          zip: normalizedZip,
-          customerId: customer.id,
         },
       });
 
@@ -316,32 +313,21 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
           isInServiceArea: inServiceArea,
           outOfServiceAreaNote: inServiceArea
             ? undefined
-            : "Address is outside the published service area.",
-          propertyType: data.propertyType,
+            : `ZIP ${normalizedZip} is outside the published service area.`,
           itemsDescription: data.itemsDescription,
-          indoorOutdoor: data.indoorOutdoor,
-          floorLevel: data.floorLevel,
-          hasStairs: data.hasStairs,
-          hasElevator: data.hasElevator,
-          longCarry: data.longCarry,
-          disassemblyRequired: data.disassemblyRequired,
-          heavySpecialtyItems: data.heavySpecialtyItems,
           preferredDate: normalizeDateString(data.preferredDate?.toISOString()),
           arrivalWindow: arrivalWindowData.arrivalWindow,
-          loadSize: data.loadSize,
           marketingConsent: data.marketingConsent,
           consentToContact: data.consentToContact,
           privacyPolicyAcknowledged: data.privacyPolicyAcknowledged,
           customerId: customer.id,
-          addressId: address.id,
         },
       });
 
       await tx.quoteRequest.create({
         data: {
           leadId: newLead.id,
-          estimatedLoadSize: data.loadSize,
-          notes: data.notes,
+          notes: quoteNotes,
           status: "submitted",
         },
       });
