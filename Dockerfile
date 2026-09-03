@@ -50,6 +50,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=nextjs:nodejs /app/scripts ./scripts
+# Seed scripts import business config from src/
+COPY --from=builder --chown=nextjs:nodejs /app/src ./src
 
 # Copy only production dependencies
 COPY --from=deps --chown=nextjs:nodejs /app/node_modules ./node_modules
