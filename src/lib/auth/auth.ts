@@ -37,6 +37,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  trustHost: true,
   providers: [
     Credentials({
       name: "Credentials",
