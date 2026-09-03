@@ -19,7 +19,7 @@ import { ErrorSummary, type SimpleFieldErrors } from "@/components/ui/ErrorSumma
 import { Turnstile } from "@/components/ui/Turnstile";
 import { submitQuote, type SubmissionResult } from "@/app/(public)/quote/actions";
 
-const STEPS = ["The Job", "Contact & Timing"];
+const STEPS = ["The Job", "Contact & Address", "Date & Review"];
 
 const CONTACT_PREFERENCE_OPTIONS = [
   { value: ContactPreference.PHONE, label: "Call" },
@@ -46,7 +46,11 @@ const ARRIVAL_WINDOW_OPTIONS = [
   { value: "ANYTIME", label: "Anytime" },
 ];
 
-const DRAFT_KEY = "quote-form-draft";
+// Draft format version. Old (unversioned) drafts under LEGACY_DRAFT_KEY are
+// discarded on load; the current format is { version: 2, values: {...} }.
+const DRAFT_KEY = "quote-form-draft-v2";
+const DRAFT_VERSION = 2;
+const LEGACY_DRAFT_KEY = "quote-form-draft";
 const MAX_FILE_SIZE = Number.parseInt(
   process.env.NEXT_PUBLIC_QUOTE_MAX_FILE_SIZE_BYTES ?? "10485760",
   10
@@ -82,6 +86,10 @@ export function QuoteForm({
       email: "",
       phone: "",
       contactPreference: ContactPreference.EMAIL,
+      line1: "",
+      line2: "",
+      city: "",
+      state: "CA",
       zip: initialZip ?? "",
       serviceSlug: initialService ?? "",
       removalItems: [],
@@ -116,19 +124,54 @@ export function QuoteForm({
     name: ["zip", "serviceSlug", "removalItems", "itemsDescription"],
   }) as [string, string, string[], string | undefined];
 
+  const [firstName, lastName, email, phone, contactPreference, line1, line2, city, state] =
+    useWatch({
+      control,
+      name: [
+        "firstName",
+        "lastName",
+        "email",
+        "phone",
+        "contactPreference",
+        "line1",
+        "line2",
+        "city",
+        "state",
+      ],
+    }) as [
+      string,
+      string,
+      string,
+      string,
+      ContactPreference,
+      string,
+      string | undefined,
+      string,
+      string | undefined,
+    ];
+
+  const [preferredDate, arrivalWindow] = useWatch({
+    control,
+    name: ["preferredDate", "arrivalWindow"],
+  }) as [string | undefined, string | undefined];
+
   const selectedItems = removalItems ?? [];
 
-  // Restore draft from localStorage on mount
+  // Restore draft from localStorage on mount (versioned format only)
   useEffect(() => {
     try {
+      // Discard any old-format draft from the two-step version
+      localStorage.removeItem(LEGACY_DRAFT_KEY);
       const draft = localStorage.getItem(DRAFT_KEY);
       if (draft) {
-        const parsed = JSON.parse(draft) as Record<string, unknown>;
-        Object.entries(parsed).forEach(([key, value]) => {
-          if (!["photos", "turnstileToken", "submissionToken", "startedAt"].includes(key)) {
-            setValue(key as never, value as never);
-          }
-        });
+        const parsed = JSON.parse(draft) as { version?: number; values?: Record<string, unknown> };
+        if (parsed.version === DRAFT_VERSION && parsed.values) {
+          Object.entries(parsed.values).forEach(([key, value]) => {
+            if (!["photos", "turnstileToken", "submissionToken", "startedAt"].includes(key)) {
+              setValue(key as never, value as never);
+            }
+          });
+        }
       }
     } catch {
       // Ignore corrupt draft
@@ -150,7 +193,7 @@ export function QuoteForm({
       delete (draft as Record<string, unknown>).submissionToken;
       delete (draft as Record<string, unknown>).startedAt;
       delete (draft as Record<string, unknown>).photos;
-      localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      localStorage.setItem(DRAFT_KEY, JSON.stringify({ version: DRAFT_VERSION, values: draft }));
     }, 500);
     return () => clearTimeout(timeout);
   }, [watchedValues]);
@@ -168,16 +211,17 @@ export function QuoteForm({
   const handleNext = async () => {
     const fields = (
       step === 0
-        ? ["zip", "serviceSlug", "removalItems", "itemsDescription"]
+        ? ["serviceSlug", "removalItems", "itemsDescription", "zip"]
         : [
             "firstName",
             "lastName",
             "phone",
             "email",
             "contactPreference",
-            "consentToContact",
-            "privacyPolicyAcknowledged",
-            "submissionAcknowledged",
+            "line1",
+            "line2",
+            "city",
+            "state",
           ]
     ) as Parameters<typeof trigger>[0];
     const valid = await trigger(fields);
@@ -190,6 +234,12 @@ export function QuoteForm({
   const handleBack = () => {
     setStep((s) => Math.max(s - 1, 0));
     setServerResult(null);
+  };
+
+  const goToStep = (target: number) => {
+    setStep(target);
+    setServerResult(null);
+    setFieldErrors(undefined);
   };
 
   const onSubmit = async (data: unknown) => {
@@ -262,20 +312,6 @@ export function QuoteForm({
             <h2 className="text-2xl font-bold text-brand-primary">Tell us about the job</h2>
 
             <div>
-              <Label htmlFor="zip" isRequired>
-                ZIP code
-              </Label>
-              <Input id="zip" autoComplete="postal-code" {...register("zip")} />
-              {errors.zip && <p className="mt-1 text-sm text-red-700">{errors.zip.message}</p>}
-              {zip && !isInServiceArea(normalizeZip(zip)) && (
-                <p className="mt-1 text-sm text-brand-accent">
-                  This ZIP is outside our core service area, but we will still review your request
-                  and let you know if we can help.
-                </p>
-              )}
-            </div>
-
-            <div>
               <Label htmlFor="serviceSlug" isRequired>
                 Service type
               </Label>
@@ -337,15 +373,29 @@ export function QuoteForm({
             </div>
 
             <div>
+              <Label htmlFor="zip" isRequired>
+                ZIP code
+              </Label>
+              <Input id="zip" autoComplete="postal-code" {...register("zip")} />
+              {errors.zip && <p className="mt-1 text-sm text-red-700">{errors.zip.message}</p>}
+              {zip && !isInServiceArea(normalizeZip(zip)) && (
+                <p className="mt-1 text-sm text-brand-accent">
+                  This ZIP is outside our core service area, but we will still review your request
+                  and let you know if we can help.
+                </p>
+              )}
+            </div>
+
+            <div>
               <Label>Photos (recommended)</Label>
               <p className="mb-2 text-sm text-brand-text/80">
-                A quick photo helps us give you a faster, more accurate estimate. Optional — up to
-                10 images.
+                A quick photo helps us give you a faster, more accurate estimate. Optional — up to 3
+                images.
               </p>
               <FileUpload
                 files={files}
                 onChange={setFiles}
-                maxFiles={10}
+                maxFiles={3}
                 validation={{
                   maxSizeBytes: MAX_FILE_SIZE,
                   allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "image/heic"],
@@ -417,6 +467,79 @@ export function QuoteForm({
               )}
             </div>
 
+            <h3 className="text-lg font-semibold text-brand-primary">Job address</h3>
+
+            <div>
+              <Label htmlFor="line1" isRequired>
+                Street address
+              </Label>
+              <Input
+                id="line1"
+                autoComplete="address-line1"
+                placeholder="123 Main St"
+                {...register("line1")}
+              />
+              {errors.line1 && <p className="mt-1 text-sm text-red-700">{errors.line1.message}</p>}
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="line2">Unit / apartment (optional)</Label>
+                <Input
+                  id="line2"
+                  autoComplete="address-line2"
+                  placeholder="Apt 4B"
+                  {...register("line2")}
+                />
+                {errors.line2 && (
+                  <p className="mt-1 text-sm text-red-700">{errors.line2.message}</p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="city" isRequired>
+                  City
+                </Label>
+                <Input id="city" autoComplete="address-level2" {...register("city")} />
+                {errors.city && <p className="mt-1 text-sm text-red-700">{errors.city.message}</p>}
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <Label htmlFor="state" isRequired>
+                  State
+                </Label>
+                <Input
+                  id="state"
+                  autoComplete="address-level1"
+                  maxLength={2}
+                  {...register("state")}
+                />
+                {errors.state && (
+                  <p className="mt-1 text-sm text-red-700">{errors.state.message}</p>
+                )}
+              </div>
+              <div>
+                <Label htmlFor="addressZip">ZIP code</Label>
+                <Input
+                  id="addressZip"
+                  value={zip ?? ""}
+                  disabled
+                  readOnly
+                  aria-describedby="addressZipHint"
+                />
+                <p id="addressZipHint" className="mt-1 text-sm text-brand-muted">
+                  Taken from the job location ZIP you entered in step 1.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="space-y-5">
+            <h2 className="text-2xl font-bold text-brand-primary">Preferred date &amp; review</h2>
+
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
                 <Label htmlFor="preferredDate">Preferred day (optional)</Label>
@@ -443,26 +566,83 @@ export function QuoteForm({
             </div>
 
             <section className="rounded-md bg-brand-background p-4">
-              <h3 className="font-semibold text-brand-primary">Job summary</h3>
-              <p className="mt-1 text-brand-text">
-                {serviceTitle} in ZIP {zip}
-              </p>
-              {selectedItems.length > 0 && (
-                <p className="mt-1 text-brand-text">Items: {selectedItems.join(", ")}</p>
-              )}
-              {!!itemsDescription && (
-                <p className="mt-1 text-brand-text">Details: {String(itemsDescription)}</p>
-              )}
-              <p className="mt-1 text-brand-text">
-                Photos: {files.length > 0 ? files.length : "None attached"}
-              </p>
-              <button
-                type="button"
-                onClick={handleBack}
-                className="mt-2 text-sm font-semibold text-brand-primary underline hover:text-brand-accent"
-              >
-                Edit job details
-              </button>
+              <h3 className="font-semibold text-brand-primary">Review your request</h3>
+
+              <div className="mt-3 space-y-3">
+                <div>
+                  <h4 className="text-sm font-semibold uppercase tracking-wide text-brand-muted">
+                    Job
+                  </h4>
+                  <p className="mt-1 text-brand-text">
+                    {serviceTitle} in ZIP {zip}
+                  </p>
+                  {selectedItems.length > 0 && (
+                    <p className="mt-1 text-brand-text">Items: {selectedItems.join(", ")}</p>
+                  )}
+                  {!!itemsDescription && (
+                    <p className="mt-1 text-brand-text">Details: {String(itemsDescription)}</p>
+                  )}
+                  <p className="mt-1 text-brand-text">
+                    Photos: {files.length > 0 ? files.length : "None attached"}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => goToStep(0)}
+                    className="mt-1 text-sm font-semibold text-brand-primary underline hover:text-brand-accent"
+                  >
+                    Edit job details
+                  </button>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold uppercase tracking-wide text-brand-muted">
+                    Contact &amp; address
+                  </h4>
+                  <p className="mt-1 text-brand-text">
+                    {[firstName, lastName].filter(Boolean).join(" ")}
+                  </p>
+                  {!!phone && <p className="mt-1 text-brand-text">{phone}</p>}
+                  {!!email && <p className="mt-1 text-brand-text">{email}</p>}
+                  <p className="mt-1 text-brand-text">
+                    Preferred:{" "}
+                    {CONTACT_PREFERENCE_OPTIONS.find((o) => o.value === contactPreference)?.label ??
+                      contactPreference}
+                  </p>
+                  <p className="mt-1 text-brand-text">
+                    {[
+                      [line1, line2].filter(Boolean).join(", "),
+                      [[city, state].filter(Boolean).join(", "), zip].filter(Boolean).join(" "),
+                    ]
+                      .filter(Boolean)
+                      .join(", ")}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => goToStep(1)}
+                    className="mt-1 text-sm font-semibold text-brand-primary underline hover:text-brand-accent"
+                  >
+                    Edit contact &amp; address
+                  </button>
+                </div>
+
+                <div>
+                  <h4 className="text-sm font-semibold uppercase tracking-wide text-brand-muted">
+                    Timing
+                  </h4>
+                  <p className="mt-1 text-brand-text">
+                    {preferredDate
+                      ? `Preferred: ${preferredDate}${
+                          arrivalWindow
+                            ? `, ${
+                                ARRIVAL_WINDOW_OPTIONS.find((o) => o.value === arrivalWindow)
+                                  ?.label ?? arrivalWindow
+                              }`
+                            : ""
+                        }`
+                      : "No preference"}
+                  </p>
+                </div>
+              </div>
             </section>
 
             <div className="space-y-3">

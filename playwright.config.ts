@@ -7,6 +7,8 @@ const baseURL = process.env.APP_URL ?? "http://localhost:3000";
 // TURNSTILE_SECRET_KEY is empty in non-production environments.
 process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY = "";
 process.env.TURNSTILE_SECRET_KEY = "";
+// Let the app's submission rate limiter know it is being driven by Playwright.
+process.env.PLAYWRIGHT_E2E = "1";
 
 export default defineConfig({
   testDir: "./e2e",

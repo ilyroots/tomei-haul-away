@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { COMPANY_NAME, PHONE, SERVICE_AREA, formatPhone } from "@/lib/business/config";
 import { getActiveFaqs } from "@/lib/public/data";
-import { heroImage, garageBeforeImage, garageAfterImage, finalCtaImage } from "@/lib/public/images";
+import { heroImage, finalCtaImage } from "@/lib/public/images";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { TrustRow } from "@/components/public/TrustRow";
@@ -133,7 +133,12 @@ export default async function HomePage() {
               <Button asChild size="lg">
                 <Link href="/quote">Get a Free Quote</Link>
               </Button>
-              <Button asChild variant="secondary" size="lg">
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="border-white text-white hover:bg-white hover:text-brand-primary"
+              >
                 <a href={`tel:${PHONE}`}>Call {formatPhone(PHONE)}</a>
               </Button>
             </div>
@@ -145,7 +150,7 @@ export default async function HomePage() {
       <TrustRow />
 
       {/* 3. Services */}
-      <section className="py-16 md:py-24" aria-labelledby="services-heading">
+      <section className="py-12 md:py-14" aria-labelledby="services-heading">
         <div className="container mx-auto px-4">
           <SectionHeading
             id="services-heading"
@@ -173,7 +178,7 @@ export default async function HomePage() {
 
       {/* 4. How it works */}
       <section
-        className="bg-brand-primary py-16 text-brand-background md:py-24"
+        className="bg-brand-primary py-12 text-brand-background md:py-14"
         aria-labelledby="how-it-works-heading"
       >
         <div className="container mx-auto px-4">
@@ -193,57 +198,15 @@ export default async function HomePage() {
             ))}
           </div>
           <div className="mt-12 text-center">
-            <Button asChild variant="secondary" size="lg">
+            <Button asChild size="lg">
               <Link href="/quote">Start with a free quote</Link>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* 5. Before & after */}
-      <section className="py-16 md:py-24" aria-labelledby="before-after-heading">
-        <div className="container mx-auto px-4">
-          <SectionHeading
-            id="before-after-heading"
-            title="Real results"
-            subtitle="A recent garage cleanout — from packed to pristine in one visit."
-            centered
-          />
-          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2">
-            <figure>
-              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl">
-                <Image
-                  src={garageBeforeImage.src}
-                  alt={garageBeforeImage.alt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover"
-                />
-                <figcaption className="absolute left-3 top-3 rounded-md bg-navy-950/80 px-3 py-1 text-sm font-semibold uppercase tracking-wide text-white">
-                  Before
-                </figcaption>
-              </div>
-            </figure>
-            <figure>
-              <div className="relative aspect-[3/2] w-full overflow-hidden rounded-xl">
-                <Image
-                  src={garageAfterImage.src}
-                  alt={garageAfterImage.alt}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="object-cover"
-                />
-                <figcaption className="absolute left-3 top-3 rounded-md bg-brand-accent px-3 py-1 text-sm font-semibold uppercase tracking-wide text-brand-primary">
-                  After
-                </figcaption>
-              </div>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. Why Tomei */}
-      <section className="bg-brand-background py-16 md:py-24" aria-labelledby="why-heading">
+      {/* 5. Why Tomei */}
+      <section className="bg-brand-background py-12 md:py-14" aria-labelledby="why-heading">
         <div className="container mx-auto px-4">
           <SectionHeading
             id="why-heading"
@@ -262,13 +225,13 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 7. Service area */}
-      <section className="py-16 md:py-24" aria-labelledby="service-area-heading">
+      {/* 6. Service area */}
+      <section className="py-12 md:py-14" aria-labelledby="service-area-heading">
         <div className="container mx-auto px-4 text-center">
           <SectionHeading
             id="service-area-heading"
-            title={`Local to ${SERVICE_AREA.cities[0]} and nearby towns`}
-            subtitle={`We work within roughly ${SERVICE_AREA.radiusMiles} miles of ${SERVICE_AREA.cities[0]}, California — including ${mainCities.join(", ")}, and more.`}
+            title="Serving communities throughout San Diego County"
+            subtitle={`We serve homes and businesses across the county — including ${mainCities.join(", ")}, and more.`}
             centered
           />
           <div className="mt-8">
@@ -279,11 +242,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 8. FAQs */}
-      <section className="bg-brand-background py-16 md:py-24" aria-labelledby="faq-heading">
-        <div className="container mx-auto px-4">
-          <SectionHeading id="faq-heading" title="Common questions" centered />
-          {homeFaqs.length > 0 ? (
+      {/* 7. FAQs (hidden until at least 4 real Q&As exist) */}
+      {homeFaqs.length >= 4 && (
+        <section className="bg-brand-background py-12 md:py-14" aria-labelledby="faq-heading">
+          <div className="container mx-auto px-4">
+            <SectionHeading id="faq-heading" title="Common questions" centered />
             <div className="mx-auto mt-10 max-w-3xl divide-y divide-brand-border rounded-xl bg-brand-surface shadow-sm">
               {homeFaqs.map((faq) => (
                 <details key={faq.id} className="group p-5">
@@ -300,20 +263,16 @@ export default async function HomePage() {
                 </details>
               ))}
             </div>
-          ) : (
-            <p className="mt-6 text-center text-brand-text/70">
-              No FAQs available yet. Call or text us with your questions.
-            </p>
-          )}
-          <div className="mt-10 text-center">
-            <Button asChild variant="outline">
-              <Link href="/faq">View all FAQs</Link>
-            </Button>
+            <div className="mt-10 text-center">
+              <Button asChild variant="outline">
+                <Link href="/faq">View all FAQs</Link>
+              </Button>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      {/* 9. Final CTA */}
+      {/* 8. Final CTA */}
       <section
         className="relative overflow-hidden py-20 md:py-28"
         aria-labelledby="final-cta-heading"
@@ -335,12 +294,9 @@ export default async function HomePage() {
           <p className="mx-auto mt-4 max-w-2xl text-lg text-white/90">
             Get a free, no-obligation quote in minutes. We respond fast and schedule around you.
           </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-8">
             <Button asChild size="lg">
               <Link href="/quote">Get a Free Quote</Link>
-            </Button>
-            <Button asChild variant="secondary" size="lg">
-              <a href={`tel:${PHONE}`}>Call {formatPhone(PHONE)}</a>
             </Button>
           </div>
         </div>

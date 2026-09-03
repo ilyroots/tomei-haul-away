@@ -7,12 +7,20 @@ import {
 } from "./schemas";
 import { isInServiceArea } from "@/lib/business/config";
 
+const validAddress = {
+  line1: "123 Main St",
+  line2: "Apt 4B",
+  city: "San Diego",
+  state: "CA",
+};
+
 const validQuote = {
   firstName: "Jane",
   lastName: "Doe",
   email: "jane@example.com",
-  phone: "(978) 555-0100",
+  phone: "+1 (619) 555-0100",
   contactPreference: ContactPreference.EMAIL,
+  ...validAddress,
   zip: "92101",
   serviceSlug: "furniture-removal",
   removalItems: ["Furniture"],
@@ -27,13 +35,14 @@ const validQuote = {
 };
 
 describe("quoteContactSchema", () => {
-  it("accepts valid contact info", () => {
+  it("accepts valid contact info with an address", () => {
     const result = quoteContactSchema.safeParse({
       firstName: "Jane",
       lastName: "Doe",
       email: "jane@example.com",
-      phone: "9785550100",
+      phone: "6195550100",
       contactPreference: ContactPreference.EMAIL,
+      ...validAddress,
     });
     expect(result.success).toBe(true);
   });
@@ -43,8 +52,9 @@ describe("quoteContactSchema", () => {
       firstName: "",
       lastName: "Doe",
       email: "jane@example.com",
-      phone: "9785550100",
+      phone: "6195550100",
       contactPreference: ContactPreference.EMAIL,
+      ...validAddress,
     });
     expect(result.success).toBe(false);
   });
@@ -54,8 +64,9 @@ describe("quoteContactSchema", () => {
       firstName: "Jane",
       lastName: "Doe",
       email: "not-an-email",
-      phone: "9785550100",
+      phone: "6195550100",
       contactPreference: ContactPreference.EMAIL,
+      ...validAddress,
     });
     expect(result.success).toBe(false);
   });
@@ -67,6 +78,7 @@ describe("quoteContactSchema", () => {
       email: "jane@example.com",
       phone: "",
       contactPreference: ContactPreference.EMAIL,
+      ...validAddress,
     });
     expect(result.success).toBe(false);
   });
@@ -78,13 +90,86 @@ describe("quoteContactSchema", () => {
       email: "jane@example.com",
       phone: "123",
       contactPreference: ContactPreference.EMAIL,
+      ...validAddress,
     });
     expect(result.success).toBe(false);
+  });
+
+  it("rejects a missing street address", () => {
+    const result = quoteContactSchema.safeParse({
+      firstName: "Jane",
+      lastName: "Doe",
+      email: "jane@example.com",
+      phone: "6195550100",
+      contactPreference: ContactPreference.EMAIL,
+      line1: "",
+      city: "San Diego",
+      state: "CA",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects a missing city", () => {
+    const result = quoteContactSchema.safeParse({
+      firstName: "Jane",
+      lastName: "Doe",
+      email: "jane@example.com",
+      phone: "6195550100",
+      contactPreference: ContactPreference.EMAIL,
+      line1: "123 Main St",
+      city: "",
+      state: "CA",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects a state that is not 2 characters", () => {
+    const result = quoteContactSchema.safeParse({
+      firstName: "Jane",
+      lastName: "Doe",
+      email: "jane@example.com",
+      phone: "6195550100",
+      contactPreference: ContactPreference.EMAIL,
+      line1: "123 Main St",
+      city: "San Diego",
+      state: "California",
+    });
+    expect(result.success).toBe(false);
+  });
+
+  it("defaults the state to CA when omitted", () => {
+    const result = quoteContactSchema.safeParse({
+      firstName: "Jane",
+      lastName: "Doe",
+      email: "jane@example.com",
+      phone: "6195550100",
+      contactPreference: ContactPreference.EMAIL,
+      line1: "123 Main St",
+      city: "San Diego",
+    });
+    expect(result.success).toBe(true);
+    if (result.success) {
+      expect(result.data.state).toBe("CA");
+    }
+  });
+
+  it("accepts an address without a unit", () => {
+    const result = quoteContactSchema.safeParse({
+      firstName: "Jane",
+      lastName: "Doe",
+      email: "jane@example.com",
+      phone: "6195550100",
+      contactPreference: ContactPreference.EMAIL,
+      line1: "123 Main St",
+      city: "San Diego",
+      state: "CA",
+    });
+    expect(result.success).toBe(true);
   });
 });
 
 describe("quoteJobDetailsSchema", () => {
-  it("accepts a valid ZIP-only job", () => {
+  it("accepts a valid job", () => {
     const result = quoteJobDetailsSchema.safeParse({
       zip: "92101",
       serviceSlug: "furniture-removal",
@@ -141,7 +226,10 @@ describe("quoteSubmissionSchema", () => {
     if (result.success) {
       expect(result.data.isInServiceArea).toBe(true);
       expect(result.data.consentToContact).toBe(true);
-      expect(result.data.phone).toBe("9785550100");
+      expect(result.data.phone).toBe("16195550100");
+      expect(result.data.line1).toBe("123 Main St");
+      expect(result.data.city).toBe("San Diego");
+      expect(result.data.state).toBe("CA");
     }
   });
 
@@ -164,18 +252,26 @@ describe("quoteSubmissionSchema", () => {
     expect(result.success).toBe(false);
   });
 
-  it("rejects a street-address-style payload without ZIP fields", () => {
+  it("rejects a submission without address fields", () => {
     const result = quoteSubmissionSchema.safeParse({
       ...validQuote,
-      line1: "123 Main St",
-      city: "San Diego",
-      state: "CA",
+      line1: "",
+      city: "",
     });
-    // line1/city/state are no longer part of the schema; extra keys are stripped
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect("line1" in result.data).toBe(false);
-    }
+    expect(result.success).toBe(false);
+  });
+
+  it("rejects more than 3 photos", () => {
+    const result = quoteSubmissionSchema.safeParse({
+      ...validQuote,
+      photos: [
+        { name: "a.jpg", size: 1, type: "image/jpeg" },
+        { name: "b.jpg", size: 1, type: "image/jpeg" },
+        { name: "c.jpg", size: 1, type: "image/jpeg" },
+        { name: "d.jpg", size: 1, type: "image/jpeg" },
+      ],
+    });
+    expect(result.success).toBe(false);
   });
 
   it("rejects too-fast submissions", () => {

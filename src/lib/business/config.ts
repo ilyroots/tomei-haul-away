@@ -3,10 +3,10 @@ export const OWNER_NAME = "Tomei" as const;
 export const HOME_CITY = "San Diego, CA" as const;
 export const HOME_STATE = "CA" as const;
 
-// Placeholder numbers — replace with the real business line before launch.
+// TODO(owner): replace with the real business number before launch — currently a placeholder 555 number
 export const PHONE = "+16195550100" as const;
 export const TEXT_NUMBER = "+16195550100" as const;
-export const EMAIL = "info@tomeihaulaway.com" as const;
+export const EMAIL = "elexcruz226@gmail.com" as const;
 
 export const BUSINESS_HOURS = [
   { day: "Monday", hours: "7:00 AM – 7:00 PM" },

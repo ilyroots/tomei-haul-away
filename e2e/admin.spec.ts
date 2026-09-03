@@ -7,13 +7,19 @@ test("admin login flow and leads list", async ({ page }) => {
   await page.waitForURL("/admin/login");
   await expect(page.getByRole("heading", { name: "Tomei Admin" })).toBeVisible();
 
-  await page.getByLabel("Email", { exact: true }).fill(TEST_ADMIN_EMAIL);
-  await page.getByLabel("Password", { exact: true }).fill(TEST_ADMIN_PASSWORD);
+  await page.getByLabel("Email").fill(TEST_ADMIN_EMAIL);
+  await page.getByLabel("Password").fill(TEST_ADMIN_PASSWORD);
   await page.getByRole("button", { name: "Sign in" }).click();
 
   // After login the admin dashboard is shown.
   await page.waitForURL("/admin");
   await expect(page.getByRole("heading", { name: "Dashboard" })).toBeVisible();
+
+  // On small viewports the sidebar is a closed drawer; open it first.
+  const openNav = page.getByRole("button", { name: "Open navigation" });
+  if (await openNav.isVisible()) {
+    await openNav.click();
+  }
 
   // Navigate to the leads list.
   await page.getByRole("link", { name: "Leads" }).click();

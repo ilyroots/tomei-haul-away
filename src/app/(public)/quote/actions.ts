@@ -55,6 +55,9 @@ function gcRateLimits() {
 }
 
 function isRateLimited(key: string): boolean {
+  // E2E tests share a single loopback IP and intentionally submit repeatedly.
+  // Playwright sets PLAYWRIGHT_E2E=1 for the app server (see playwright.config.ts).
+  if (process.env.PLAYWRIGHT_E2E === "1") return false;
   gcRateLimits();
   const bucket = RATE_LIMITS.get(key);
   if (!bucket) return false;
@@ -245,8 +248,8 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
       }
     }
 
-    if (files.length > 10) {
-      return { success: false, message: "You can upload up to 10 photos." };
+    if (files.length > 3) {
+      return { success: false, message: "You can upload up to 3 photos." };
     }
 
     // Build reference number (retry on collision)
@@ -276,10 +279,15 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
       };
     }
 
-    // ZIP-only jobs have no street address, so no Address record is created.
-    // The ZIP and the selected removal items are stored on the QuoteRequest notes.
+    // The street address is stored on the Lead's Address relation; the ZIP was
+    // collected in step 1 and is reused here. The selected removal items stay on
+    // the QuoteRequest notes.
+    const addressSummary = [data.line1, data.line2, `${data.city}, ${data.state} ${normalizedZip}`]
+      .filter(Boolean)
+      .join(", ");
     const quoteNotes = [
       `ZIP: ${normalizedZip}`,
+      `Address: ${addressSummary}`,
       `Items: ${data.removalItems.join(", ")}`,
       ...(data.itemsDescription ? [data.itemsDescription] : []),
     ].join("\n");
@@ -296,6 +304,16 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
           email: normalizedEmail,
           name: contactName,
           phone: normalizedPhone,
+        },
+      });
+
+      const address = await tx.address.create({
+        data: {
+          line1: data.line1,
+          line2: data.line2 || null,
+          city: data.city,
+          state: data.state,
+          zip: normalizedZip,
         },
       });
 
@@ -321,6 +339,7 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
           consentToContact: data.consentToContact,
           privacyPolicyAcknowledged: data.privacyPolicyAcknowledged,
           customerId: customer.id,
+          addressId: address.id,
         },
       });
 

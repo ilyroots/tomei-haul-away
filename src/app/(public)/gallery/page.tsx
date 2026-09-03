@@ -9,7 +9,7 @@ const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   title: "Gallery",
-  description: `See before-and-after photos of junk removal jobs by ${COMPANY_NAME}.`,
+  description: `See before-and-after junk removal photos from ${COMPANY_NAME}. Real job photos are added as they come in; illustrative placeholders are labeled as examples.`,
   alternates: {
     canonical: `${appUrl}/gallery`,
   },
@@ -29,7 +29,7 @@ export default async function GalleryPage() {
     <div className="container mx-auto px-4 py-16">
       <SectionHeading
         title="Gallery"
-        subtitle="Before-and-after photos from real jobs. Replace placeholders with your own project photos."
+        subtitle="A look at the transformations we deliver. Real job photos are added as they come in — some images below are representative examples, not actual customer jobs."
         centered
       />
 

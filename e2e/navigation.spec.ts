@@ -14,7 +14,9 @@ test("mobile hamburger menu opens and closes, bottom bar is visible", async ({ p
   await menuButton.click();
   await expect(page.getByRole("button", { name: "Close menu" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Mobile" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Services" })).toBeVisible();
+  await expect(
+    page.getByRole("navigation", { name: "Mobile" }).getByRole("link", { name: "Services" })
+  ).toBeVisible();
 
   await menuButton.click();
   await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();

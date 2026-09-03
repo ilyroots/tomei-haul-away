@@ -1,24 +1,34 @@
 import { test, expect } from "@playwright/test";
+import { selectOptionWhenHydrated } from "./helpers";
 
-test("quote two-step form submits and reaches thank-you", async ({ page }) => {
+test("quote three-step form submits and reaches thank-you", async ({ page }) => {
   await page.goto("/quote");
   await expect(page.getByRole("heading", { name: "Request a Free Quote" })).toBeVisible();
 
   // Step 1: The Job
-  await page.getByLabel("ZIP code").fill("92101");
-  await page.getByLabel("Service type").selectOption("furniture-removal");
+  await selectOptionWhenHydrated(page, "Service type", "furniture-removal");
   await page.getByRole("button", { name: "Furniture" }).click();
   await page.getByLabel("Anything else we should know?").fill("Old couch and two chairs");
-  await page.getByRole("button", { name: "Next" }).click();
+  await page.getByLabel("ZIP code").fill("92101");
+  await page.getByRole("button", { name: "Next", exact: true }).click();
 
-  // Step 2: Contact & Timing
+  // Step 2: Contact & Address
   await page.getByLabel("First name").fill("E2E");
   await page.getByLabel("Last name").fill("Test");
   await page.getByLabel("Phone").fill("5551234567");
-  await page.getByLabel("Email", { exact: true }).fill("e2e-quote@example.com");
-  await page.getByLabel("Preferred contact method").selectOption("EMAIL");
+  await page.getByLabel("Email").fill("e2e-quote@example.com");
+  await selectOptionWhenHydrated(page, "Preferred contact method", "EMAIL");
+  await page.getByLabel("Street address").fill("123 Main St");
+  await page.getByLabel("City").fill("San Diego");
+  await expect(page.getByLabel("State")).toHaveValue("CA");
+  await expect(page.getByLabel("ZIP code", { exact: true })).toHaveValue("92101");
+  await page.getByRole("button", { name: "Next", exact: true }).click();
 
-  await expect(page.getByText("Job summary")).toBeVisible();
+  // Step 3: Preferred Date & Review
+  await expect(page.getByText("Review your request")).toBeVisible();
+  await expect(page.getByText("Old couch and two chairs")).toBeVisible();
+  await expect(page.getByText(/123 Main St/)).toBeVisible();
+  await expect(page.getByText(/San Diego, CA 92101/)).toBeVisible();
 
   await page.getByLabel("I consent to being contacted about my request").check();
   await page.getByLabel("I have read and acknowledge the privacy policy").check();

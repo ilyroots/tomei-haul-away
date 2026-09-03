@@ -89,10 +89,42 @@ async function seedFAQs() {
   console.log(`Seeded ${faqs.length} FAQs.`);
 }
 
+async function seedAvailabilityWindows() {
+  const existingCount = await prisma.availabilityWindow.count();
+  if (existingCount > 0) {
+    console.log("Availability windows already seeded; skipping.");
+    return;
+  }
+
+  // Monday (1) through Saturday (6): morning, afternoon, and evening windows.
+  // Sunday is left unscheduled until the owner configures it in admin settings.
+  const windows = [
+    { startTime: "08:00", endTime: "12:00", label: "Morning (8am–12pm)" },
+    { startTime: "12:00", endTime: "16:00", label: "Afternoon (12pm–4pm)" },
+    { startTime: "16:00", endTime: "19:00", label: "Evening (4pm–7pm)" },
+  ];
+  const data = [] as {
+    dayOfWeek: number;
+    startTime: string;
+    endTime: string;
+    label: string;
+    maxAppointments: number;
+    isActive: boolean;
+  }[];
+  for (const dayOfWeek of [1, 2, 3, 4, 5, 6]) {
+    for (const w of windows) {
+      data.push({ dayOfWeek, ...w, maxAppointments: 2, isActive: true });
+    }
+  }
+  await prisma.availabilityWindow.createMany({ data });
+  console.log(`Seeded ${data.length} availability windows.`);
+}
+
 async function main() {
   await seedServices();
   await seedServiceAreas();
   await seedFAQs();
+  await seedAvailabilityWindows();
 }
 
 main()

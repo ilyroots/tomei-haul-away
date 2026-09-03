@@ -56,6 +56,10 @@ export const quoteContactSchema = z.object({
   contactPreference: z.nativeEnum(ContactPreference, {
     message: "Please select a contact preference.",
   }),
+  line1: z.string().min(1, "Street address is required.").max(200),
+  line2: z.string().max(200).optional(),
+  city: z.string().min(1, "City is required.").max(100),
+  state: z.string().length(2, "State must be 2 characters.").toUpperCase().default("CA"),
 });
 
 export type QuoteContactInput = z.infer<typeof quoteContactSchema>;
@@ -82,7 +86,7 @@ export const photoFileMetadataSchema = z.object({
 export type PhotoFileMetadata = z.infer<typeof photoFileMetadataSchema>;
 
 export const quotePhotosSchema = z.object({
-  photos: z.array(photoFileMetadataSchema).max(10, "You can upload up to 10 photos."),
+  photos: z.array(photoFileMetadataSchema).max(3, "You can upload up to 3 photos."),
 });
 
 export type QuotePhotosInput = z.infer<typeof quotePhotosSchema>;

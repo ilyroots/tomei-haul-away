@@ -54,6 +54,9 @@ function gcRateLimits() {
 }
 
 function isRateLimited(key: string): boolean {
+  // E2E tests share a single loopback IP and intentionally submit repeatedly.
+  // Playwright sets PLAYWRIGHT_E2E=1 for the app server (see playwright.config.ts).
+  if (process.env.PLAYWRIGHT_E2E === "1") return false;
   gcRateLimits();
   const bucket = RATE_LIMITS.get(key);
   if (!bucket) return false;

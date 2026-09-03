@@ -142,26 +142,6 @@ export const finalCtaImage: SiteImage = {
 // Real job photography (public/images/tomei)
 // ---------------------------------------------------------------------------
 
-export const garageBeforeImage: SiteImage = {
-  src: "/images/tomei/garage-cluttered-before.webp",
-  alt: "Cluttered garage before a Tomei Haul Away cleanout",
-  width: 1200,
-  height: 800,
-  category: "gallery",
-  caption: "Before",
-  isPlaceholder: false,
-};
-
-export const garageAfterImage: SiteImage = {
-  src: "/images/tomei/garage-empty-after.webp",
-  alt: "Same garage emptied out after a Tomei Haul Away cleanout",
-  width: 1200,
-  height: 800,
-  category: "gallery",
-  caption: "After",
-  isPlaceholder: false,
-};
-
 export const sofaRemovalImage: SiteImage = {
   src: "/images/tomei/sofa-removal.webp",
   alt: "Tomei crew members carrying a sofa out of a home",
@@ -392,21 +372,21 @@ export const galleryPairs: Array<{ before: SiteImage; after: SiteImage }> = Arra
     return {
       before: {
         src: `/images/placeholders/gallery/tomei-gallery-before-${num}-placeholder.webp`,
-        alt: `Before junk removal job ${i + 1}`,
+        alt: `Representative before example ${i + 1} of a junk removal job`,
         width: 1200,
         height: 800,
         category: "gallery",
-        caption: `Before — Job ${i + 1}`,
+        caption: `Before — Example ${i + 1}`,
         isPlaceholder: true,
         replacementNotes: `AI-generated placeholder. Replace before photo ${i + 1} with a real before shot from a completed job.`,
       },
       after: {
         src: `/images/placeholders/gallery/tomei-gallery-after-${num}-placeholder.webp`,
-        alt: `After junk removal job ${i + 1}`,
+        alt: `Representative after example ${i + 1} of a junk removal job`,
         width: 1200,
         height: 800,
         category: "gallery",
-        caption: `After — Job ${i + 1}`,
+        caption: `After — Example ${i + 1}`,
         isPlaceholder: true,
         replacementNotes: `AI-generated placeholder. Replace after photo ${i + 1} with the matching real after shot.`,
       },

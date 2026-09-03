@@ -23,7 +23,8 @@ export default async function QuotePage({ searchParams }: { searchParams: Search
       <div className="mb-8 text-center">
         <h1 className="text-4xl font-bold text-brand-primary">Request a Free Quote</h1>
         <p className="mt-2 text-lg text-brand-text/80">
-          Two quick steps — tell us about the job and how to reach you. We respond fast.
+          Three quick steps — tell us about the job, how to reach you, and when works best. We
+          respond fast.
         </p>
       </div>
       <QuoteForm
