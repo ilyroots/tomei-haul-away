@@ -74,7 +74,7 @@ export function AdminSidebar({
       <aside
         id="admin-sidebar"
         className={cn(
-          "fixed inset-y-0 left-0 z-40 w-64 transform border-r border-brand-border bg-brand-surface text-brand-text transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-auto",
+          "fixed inset-y-0 left-0 z-40 w-64 transform border-r border-brand-border bg-brand-surface text-brand-text transition-transform duration-200 ease-in-out lg:translate-x-0",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
