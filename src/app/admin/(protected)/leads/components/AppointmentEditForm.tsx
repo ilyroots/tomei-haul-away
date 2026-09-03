@@ -2,7 +2,7 @@
 
 import { useActionState, useState } from "react";
 import { AppointmentStatus, type Appointment, type Address } from "@prisma/client";
-import { updateAppointmentStatus, type ActionResult } from "@/app/admin/appointments/actions";
+import { updateAppointmentStatus, type ActionResult } from "@/app/admin/(protected)/appointments/actions";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
