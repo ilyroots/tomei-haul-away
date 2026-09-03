@@ -94,7 +94,7 @@ ADMIN_EMAIL=owner@example.com ADMIN_PASSWORD='a-long-random-password' ADMIN_NAME
 | `DATABASE_URL`                   | Yes      | PostgreSQL connection string.                                                                                   |
 | `AUTH_SECRET`                    | Yes      | Long random string for NextAuth.js encryption. Generate with `openssl rand -base64 32`.                         |
 | `APP_URL`                        | Yes      | Public URL of the app, e.g. `http://localhost:3000` or `https://tomeihaulaway.com`.                             |
-| `BUSINESS_TIMEZONE`              | Yes      | IANA timezone used for scheduling, e.g. `America/New_York`.                                                     |
+| `BUSINESS_TIMEZONE`              | Yes      | IANA timezone used for scheduling, e.g. `America/Los_Angeles`.                                                  |
 | `ADMIN_EMAIL`                    | No       | Default admin email used by some health-check / seed flows. Prefer `scripts/create-admin.ts` for real accounts. |
 | `RESEND_API_KEY`                 | Yes*     | Resend API key for transactional email. Required once email is enabled in production.                           |
 | `RESEND_FROM_EMAIL`              | Yes*     | Verified sender address and display name, e.g. `Tomei Haul Away <hello@tomeihaulaway.com>`.                     |

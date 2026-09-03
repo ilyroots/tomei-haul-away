@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import {
   COMPANY_NAME,
+  HOME_STATE,
   SERVICE_AREA,
   getCityBySlug,
   slugifyCity,
@@ -33,14 +34,14 @@ export async function generateMetadata({ params }: CityPageProps): Promise<Metad
     return { title: "Service Area Not Found" };
   }
   return {
-    title: `Junk Removal in ${cityName}, MA`,
-    description: `${COMPANY_NAME} provides junk removal, cleanouts, and hauling services in ${cityName}, MA and nearby communities.`,
+    title: `Junk Removal in ${cityName}, ${HOME_STATE}`,
+    description: `${COMPANY_NAME} provides junk removal, cleanouts, and hauling services in ${cityName}, ${HOME_STATE} and nearby communities.`,
     alternates: {
       canonical: `${appUrl}/service-areas/${city}`,
     },
     openGraph: {
-      title: `Junk Removal in ${cityName}, MA | ${COMPANY_NAME}`,
-      description: `Reliable junk removal and cleanouts in ${cityName}, Massachusetts.`,
+      title: `Junk Removal in ${cityName}, ${HOME_STATE} | ${COMPANY_NAME}`,
+      description: `Reliable junk removal and cleanouts in ${cityName}, California.`,
       url: `${appUrl}/service-areas/${city}`,
       type: "website",
     },
@@ -69,7 +70,7 @@ export default async function CityPage({ params }: CityPageProps) {
           ← All service areas
         </Link>
         <SectionHeading
-          title={`Junk removal in ${cityName}, MA`}
+          title={`Junk removal in ${cityName}, ${HOME_STATE}`}
           subtitle={`${COMPANY_NAME} serves ${cityName} and surrounding communities within approximately ${SERVICE_AREA.radiusMiles} miles of ${SERVICE_AREA.cities[0]}.`}
           level="h1"
           className="mt-4"
@@ -78,7 +79,7 @@ export default async function CityPage({ params }: CityPageProps) {
         <div className="relative mt-8 aspect-[21/9] w-full overflow-hidden rounded-xl">
           <Image
             src={headerImage.src}
-            alt={`Junk removal services in ${cityName}, MA`}
+            alt={`Junk removal services in ${cityName}, ${HOME_STATE}`}
             fill
             sizes="100vw"
             className="object-cover"
@@ -112,7 +113,7 @@ export default async function CityPage({ params }: CityPageProps) {
                   href={`/service-areas/${slugifyCity(neighbor)}`}
                   className="text-brand-text/90 hover:text-brand-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
                 >
-                  {neighbor}, MA
+                  {neighbor}, {HOME_STATE}
                 </Link>
               </li>
             ))}

@@ -5,7 +5,7 @@ test("quote two-step form submits and reaches thank-you", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Request a Free Quote" })).toBeVisible();
 
   // Step 1: The Job
-  await page.getByLabel("ZIP code").fill("01830");
+  await page.getByLabel("ZIP code").fill("92101");
   await page.getByLabel("Service type").selectOption("furniture-removal");
   await page.getByRole("button", { name: "Furniture" }).click();
   await page.getByLabel("Anything else we should know?").fill("Old couch and two chairs");

@@ -14,13 +14,13 @@ const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   title: "Junk Removal & Cleanouts",
-  description: `${COMPANY_NAME} provides reliable junk removal, furniture removal, appliance pickup, cleanouts, and yard debris hauling in the Haverhill, MA area.`,
+  description: `${COMPANY_NAME} provides reliable junk removal, furniture removal, appliance pickup, cleanouts, and yard debris hauling in the San Diego, CA area.`,
   alternates: {
     canonical: `${appUrl}/`,
   },
   openGraph: {
     title: `${COMPANY_NAME} | Junk Removal & Cleanouts`,
-    description: "Reliable junk removal and cleanout services in the Haverhill, MA area.",
+    description: "Reliable junk removal and cleanout services in the San Diego, CA area.",
     url: `${appUrl}/`,
     type: "website",
   },
@@ -127,7 +127,7 @@ export default async function HomePage() {
             </h1>
             <p className="mt-5 max-w-xl text-lg text-white/90">
               {COMPANY_NAME} removes junk, furniture, appliances, and debris from homes and
-              businesses across the Haverhill area — you point, we haul.
+              businesses across the San Diego area — you point, we haul.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
@@ -268,7 +268,7 @@ export default async function HomePage() {
           <SectionHeading
             id="service-area-heading"
             title={`Local to ${SERVICE_AREA.cities[0]} and nearby towns`}
-            subtitle={`We work within roughly ${SERVICE_AREA.radiusMiles} miles of ${SERVICE_AREA.cities[0]}, Massachusetts — including ${mainCities.join(", ")}, and more.`}
+            subtitle={`We work within roughly ${SERVICE_AREA.radiusMiles} miles of ${SERVICE_AREA.cities[0]}, California — including ${mainCities.join(", ")}, and more.`}
             centered
           />
           <div className="mt-8">

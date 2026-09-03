@@ -34,7 +34,7 @@ export default async function ServiceAreasPage() {
                 <div className="flex flex-wrap items-start justify-between gap-2">
                   <div>
                     <h3 className="font-semibold text-brand-background">
-                      {area.city}, MA {area.zip}
+                      {area.city}, CA {area.zip}
                     </h3>
                   </div>
                   <span

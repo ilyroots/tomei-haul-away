@@ -75,7 +75,7 @@ export function ScheduleForm({ submissionToken, turnstileSiteKey }: ScheduleForm
         line1: "",
         line2: "",
         city: "",
-        state: "MA",
+        state: "CA",
         zip: "",
       },
       notes: "",

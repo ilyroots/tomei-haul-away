@@ -28,8 +28,8 @@ describe("normalizePhone", () => {
 
 describe("normalizeZip", () => {
   it("strips non-digits and truncates to 5 characters", () => {
-    expect(normalizeZip("01830-1234")).toBe("01830");
-    expect(normalizeZip(" 01830 ")).toBe("01830");
+    expect(normalizeZip("92101-1234")).toBe("92101");
+    expect(normalizeZip(" 92101 ")).toBe("92101");
   });
 });
 

@@ -168,7 +168,7 @@ model Address {
   line1      String
   line2      String?
   city       String
-  state      String   @default("MA")
+  state      String   @default("CA")
   zip        String
   customerId String?
   createdAt  DateTime @default(now())

@@ -83,7 +83,7 @@ export function QuickQuoteStrip() {
                   type="text"
                   inputMode="numeric"
                   maxLength={5}
-                  placeholder="01830"
+                  placeholder="92101"
                   value={zip}
                   onChange={(e) => setZip(e.target.value)}
                   className="bg-brand-surface text-brand-text"

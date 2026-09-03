@@ -6,7 +6,7 @@ test("keyboard navigation through quote form", async ({ page }) => {
 
   // Step 1: The Job
   await page.getByLabel("ZIP code").focus();
-  await page.keyboard.type("01830");
+  await page.keyboard.type("92101");
   await page.getByLabel("Service type").selectOption("furniture-removal");
 
   // Activate a removal-item chip with the keyboard.

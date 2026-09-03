@@ -89,7 +89,7 @@ CREATE TABLE "Address" (
     "line1" TEXT NOT NULL,
     "line2" TEXT,
     "city" TEXT NOT NULL,
-    "state" TEXT NOT NULL DEFAULT 'MA',
+    "state" TEXT NOT NULL DEFAULT 'CA',
     "zip" TEXT NOT NULL,
     "customerId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

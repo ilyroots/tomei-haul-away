@@ -59,7 +59,7 @@ export default async function ServiceDetailPage({ params }: ServiceDetailPagePro
     },
     areaServed: {
       "@type": "City",
-      name: "Haverhill, MA",
+      name: "San Diego, CA",
     },
   };
 

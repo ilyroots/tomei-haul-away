@@ -80,7 +80,7 @@ describe("getLeads", () => {
         status: "NEW",
         isInServiceArea: true,
         createdAt: new Date(),
-        address: { city: "Haverhill", state: "MA", zip: "01830" },
+        address: { city: "San Diego", state: "CA", zip: "92101" },
       },
     ]);
     mockPrisma.lead.count.mockResolvedValue(1);

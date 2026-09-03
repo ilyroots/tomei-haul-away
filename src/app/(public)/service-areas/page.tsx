@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { SERVICE_AREA, COMPANY_NAME } from "@/lib/business/config";
+import { SERVICE_AREA, COMPANY_NAME, HOME_STATE } from "@/lib/business/config";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Button } from "@/components/ui/Button";
 import { getServiceAreaImage } from "@/lib/public/images";
@@ -10,13 +10,13 @@ const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   title: "Service Areas",
-  description: `${COMPANY_NAME} serves Haverhill, MA and surrounding communities within a ${SERVICE_AREA.radiusMiles}-mile radius.`,
+  description: `${COMPANY_NAME} serves ${SERVICE_AREA.cities[0]}, ${HOME_STATE} and surrounding communities within a ${SERVICE_AREA.radiusMiles}-mile radius.`,
   alternates: {
     canonical: `${appUrl}/service-areas`,
   },
   openGraph: {
     title: `Service Areas | ${COMPANY_NAME}`,
-    description: "Junk removal in Haverhill and surrounding Massachusetts communities.",
+    description: "Junk removal in San Diego and surrounding California communities.",
     url: `${appUrl}/service-areas`,
     type: "website",
   },
@@ -65,14 +65,16 @@ export default function ServiceAreasPage() {
               <div className="relative aspect-[3/2] w-full">
                 <Image
                   src={getServiceAreaImage(SERVICE_AREA.cities.indexOf(city)).src}
-                  alt={`Junk removal services in ${city}, MA`}
+                  alt={`Junk removal services in ${city}, ${HOME_STATE}`}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
                 />
               </div>
               <div className="p-6">
-                <h2 className="text-xl font-bold text-brand-primary">{city}, MA</h2>
+                <h2 className="text-xl font-bold text-brand-primary">
+                  {city}, {HOME_STATE}
+                </h2>
                 <p className="mt-2 text-sm text-brand-text/80">
                   Junk removal and cleanout services
                 </p>

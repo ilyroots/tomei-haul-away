@@ -74,7 +74,7 @@ export const heroImage: SiteImage = {
   width: 1600,
   height: 800,
   category: "hero",
-  caption: "Serving homes, businesses, and estates across the Haverhill area.",
+  caption: "Serving homes, businesses, and estates across the San Diego area.",
   isPlaceholder: false,
   replacementNotes: "Real Tomei photography: crew and truck on location.",
 };

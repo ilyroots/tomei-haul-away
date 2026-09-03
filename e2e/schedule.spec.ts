@@ -11,7 +11,7 @@ test("schedule form submits and reaches thank-you", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Schedule an Appointment" })).toBeVisible();
 
   await page.getByLabel("Service type").selectOption("furniture-removal");
-  await page.getByLabel("ZIP code", { exact: true }).fill("01830");
+  await page.getByLabel("ZIP code", { exact: true }).fill("92101");
   await page.getByLabel("Preferred date").fill(futureDate());
   await page.getByLabel("Arrival window").selectOption("AFTERNOON");
 
@@ -21,9 +21,9 @@ test("schedule form submits and reaches thank-you", async ({ page }) => {
 
   await page.getByLabel("Address line 1").fill("456 Test Ave");
   await page.getByLabel("Address line 2").fill("Apt 2");
-  await page.getByLabel("City").fill("Haverhill");
-  await page.getByLabel("State").fill("MA");
-  await page.getByLabel("ZIP", { exact: true }).fill("01830");
+  await page.getByLabel("City").fill("San Diego");
+  await page.getByLabel("State").fill("CA");
+  await page.getByLabel("ZIP", { exact: true }).fill("92101");
 
   await page.getByLabel("Notes").fill("Please call when arriving.");
 

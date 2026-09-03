@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: "%s | Tomei Haul Away",
   },
   description:
-    "Reliable junk removal and cleanout services for homes, businesses, and estates in the Haverhill, MA area. Request a free quote today.",
+    "Reliable junk removal and cleanout services for homes, businesses, and estates in the San Diego area. Request a free quote today.",
   metadataBase: new URL(process.env.APP_URL ?? "http://localhost:3000"),
   openGraph: {
     images: [

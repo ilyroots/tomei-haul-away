@@ -26,7 +26,7 @@ export async function getBusinessSettings(): Promise<BusinessSettings> {
   await requireAdmin();
 
   return {
-    businessTimezone: process.env.BUSINESS_TIMEZONE ?? "America/New_York",
+    businessTimezone: process.env.BUSINESS_TIMEZONE ?? "America/Los_Angeles",
     adminEmail: process.env.ADMIN_EMAIL ?? "",
     notificationEmail: process.env.BUSINESS_NOTIFICATION_EMAIL ?? "",
     phone: process.env.PHONE ?? "",
@@ -228,7 +228,7 @@ export async function previewEmailTemplate(templateName: EmailTemplateName): Pro
     validUntil: "December 31, 2025",
     scheduledDate: "Saturday, January 15, 2026",
     arrivalWindow: "Morning",
-    address: "123 Main St, Haverhill, MA 01830",
+    address: "123 Main St, San Diego, CA 92101",
     phone: "5551234567",
   };
 

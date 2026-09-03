@@ -13,7 +13,7 @@ const validQuote = {
   email: "jane@example.com",
   phone: "(978) 555-0100",
   contactPreference: ContactPreference.EMAIL,
-  zip: "01830",
+  zip: "92101",
   serviceSlug: "furniture-removal",
   removalItems: ["Furniture"],
   itemsDescription: "Old couch and mattress",
@@ -86,7 +86,7 @@ describe("quoteContactSchema", () => {
 describe("quoteJobDetailsSchema", () => {
   it("accepts a valid ZIP-only job", () => {
     const result = quoteJobDetailsSchema.safeParse({
-      zip: "01830",
+      zip: "92101",
       serviceSlug: "furniture-removal",
       removalItems: ["Furniture"],
       itemsDescription: "Old couch",
@@ -117,7 +117,7 @@ describe("quoteJobDetailsSchema", () => {
 
   it("requires a service type", () => {
     const result = quoteJobDetailsSchema.safeParse({
-      zip: "01830",
+      zip: "92101",
       serviceSlug: "",
       removalItems: ["Furniture"],
     });
@@ -126,7 +126,7 @@ describe("quoteJobDetailsSchema", () => {
 
   it("requires at least one removal item", () => {
     const result = quoteJobDetailsSchema.safeParse({
-      zip: "01830",
+      zip: "92101",
       serviceSlug: "furniture-removal",
       removalItems: [],
     });
@@ -168,8 +168,8 @@ describe("quoteSubmissionSchema", () => {
     const result = quoteSubmissionSchema.safeParse({
       ...validQuote,
       line1: "123 Main St",
-      city: "Haverhill",
-      state: "MA",
+      city: "San Diego",
+      state: "CA",
     });
     // line1/city/state are no longer part of the schema; extra keys are stripped
     expect(result.success).toBe(true);
@@ -190,8 +190,8 @@ describe("quoteSubmissionSchema", () => {
 
 describe("service area matching", () => {
   it("matches known service-area ZIPs", () => {
-    expect(isInServiceArea("01830")).toBe(true);
-    expect(isInServiceArea("01832")).toBe(true);
+    expect(isInServiceArea("92101")).toBe(true);
+    expect(isInServiceArea("92102")).toBe(true);
   });
 
   it("does not match ZIPs outside the area", () => {
@@ -200,7 +200,7 @@ describe("service area matching", () => {
   });
 
   it("normalizes ZIP input before matching", () => {
-    expect(isInServiceArea("01830-1234")).toBe(true);
-    expect(isInServiceArea("01830 ")).toBe(true);
+    expect(isInServiceArea("92101-1234")).toBe(true);
+    expect(isInServiceArea("92101 ")).toBe(true);
   });
 });
