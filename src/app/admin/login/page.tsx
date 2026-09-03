@@ -32,13 +32,7 @@ export default function AdminLoginPage() {
             <Label htmlFor="email" isRequired className="text-brand-background/80">
               Email
             </Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-            />
+            <Input id="email" name="email" type="email" autoComplete="email" required />
           </div>
 
           <div>

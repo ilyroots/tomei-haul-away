@@ -26,11 +26,7 @@ export function ServiceAreaForm({ item }: { item?: ServiceArea }) {
       {state?.success === false && <ErrorSummary message={state.message} />}
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <Label
-            htmlFor={`city-${item?.id ?? "new"}`}
-            className="text-brand-background/80"
-            isRequired
-          >
+          <Label htmlFor={`city-${item?.id ?? "new"}`} className="text-brand-muted" isRequired>
             City
           </Label>
           <Input
@@ -38,15 +34,10 @@ export function ServiceAreaForm({ item }: { item?: ServiceArea }) {
             name="city"
             defaultValue={item?.city ?? ""}
             required
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
-          <Label
-            htmlFor={`zip-${item?.id ?? "new"}`}
-            className="text-brand-background/80"
-            isRequired
-          >
+          <Label htmlFor={`zip-${item?.id ?? "new"}`} className="text-brand-muted" isRequired>
             ZIP
           </Label>
           <Input
@@ -54,19 +45,17 @@ export function ServiceAreaForm({ item }: { item?: ServiceArea }) {
             name="zip"
             defaultValue={item?.zip ?? ""}
             required
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>
       <div>
-        <Label htmlFor={`content-${item?.id ?? "new"}`} className="text-brand-background/80">
+        <Label htmlFor={`content-${item?.id ?? "new"}`} className="text-brand-muted">
           Page content
         </Label>
         <Textarea
           id={`content-${item?.id ?? "new"}`}
           name="pageContent"
           defaultValue={item?.pageContent ?? ""}
-          className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           rows={4}
         />
       </div>

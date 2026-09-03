@@ -7,7 +7,9 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   const config = {
     authSecretConfigured: Boolean(process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET),
-    appUrlConfigured: Boolean(process.env.APP_URL || process.env.AUTH_URL || process.env.NEXTAUTH_URL),
+    appUrlConfigured: Boolean(
+      process.env.APP_URL || process.env.AUTH_URL || process.env.NEXTAUTH_URL
+    ),
   };
 
   try {
@@ -17,7 +19,7 @@ export async function GET() {
     logger.error("Health check failed", { error });
     return NextResponse.json(
       { status: "error", message: "Database unavailable", config },
-      { status: 503 },
+      { status: 503 }
     );
   }
 }

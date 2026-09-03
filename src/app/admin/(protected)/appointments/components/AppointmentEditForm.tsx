@@ -48,13 +48,13 @@ export function AppointmentEditForm({
   );
 
   return (
-    <section className="rounded-lg bg-brand-primary p-6 shadow">
-      <h2 className="mb-4 text-xl font-bold text-brand-background">Edit appointment</h2>
+    <section className="rounded-lg border border-brand-border bg-brand-surface p-6 shadow-sm">
+      <h2 className="mb-4 text-xl font-bold text-brand-primary">Edit appointment</h2>
       {state?.success === false && <ErrorSummary message={state.message} className="mb-4" />}
       <form action={action} className="space-y-4">
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <Label htmlFor="status" className="text-brand-background/80">
+            <Label htmlFor="status" className="text-brand-muted">
               Status
             </Label>
             <Select
@@ -62,11 +62,10 @@ export function AppointmentEditForm({
               options={statusOptions}
               value={status}
               onChange={(e) => setStatus(e.target.value as AppointmentStatus)}
-              className="border-brand-text/30 bg-brand-text/90 text-brand-background"
             />
           </div>
           <div>
-            <Label htmlFor="scheduledDate" className="text-brand-background/80">
+            <Label htmlFor="scheduledDate" className="text-brand-muted">
               Scheduled date
             </Label>
             <Input
@@ -74,11 +73,10 @@ export function AppointmentEditForm({
               type="datetime-local"
               value={scheduledDate}
               onChange={(e) => setScheduledDate(e.target.value)}
-              className="border-brand-text/30 bg-brand-text/90 text-brand-background"
             />
           </div>
           <div>
-            <Label htmlFor="arrivalWindow" className="text-brand-background/80">
+            <Label htmlFor="arrivalWindow" className="text-brand-muted">
               Arrival window
             </Label>
             <Select
@@ -86,11 +84,10 @@ export function AppointmentEditForm({
               options={windowOptions}
               value={arrivalWindow}
               onChange={(e) => setArrivalWindow(e.target.value)}
-              className="border-brand-text/30 bg-brand-text/90 text-brand-background"
             />
           </div>
           <div>
-            <Label htmlFor="reason" className="text-brand-background/80">
+            <Label htmlFor="reason" className="text-brand-muted">
               Reason
             </Label>
             <Input
@@ -98,7 +95,6 @@ export function AppointmentEditForm({
               value={reason}
               onChange={(e) => setReason(e.target.value)}
               placeholder="Optional"
-              className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
             />
           </div>
         </div>

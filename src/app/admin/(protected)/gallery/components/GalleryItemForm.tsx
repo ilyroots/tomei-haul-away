@@ -26,18 +26,18 @@ export function GalleryItemForm({ item }: { item?: GalleryItem }) {
       {state?.success === false && <ErrorSummary message={state.message} />}
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <Label htmlFor={`title-${item?.id ?? "new"}`} className="text-brand-background/80">
+          <Label htmlFor={`title-${item?.id ?? "new"}`} className="text-brand-muted">
             Title
           </Label>
           <Input
             id={`title-${item?.id ?? "new"}`}
             name="title"
             defaultValue={item?.title ?? ""}
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
+            className="border-brand-border bg-brand-surface text-brand-text"
           />
         </div>
         <div>
-          <Label htmlFor={`sort-${item?.id ?? "new"}`} className="text-brand-background/80">
+          <Label htmlFor={`sort-${item?.id ?? "new"}`} className="text-brand-muted">
             Sort order
           </Label>
           <Input
@@ -45,24 +45,24 @@ export function GalleryItemForm({ item }: { item?: GalleryItem }) {
             name="sortOrder"
             type="number"
             defaultValue={item?.sortOrder ?? 0}
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
+            className="border-brand-border bg-brand-surface text-brand-text"
           />
         </div>
       </div>
       <div>
-        <Label htmlFor={`desc-${item?.id ?? "new"}`} className="text-brand-background/80">
+        <Label htmlFor={`desc-${item?.id ?? "new"}`} className="text-brand-muted">
           Description
         </Label>
         <Textarea
           id={`desc-${item?.id ?? "new"}`}
           name="description"
           defaultValue={item?.description ?? ""}
-          className="border-brand-text/30 bg-brand-text/90 text-brand-background"
+          className="border-brand-border bg-brand-surface text-brand-text"
           rows={2}
         />
       </div>
       <div>
-        <Label htmlFor={`photo-${item?.id ?? "new"}`} className="text-brand-background/80">
+        <Label htmlFor={`photo-${item?.id ?? "new"}`} className="text-brand-muted">
           Photo {item ? "(replace)" : ""}
         </Label>
         <Input
@@ -71,7 +71,7 @@ export function GalleryItemForm({ item }: { item?: GalleryItem }) {
           type="file"
           accept="image/jpeg,image/png,image/webp"
           required={!item}
-          className="border-brand-text/30 bg-brand-text/90 text-brand-background file:text-brand-background"
+          className="border-brand-border bg-brand-surface text-brand-text file:text-brand-text"
         />
       </div>
       <div className="flex items-center gap-4">

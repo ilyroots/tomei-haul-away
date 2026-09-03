@@ -10,7 +10,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   }
 
   return (
-    <div className="min-h-screen bg-brand-text text-brand-background">
+    <div className="min-h-screen bg-brand-background text-brand-text">
       <AdminSidebar adminEmail={session.user.email} adminName={session.user.name} />
       <div className="lg:ml-64">
         <main id="main-content" className="min-h-screen p-6 lg:p-10">

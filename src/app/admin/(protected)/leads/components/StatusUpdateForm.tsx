@@ -31,8 +31,11 @@ export function StatusUpdateForm({
   );
 
   return (
-    <form action={action} className="rounded-lg bg-brand-primary p-4 shadow">
-      <h2 className="mb-3 text-sm font-semibold text-brand-background/80">Update status</h2>
+    <form
+      action={action}
+      className="rounded-lg border border-brand-border bg-brand-surface p-4 shadow-sm"
+    >
+      <h2 className="mb-3 text-sm font-semibold text-brand-primary">Update status</h2>
       {state?.success === false && <ErrorSummary message={state.message} className="mb-3" />}
       <div className="space-y-3">
         <div>
@@ -45,7 +48,6 @@ export function StatusUpdateForm({
             options={statusOptions}
             value={status}
             onChange={(e) => setStatus(e.target.value as LeadStatus)}
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
@@ -58,7 +60,6 @@ export function StatusUpdateForm({
             placeholder="Reason for status change (optional)"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
           />
         </div>
         <Button type="submit" isLoading={pending} size="sm" className="w-full">

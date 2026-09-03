@@ -33,27 +33,16 @@ export function BlackoutDateForm({ id }: { id?: string }) {
     <form action={action} className="flex flex-col gap-3 sm:flex-row sm:items-end">
       {state?.success === false && <ErrorSummary message={state.message} className="sm:w-full" />}
       <div className="flex-1">
-        <Label htmlFor="blackout-date" className="text-brand-background/80">
+        <Label htmlFor="blackout-date" className="text-brand-muted">
           Date
         </Label>
-        <Input
-          id="blackout-date"
-          name="date"
-          type="date"
-          required
-          className="border-brand-text/30 bg-brand-text/90 text-brand-background"
-        />
+        <Input id="blackout-date" name="date" type="date" required />
       </div>
       <div className="flex-[2]">
-        <Label htmlFor="blackout-reason" className="text-brand-background/80">
+        <Label htmlFor="blackout-reason" className="text-brand-muted">
           Reason
         </Label>
-        <Input
-          id="blackout-reason"
-          name="reason"
-          placeholder="e.g. Holiday closure"
-          className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70"
-        />
+        <Input id="blackout-reason" name="reason" placeholder="e.g. Holiday closure" />
       </div>
       <Button type="submit" isLoading={pending}>
         Add blackout

@@ -34,18 +34,22 @@ function formatDate(date: Date): string {
 
 function SearchForm({ filters }: { filters: LeadFilters }) {
   return (
-    <form className="flex flex-col gap-3 sm:flex-row" action="/admin/leads" method="GET">
+    <form
+      className="flex flex-col gap-3 rounded-lg border border-brand-border bg-brand-surface p-4 shadow-sm sm:flex-row"
+      action="/admin/leads"
+      method="GET"
+    >
       <Input
         name="search"
         placeholder="Search name, phone, email, ref, ZIP, address..."
         defaultValue={filters.search ?? ""}
-        className="border-brand-text/30 bg-brand-text/90 text-brand-background placeholder:text-brand-muted/70 sm:flex-1"
+        className="sm:flex-1"
       />
       <Select
         name="status"
         options={statusOptions}
         defaultValue={filters.status ?? ""}
-        className="border-brand-text/30 bg-brand-text/90 text-brand-background sm:w-48"
+        className="sm:w-48"
       />
       <Button type="submit" variant="secondary">
         Filter
@@ -59,9 +63,9 @@ async function LeadsTable({ filters }: { filters: LeadFilters }) {
 
   return (
     <>
-      <div className="overflow-x-auto rounded-lg border border-brand-background/20">
+      <div className="overflow-x-auto rounded-lg border border-brand-border bg-brand-surface shadow-sm">
         <table className="w-full text-left text-sm">
-          <thead className="bg-brand-text/70 text-brand-background/80">
+          <thead className="bg-brand-primary text-xs font-semibold uppercase tracking-wider text-brand-background">
             <tr>
               <th className="px-4 py-3 font-semibold">Reference</th>
               <th className="px-4 py-3 font-semibold">Name</th>
@@ -71,16 +75,19 @@ async function LeadsTable({ filters }: { filters: LeadFilters }) {
               <th className="px-4 py-3 font-semibold">Date</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-charcoal-700">
+          <tbody>
             {result.leads.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-brand-background/80">
+                <td colSpan={6} className="px-4 py-8 text-center text-brand-muted">
                   No leads found.
                 </td>
               </tr>
             ) : (
               result.leads.map((lead) => (
-                <tr key={lead.id} className="hover:bg-brand-text/20">
+                <tr
+                  key={lead.id}
+                  className="border-t border-brand-border hover:bg-brand-background/60"
+                >
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/leads/${lead.id}`}
@@ -89,24 +96,22 @@ async function LeadsTable({ filters }: { filters: LeadFilters }) {
                       {lead.referenceNumber}
                     </Link>
                   </td>
-                  <td className="px-4 py-3 text-brand-background">{lead.contactName}</td>
-                  <td className="px-4 py-3 text-brand-background/80">
+                  <td className="px-4 py-3 text-brand-text">{lead.contactName}</td>
+                  <td className="px-4 py-3 text-brand-text">
                     <div>{lead.contactEmail}</div>
                     <div>{formatPhone(lead.contactPhone)}</div>
                   </td>
-                  <td className="px-4 py-3 text-brand-background/80">
+                  <td className="px-4 py-3 text-brand-text">
                     {lead.address
                       ? `${lead.address.city}, ${lead.address.state} ${lead.address.zip}`
                       : "—"}
                   </td>
                   <td className="px-4 py-3">
-                    <span className="rounded-full bg-brand-primary px-2 py-0.5 text-xs text-brand-background/80">
+                    <span className="rounded-full bg-brand-primary px-2 py-0.5 text-xs text-brand-background">
                       {lead.status.replace(/_/g, " ")}
                     </span>
                   </td>
-                  <td className="px-4 py-3 text-brand-background/80">
-                    {formatDate(lead.createdAt)}
-                  </td>
+                  <td className="px-4 py-3 text-brand-text">{formatDate(lead.createdAt)}</td>
                 </tr>
               ))
             )}
@@ -115,7 +120,7 @@ async function LeadsTable({ filters }: { filters: LeadFilters }) {
       </div>
 
       {result.totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm text-brand-background/80">
+        <div className="flex items-center justify-between text-sm text-brand-muted">
           <p>
             Page {result.page} of {result.totalPages} ({result.total} total)
           </p>
@@ -169,10 +174,10 @@ export default async function LeadsPage({
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-brand-background">Leads</h1>
-          <p className="mt-1 text-brand-background/80">
+          <h1 className="font-headline text-2xl font-bold text-brand-primary lg:text-3xl">Leads</h1>
+          <p className="mt-1 text-sm text-brand-muted">
             Manage quote requests and customer inquiries.
           </p>
         </div>
@@ -181,7 +186,7 @@ export default async function LeadsPage({
 
       <SearchForm filters={filters} />
 
-      <Suspense fallback={<p className="text-brand-background/80">Loading leads...</p>}>
+      <Suspense fallback={<p className="text-brand-muted">Loading leads...</p>}>
         <LeadsTable filters={filters} />
       </Suspense>
     </div>

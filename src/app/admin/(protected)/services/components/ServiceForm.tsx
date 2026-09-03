@@ -26,11 +26,7 @@ export function ServiceForm({ item }: { item?: Service }) {
       {state?.success === false && <ErrorSummary message={state.message} />}
       <div className="grid gap-3 sm:grid-cols-2">
         <div>
-          <Label
-            htmlFor={`slug-${item?.id ?? "new"}`}
-            className="text-brand-background/80"
-            isRequired
-          >
+          <Label htmlFor={`slug-${item?.id ?? "new"}`} className="text-brand-muted" isRequired>
             Slug
           </Label>
           <Input
@@ -38,15 +34,10 @@ export function ServiceForm({ item }: { item?: Service }) {
             name="slug"
             defaultValue={item?.slug ?? ""}
             required
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <div>
-          <Label
-            htmlFor={`title-${item?.id ?? "new"}`}
-            className="text-brand-background/80"
-            isRequired
-          >
+          <Label htmlFor={`title-${item?.id ?? "new"}`} className="text-brand-muted" isRequired>
             Title
           </Label>
           <Input
@@ -54,16 +45,11 @@ export function ServiceForm({ item }: { item?: Service }) {
             name="title"
             defaultValue={item?.title ?? ""}
             required
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
       </div>
       <div>
-        <Label
-          htmlFor={`short-${item?.id ?? "new"}`}
-          className="text-brand-background/80"
-          isRequired
-        >
+        <Label htmlFor={`short-${item?.id ?? "new"}`} className="text-brand-muted" isRequired>
           Short description
         </Label>
         <Textarea
@@ -71,16 +57,11 @@ export function ServiceForm({ item }: { item?: Service }) {
           name="shortDescription"
           defaultValue={item?.shortDescription ?? ""}
           required
-          className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           rows={2}
         />
       </div>
       <div>
-        <Label
-          htmlFor={`desc-${item?.id ?? "new"}`}
-          className="text-brand-background/80"
-          isRequired
-        >
+        <Label htmlFor={`desc-${item?.id ?? "new"}`} className="text-brand-muted" isRequired>
           Description
         </Label>
         <Textarea
@@ -88,13 +69,12 @@ export function ServiceForm({ item }: { item?: Service }) {
           name="description"
           defaultValue={item?.description ?? ""}
           required
-          className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           rows={4}
         />
       </div>
       <div className="flex items-center gap-4">
         <div className="w-32">
-          <Label htmlFor={`sort-${item?.id ?? "new"}`} className="text-brand-background/80">
+          <Label htmlFor={`sort-${item?.id ?? "new"}`} className="text-brand-muted">
             Sort order
           </Label>
           <Input
@@ -102,7 +82,6 @@ export function ServiceForm({ item }: { item?: Service }) {
             name="sortOrder"
             type="number"
             defaultValue={item?.sortOrder ?? 0}
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <Checkbox name="isActive" label="Active" defaultChecked={item ? item.isActive : true} />

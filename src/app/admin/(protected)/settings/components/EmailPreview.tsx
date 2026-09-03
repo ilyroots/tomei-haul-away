@@ -25,7 +25,7 @@ export function EmailPreview({
     <div className="space-y-4">
       <form action={action} className="flex flex-col gap-3 sm:flex-row sm:items-end">
         <div className="flex-1">
-          <Label htmlFor="template" className="text-brand-background/80">
+          <Label htmlFor="template" className="text-brand-muted">
             Template
           </Label>
           <Select
@@ -33,7 +33,6 @@ export function EmailPreview({
             options={templates}
             value={template}
             onChange={(e) => setTemplate(e.target.value as EmailTemplateName)}
-            className="border-brand-text/30 bg-brand-text/90 text-brand-background"
           />
         </div>
         <Button type="submit" isLoading={pending}>
@@ -42,11 +41,11 @@ export function EmailPreview({
       </form>
 
       {state && (
-        <div className="rounded-md border border-brand-text/30 bg-brand-surface p-4">
+        <div className="rounded-md border border-brand-border bg-brand-background p-4">
           <iframe
             title="Email preview"
             srcDoc={state}
-            className="h-96 w-full rounded-md border border-brand-border"
+            className="h-96 w-full rounded-md border border-brand-border bg-brand-surface"
             sandbox=""
           />
         </div>
