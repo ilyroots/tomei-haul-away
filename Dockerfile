@@ -32,7 +32,7 @@ RUN npm run build
 # Runner stage
 # ---------------------------
 FROM base AS runner
-RUN apk add --no-cache dumb-init
+RUN apk add --no-cache dumb-init openssl libc6-compat
 WORKDIR /app
 
 ENV NODE_ENV=production
