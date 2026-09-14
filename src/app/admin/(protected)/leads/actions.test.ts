@@ -1,6 +1,12 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { LeadStatus } from "@prisma/client";
-import { getLeads, updateLeadStatus, updateLeadPrice, addInternalNote } from "./actions";
+import {
+  getLeads,
+  updateLeadStatus,
+  updateLeadPrice,
+  addInternalNote,
+  createAppointmentFromLead,
+} from "./actions";
 
 const mockAuth = vi.fn();
 const mockHeaders = vi.fn();
@@ -12,6 +18,16 @@ const mockPrisma = vi.hoisted(() => ({
     findUnique: vi.fn(),
     count: vi.fn(),
     update: vi.fn(),
+  },
+  appointment: {
+    create: vi.fn(),
+    count: vi.fn(),
+  },
+  blackoutDate: {
+    findUnique: vi.fn(),
+  },
+  availabilityWindow: {
+    findMany: vi.fn(),
   },
   auditLog: {
     create: vi.fn(),
@@ -178,6 +194,116 @@ describe("updateLeadPrice", () => {
   it("rejects unauthenticated requests", async () => {
     mockUnauthenticated();
     await expect(updateLeadPrice("c00000000000000000000000", 100)).rejects.toThrow("Unauthorized");
+  });
+});
+
+describe("createAppointmentFromLead", () => {
+  it("creates a confirmed appointment, marks the lead scheduled, and logs history", async () => {
+    mockAuthenticated();
+    mockPrisma.lead.findUnique.mockResolvedValue({
+      id: "c00000000000000000000000",
+      status: "NEW",
+      customerId: "c00000000000000000000001",
+      addressId: "c00000000000000000000002",
+    });
+    mockPrisma.blackoutDate.findUnique.mockResolvedValue(null);
+    mockPrisma.availabilityWindow.findMany.mockResolvedValue([
+      { label: "Morning", maxAppointments: 2 },
+    ]);
+    mockPrisma.appointment.count.mockResolvedValue(0);
+    mockPrisma.appointment.create.mockResolvedValue({ id: "c00000000000000000000003" });
+    mockPrisma.lead.update.mockResolvedValue({
+      id: "c00000000000000000000000",
+      status: "SCHEDULED",
+    });
+    mockPrisma.statusHistory.create.mockResolvedValue({ id: "sh-1" });
+
+    const result = await createAppointmentFromLead(
+      "c00000000000000000000000",
+      new Date("2026-10-01T00:00:00Z"),
+      "MORNING",
+      350,
+      "Gate code 1234"
+    );
+
+    expect(result).toEqual({ success: true });
+    expect(mockPrisma.appointment.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        leadId: "c00000000000000000000000",
+        customerId: "c00000000000000000000001",
+        addressId: "c00000000000000000000002",
+        status: "CONFIRMED",
+        arrivalWindow: "MORNING",
+        estimatedPrice: 350,
+        crewNotes: "Gate code 1234",
+      }),
+    });
+    expect(mockPrisma.lead.update).toHaveBeenCalledWith({
+      where: { id: "c00000000000000000000000" },
+      data: { status: "SCHEDULED" },
+    });
+    expect(mockPrisma.statusHistory.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        entityType: "Lead",
+        entityId: "c00000000000000000000000",
+        fromStatus: "NEW",
+        toStatus: "SCHEDULED",
+        changedById: "admin-1",
+      }),
+    });
+    expect(mockPrisma.auditLog.create).toHaveBeenCalledWith({
+      data: expect.objectContaining({
+        action: "LEAD_CONVERTED_TO_APPOINTMENT",
+        entityType: "Lead",
+        entityId: "c00000000000000000000000",
+        actorId: "admin-1",
+      }),
+    });
+  });
+
+  it("returns an error when the lead does not exist", async () => {
+    mockAuthenticated();
+    mockPrisma.lead.findUnique.mockResolvedValue(null);
+
+    const result = await createAppointmentFromLead(
+      "c00000000000000000000000",
+      new Date("2026-10-01T00:00:00Z"),
+      "MORNING"
+    );
+
+    expect(result).toEqual({ success: false, message: "Lead not found." });
+    expect(mockPrisma.appointment.create).not.toHaveBeenCalled();
+  });
+
+  it("returns the capacity error when the slot is fully booked", async () => {
+    mockAuthenticated();
+    mockPrisma.lead.findUnique.mockResolvedValue({
+      id: "c00000000000000000000000",
+      status: "NEW",
+      customerId: null,
+      addressId: null,
+    });
+    mockPrisma.blackoutDate.findUnique.mockResolvedValue(null);
+    mockPrisma.availabilityWindow.findMany.mockResolvedValue([
+      { label: "Morning", maxAppointments: 1 },
+    ]);
+    mockPrisma.appointment.count.mockResolvedValue(1);
+
+    const result = await createAppointmentFromLead(
+      "c00000000000000000000000",
+      new Date("2026-10-01T00:00:00Z"),
+      "MORNING"
+    );
+
+    expect(result).toEqual({ success: false, message: "The selected time slot is fully booked." });
+    expect(mockPrisma.appointment.create).not.toHaveBeenCalled();
+  });
+
+  it("rejects unauthenticated requests", async () => {
+    mockUnauthenticated();
+    await expect(
+      createAppointmentFromLead("c00000000000000000000000", new Date(), "MORNING")
+    ).rejects.toThrow("Unauthorized");
   });
 });
 

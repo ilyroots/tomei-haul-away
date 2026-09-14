@@ -208,6 +208,43 @@ export const updateAppointmentStatusSchema = z.object({
 
 export type UpdateAppointmentStatusInput = z.infer<typeof updateAppointmentStatusSchema>;
 
+export const createAppointmentFromLeadSchema = z.object({
+  leadId: z.string().cuid(),
+  scheduledDate: z.coerce.date({ message: "Please select a valid date." }),
+  arrivalWindow: z.string().min(1, "Please select an arrival window."),
+  estimatedPrice: z.coerce.number().nonnegative().optional(),
+  crewNotes: z.string().max(2000).optional(),
+});
+
+export type CreateAppointmentFromLeadInput = z.infer<typeof createAppointmentFromLeadSchema>;
+
+export const createManualAppointmentSchema = z
+  .object({
+    contactName: z.string().min(1, "Name is required.").max(100),
+    contactEmail: z.string().email("Please enter a valid email address.").optional().or(z.literal("")),
+    contactPhone: z.string().max(30).optional().or(z.literal("")),
+    line1: z.string().max(200).optional().or(z.literal("")),
+    city: z.string().max(100).optional().or(z.literal("")),
+    state: z.string().max(2).toUpperCase().optional().or(z.literal("")),
+    zip: z.string().max(10).optional().or(z.literal("")),
+    scheduledDate: z.coerce.date({ message: "Please select a valid date." }),
+    arrivalWindow: z.string().min(1, "Please select an arrival window."),
+    estimatedPrice: z.coerce.number().nonnegative().optional(),
+    crewNotes: z.string().max(2000).optional(),
+  })
+  .refine(
+    (data) => {
+      const anyAddress = [data.line1, data.city, data.state, data.zip].some(
+        (value) => typeof value === "string" && value.trim() !== ""
+      );
+      if (!anyAddress) return true;
+      return Boolean(data.line1 && data.city && data.zip);
+    },
+    { message: "Address requires street, city, and ZIP.", path: ["line1"] }
+  );
+
+export type CreateManualAppointmentInput = z.infer<typeof createManualAppointmentSchema>;
+
 export const updateLeadPriceSchema = z.object({
   leadId: z.string().cuid(),
   estimatedPriceMin: z.number().nonnegative().optional(),

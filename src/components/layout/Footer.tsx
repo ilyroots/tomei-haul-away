@@ -8,6 +8,7 @@ const FOOTER_LINKS = [
   { href: "/service-areas", label: "Service Areas" },
   { href: "/pricing", label: "Pricing" },
   { href: "/about", label: "About" },
+  { href: "/reviews", label: "Reviews" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];

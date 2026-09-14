@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { href: "/pricing", label: "Pricing" },
   { href: "/service-areas", label: "Service Areas" },
   { href: "/about", label: "About" },
+  { href: "/reviews", label: "Reviews" },
   { href: "/faq", label: "FAQ" },
 ];
 

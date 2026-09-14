@@ -1,7 +1,9 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { AppointmentStatus } from "@prisma/client";
+import { format } from "date-fns";
 import { getAppointments, type AppointmentFilters } from "./actions";
+import { AppointmentsCalendar } from "./components/AppointmentsCalendar";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
@@ -157,23 +159,49 @@ export default async function AppointmentsPage({
     dateTo: typeof params.dateTo === "string" ? params.dateTo : undefined,
     page: typeof params.page === "string" ? Number.parseInt(params.page, 10) : undefined,
   };
+  const view = params.view === "calendar" ? "calendar" : "list";
+  const month =
+    typeof params.month === "string" && /^\d{4}-\d{2}$/.test(params.month)
+      ? params.month
+      : format(new Date(), "yyyy-MM");
 
   return (
     <div className="space-y-6">
-      <div className="mb-6 lg:mb-8">
-        <h1 className="font-headline text-2xl font-bold text-brand-primary lg:text-3xl">
-          Appointments
-        </h1>
-        <p className="mt-1 text-sm text-brand-muted">View and manage scheduled appointments.</p>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between lg:mb-8">
+        <div>
+          <h1 className="font-headline text-2xl font-bold text-brand-primary lg:text-3xl">
+            Appointments
+          </h1>
+          <p className="mt-1 text-sm text-brand-muted">View and manage scheduled appointments.</p>
+        </div>
+        <div className="flex gap-2">
+          <Button asChild variant={view === "list" ? "secondary" : "outline"} size="sm">
+            <Link href="/admin/appointments">List</Link>
+          </Button>
+          <Button asChild variant={view === "calendar" ? "secondary" : "outline"} size="sm">
+            <Link href="/admin/appointments?view=calendar">Calendar</Link>
+          </Button>
+          <Button asChild size="sm">
+            <Link href="/admin/appointments/new">New appointment</Link>
+          </Button>
+        </div>
       </div>
 
-      <div className="rounded-lg border border-brand-border bg-brand-surface p-4 shadow-sm">
-        <FilterForm filters={filters} />
-      </div>
+      {view === "calendar" ? (
+        <Suspense fallback={<p className="text-brand-muted">Loading appointments...</p>}>
+          <AppointmentsCalendar month={month} />
+        </Suspense>
+      ) : (
+        <>
+          <div className="rounded-lg border border-brand-border bg-brand-surface p-4 shadow-sm">
+            <FilterForm filters={filters} />
+          </div>
 
-      <Suspense fallback={<p className="text-brand-muted">Loading appointments...</p>}>
-        <AppointmentsTable filters={filters} />
-      </Suspense>
+          <Suspense fallback={<p className="text-brand-muted">Loading appointments...</p>}>
+            <AppointmentsTable filters={filters} />
+          </Suspense>
+        </>
+      )}
     </div>
   );
 }

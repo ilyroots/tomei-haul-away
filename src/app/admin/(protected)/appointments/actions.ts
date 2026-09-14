@@ -3,10 +3,15 @@
 import { revalidatePath } from "next/cache";
 import { AppointmentStatus, Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/prisma";
-import { updateAppointmentStatusSchema, internalNoteSchema } from "@/lib/validation/schemas";
+import {
+  updateAppointmentStatusSchema,
+  createManualAppointmentSchema,
+  internalNoteSchema,
+} from "@/lib/validation/schemas";
 import { requireAdmin, logAuditAction } from "@/lib/audit/audit";
 import { logger } from "@/lib/logging/logger";
 import { getSignedDownloadUrl } from "@/lib/storage/s3";
+import { generateReferenceNumber, generateSubmissionToken } from "@/lib/security/helpers";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -78,10 +83,12 @@ function getDayOfWeek(date: Date): number {
   return date.getUTCDay();
 }
 
-function parseArrivalWindow(value: string): {
+// Exported for reuse by other admin actions. Must stay async because this is a
+// "use server" module, which can only export async functions.
+export async function parseArrivalWindow(value: string): Promise<{
   arrivalWindow?: "MORNING" | "AFTERNOON" | "EVENING" | "ANYTIME";
   arrivalWindowLabel?: string;
-} {
+}> {
   const upper = value.toUpperCase();
   if (["MORNING", "AFTERNOON", "EVENING", "ANYTIME"].includes(upper)) {
     return { arrivalWindow: upper as "MORNING" | "AFTERNOON" | "EVENING" | "ANYTIME" };
@@ -110,7 +117,7 @@ export async function checkCapacity(
     return { ok: false, message: "No availability windows configured for this day." };
   }
 
-  const arrivalWindowData = parseArrivalWindow(arrivalWindowLabel);
+  const arrivalWindowData = await parseArrivalWindow(arrivalWindowLabel);
   const targetWindows = windows.filter(
     (w) =>
       !arrivalWindowLabel ||
@@ -253,6 +260,151 @@ export async function getAppointmentById(id: string) {
 
 export type ActionResult = { success: true } | { success: false; message: string };
 
+export type CreateAppointmentResult =
+  | { success: true; appointmentId: string }
+  | { success: false; message: string };
+
+export async function createManualAppointment(input: {
+  contactName: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  line1?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+  scheduledDate: Date | string;
+  arrivalWindow: string;
+  estimatedPrice?: number;
+  crewNotes?: string;
+}): Promise<CreateAppointmentResult> {
+  const session = await requireAdmin();
+
+  const parsed = createManualAppointmentSchema.safeParse(input);
+  if (!parsed.success) {
+    return { success: false, message: "Invalid input." };
+  }
+
+  try {
+    const data = parsed.data;
+
+    const capacity = await checkCapacity(data.scheduledDate, data.arrivalWindow);
+    if (!capacity.ok) {
+      return { success: false, message: capacity.message };
+    }
+
+    const arrivalWindowData = await parseArrivalWindow(data.arrivalWindow);
+    const hasAddress = Boolean(data.line1 && data.city && data.zip);
+    const email = data.contactEmail ? data.contactEmail.toLowerCase() : null;
+
+    // Build reference number (retry on collision), mirroring the public schedule flow.
+    let referenceNumber = generateReferenceNumber();
+    let attempts = 0;
+    while (attempts < 5) {
+      const existing = await prisma.lead.findUnique({ where: { referenceNumber } });
+      if (!existing) break;
+      referenceNumber = generateReferenceNumber();
+      attempts += 1;
+    }
+
+    const result = await prisma.$transaction(async (tx) => {
+      const customer = email
+        ? await tx.customer.upsert({
+            where: { email },
+            update: {
+              name: data.contactName,
+              phone: data.contactPhone || undefined,
+            },
+            create: {
+              email,
+              name: data.contactName,
+              phone: data.contactPhone || null,
+            },
+          })
+        : await tx.customer.create({
+            data: {
+              name: data.contactName,
+              phone: data.contactPhone || null,
+            },
+          });
+
+      const address = hasAddress
+        ? await tx.address.create({
+            data: {
+              line1: data.line1 as string,
+              city: data.city as string,
+              state: ((data.state as string) || "CA").toUpperCase(),
+              zip: data.zip as string,
+              customerId: customer.id,
+            },
+          })
+        : null;
+
+      const lead = await tx.lead.create({
+        data: {
+          referenceNumber,
+          submissionToken: generateSubmissionToken(),
+          source: "manual-entry",
+          status: "SCHEDULED",
+          contactName: data.contactName,
+          contactEmail: email ?? "",
+          contactPhone: data.contactPhone || null,
+          contactPreference: "EMAIL",
+          customerId: customer.id,
+          addressId: address?.id ?? null,
+          marketingConsent: false,
+          consentToContact: true,
+          privacyPolicyAcknowledged: true,
+        },
+      });
+
+      const appointment = await tx.appointment.create({
+        data: {
+          leadId: lead.id,
+          customerId: customer.id,
+          addressId: address?.id ?? null,
+          scheduledDate: data.scheduledDate,
+          arrivalWindow: arrivalWindowData.arrivalWindow,
+          arrivalWindowLabel: arrivalWindowData.arrivalWindowLabel ?? data.arrivalWindow,
+          status: "CONFIRMED",
+          estimatedPrice: data.estimatedPrice ?? null,
+          crewNotes: data.crewNotes ?? null,
+        },
+      });
+
+      await tx.statusHistory.create({
+        data: {
+          entityType: "Lead",
+          entityId: lead.id,
+          fromStatus: null,
+          toStatus: "SCHEDULED",
+          changedById: session.user.id,
+          reason: "Manual appointment entry",
+        },
+      });
+
+      return { lead, appointment };
+    });
+
+    await logAuditAction({
+      action: "APPOINTMENT_CREATED_MANUAL",
+      entityType: "Appointment",
+      entityId: result.appointment.id,
+      metadata: {
+        leadId: result.lead.id,
+        referenceNumber,
+        scheduledDate: data.scheduledDate.toISOString(),
+        arrivalWindow: data.arrivalWindow,
+      },
+    });
+
+    revalidatePath("/admin/appointments");
+    return { success: true, appointmentId: result.appointment.id };
+  } catch (error) {
+    logger.error("Failed to create manual appointment", { error });
+    return { success: false, message: "Failed to create appointment." };
+  }
+}
+
 export async function updateAppointmentStatus(
   appointmentId: string,
   status: AppointmentStatus,
@@ -294,7 +446,7 @@ export async function updateAppointmentStatus(
       }
     }
 
-    const arrivalWindowData = parseArrivalWindow(newWindowLabel);
+    const arrivalWindowData = await parseArrivalWindow(newWindowLabel);
 
     await prisma.$transaction([
       prisma.appointment.update({

@@ -23,21 +23,21 @@ export default async function AdminDashboardPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <div className="rounded-lg bg-brand-primary p-6 shadow">
-          <p className="text-sm font-medium text-brand-background/80">New leads</p>
-          <p className="mt-2 text-4xl font-bold text-brand-accent">{summary.newLeadsCount}</p>
+        <div className="rounded-lg border border-brand-border bg-brand-surface p-6 shadow-sm">
+          <p className="text-sm font-medium text-brand-muted">New leads</p>
+          <p className="mt-2 text-4xl font-bold text-brand-primary">{summary.newLeadsCount}</p>
         </div>
-        <div className="rounded-lg bg-brand-primary p-6 shadow">
-          <p className="text-sm font-medium text-brand-background/80">
+        <div className="rounded-lg border border-brand-border bg-brand-surface p-6 shadow-sm">
+          <p className="text-sm font-medium text-brand-muted">
             Upcoming appointment requests
           </p>
-          <p className="mt-2 text-4xl font-bold text-brand-accent">
+          <p className="mt-2 text-4xl font-bold text-brand-primary">
             {summary.upcomingRequestsCount}
           </p>
         </div>
-        <div className="rounded-lg bg-brand-primary p-6 shadow">
-          <p className="text-sm font-medium text-brand-background/80">Leads needing follow-up</p>
-          <p className="mt-2 text-4xl font-bold text-brand-accent">{summary.followUpLeadsCount}</p>
+        <div className="rounded-lg border border-brand-border bg-brand-surface p-6 shadow-sm">
+          <p className="text-sm font-medium text-brand-muted">Leads needing follow-up</p>
+          <p className="mt-2 text-4xl font-bold text-brand-primary">{summary.followUpLeadsCount}</p>
         </div>
       </div>
 

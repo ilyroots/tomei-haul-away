@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { TrustRow } from "@/components/public/TrustRow";
 import { ServiceCard } from "@/components/public/ServiceCard";
+import { TestimonialsSection } from "@/components/public/TestimonialsSection";
 import { FaqStructuredData } from "@/components/public/FaqStructuredData";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
@@ -225,7 +226,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 6. Service area */}
+      {/* 6. Reviews */}
+      <TestimonialsSection />
+
+      {/* 7. Service area */}
       <section className="py-12 md:py-14" aria-labelledby="service-area-heading">
         <div className="container mx-auto px-4 text-center">
           <SectionHeading
@@ -242,7 +246,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 7. FAQs (hidden until at least 4 real Q&As exist) */}
+      {/* 8. FAQs (hidden until at least 4 real Q&As exist) */}
       {homeFaqs.length >= 4 && (
         <section className="bg-brand-background py-12 md:py-14" aria-labelledby="faq-heading">
           <div className="container mx-auto px-4">
@@ -272,7 +276,7 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* 8. Final CTA */}
+      {/* 9. Final CTA */}
       <section
         className="relative overflow-hidden py-20 md:py-28"
         aria-labelledby="final-cta-heading"

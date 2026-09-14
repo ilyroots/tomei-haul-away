@@ -19,7 +19,7 @@ export default function AdminLoginPage() {
         <h1 className="mb-2 text-center font-headline text-3xl font-bold text-brand-background">
           Tomei Admin
         </h1>
-        <p className="mb-8 text-center text-brand-background/80">
+        <p className="mb-8 text-center text-brand-background">
           Sign in to manage leads and appointments.
         </p>
 
@@ -29,14 +29,14 @@ export default function AdminLoginPage() {
 
         <form action={action} className="space-y-5">
           <div>
-            <Label htmlFor="email" isRequired className="text-brand-background/80">
+            <Label htmlFor="email" isRequired className="text-brand-background">
               Email
             </Label>
             <Input id="email" name="email" type="email" autoComplete="email" required />
           </div>
 
           <div>
-            <Label htmlFor="password" isRequired className="text-brand-background/80">
+            <Label htmlFor="password" isRequired className="text-brand-background">
               Password
             </Label>
             <Input

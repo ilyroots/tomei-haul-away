@@ -4,6 +4,7 @@ import { StatusUpdateForm } from "../components/StatusUpdateForm";
 import { PriceUpdateForm } from "../components/PriceUpdateForm";
 import { NoteForm } from "../components/NoteForm";
 import { AppointmentEditForm } from "../components/AppointmentEditForm";
+import { ConvertToAppointmentForm } from "../components/ConvertToAppointmentForm";
 
 function formatPhone(phone: string | null): string {
   if (!phone) return "—";
@@ -220,15 +221,16 @@ export default async function LeadDetailPage({ params }: { params: Promise<{ id:
           {/* Appointments */}
           <section className="rounded-lg border border-brand-border bg-brand-surface p-6 shadow-sm">
             <h2 className="mb-4 text-xl font-bold text-brand-primary">Appointments</h2>
-            {lead.appointments.length === 0 ? (
-              <p className="text-brand-muted">No appointments linked to this lead.</p>
-            ) : (
-              <div className="space-y-4">
-                {lead.appointments.map((appt) => (
+            <div className="space-y-4">
+              <ConvertToAppointmentForm leadId={lead.id} />
+              {lead.appointments.length === 0 ? (
+                <p className="text-brand-muted">No appointments linked to this lead.</p>
+              ) : (
+                lead.appointments.map((appt) => (
                   <AppointmentEditForm key={appt.id} appointment={appt} />
-                ))}
-              </div>
-            )}
+                ))
+              )}
+            </div>
           </section>
 
           {/* Photos */}

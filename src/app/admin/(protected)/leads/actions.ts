@@ -6,11 +6,13 @@ import { prisma } from "@/lib/db/prisma";
 import {
   updateLeadStatusSchema,
   updateLeadPriceSchema,
+  createAppointmentFromLeadSchema,
   internalNoteSchema,
 } from "@/lib/validation/schemas";
 import { requireAdmin, logAuditAction } from "@/lib/audit/audit";
 import { logger } from "@/lib/logging/logger";
 import { getSignedDownloadUrl } from "@/lib/storage/s3";
+import { checkCapacity, parseArrivalWindow } from "../appointments/actions";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -232,6 +234,89 @@ export async function updateLeadStatus(
   } catch (error) {
     logger.error("Failed to update lead status", { error, leadId, status });
     return { success: false, message: "Failed to update lead status." };
+  }
+}
+
+export async function createAppointmentFromLead(
+  leadId: string,
+  scheduledDate: Date | string,
+  arrivalWindow: string,
+  estimatedPrice?: number,
+  crewNotes?: string
+): Promise<ActionResult> {
+  const session = await requireAdmin();
+
+  const parsed = createAppointmentFromLeadSchema.safeParse({
+    leadId,
+    scheduledDate,
+    arrivalWindow,
+    estimatedPrice,
+    crewNotes,
+  });
+  if (!parsed.success) {
+    return { success: false, message: "Invalid input." };
+  }
+
+  try {
+    const lead = await prisma.lead.findUnique({ where: { id: parsed.data.leadId } });
+    if (!lead) {
+      return { success: false, message: "Lead not found." };
+    }
+
+    const capacity = await checkCapacity(parsed.data.scheduledDate, parsed.data.arrivalWindow);
+    if (!capacity.ok) {
+      return { success: false, message: capacity.message };
+    }
+
+    const arrivalWindowData = await parseArrivalWindow(parsed.data.arrivalWindow);
+
+    const [appointment] = await prisma.$transaction([
+      prisma.appointment.create({
+        data: {
+          leadId: lead.id,
+          customerId: lead.customerId,
+          addressId: lead.addressId,
+          scheduledDate: parsed.data.scheduledDate,
+          arrivalWindow: arrivalWindowData.arrivalWindow,
+          arrivalWindowLabel: arrivalWindowData.arrivalWindowLabel ?? parsed.data.arrivalWindow,
+          status: "CONFIRMED",
+          estimatedPrice: parsed.data.estimatedPrice ?? null,
+          crewNotes: parsed.data.crewNotes ?? null,
+        },
+      }),
+      prisma.lead.update({
+        where: { id: lead.id },
+        data: { status: "SCHEDULED" },
+      }),
+      prisma.statusHistory.create({
+        data: {
+          entityType: "Lead",
+          entityId: lead.id,
+          fromStatus: lead.status,
+          toStatus: "SCHEDULED",
+          changedById: session.user.id,
+          reason: "Converted to appointment",
+        },
+      }),
+    ]);
+
+    await logAuditAction({
+      action: "LEAD_CONVERTED_TO_APPOINTMENT",
+      entityType: "Lead",
+      entityId: lead.id,
+      metadata: {
+        appointmentId: appointment.id,
+        scheduledDate: parsed.data.scheduledDate.toISOString(),
+        arrivalWindow: parsed.data.arrivalWindow,
+      },
+    });
+
+    revalidatePath(`/admin/leads/${lead.id}`);
+    revalidatePath("/admin/appointments");
+    return { success: true };
+  } catch (error) {
+    logger.error("Failed to convert lead to appointment", { error, leadId });
+    return { success: false, message: "Failed to create appointment." };
   }
 }
 

@@ -11,7 +11,14 @@ export function DeleteButton({ id }: { id: string }) {
   );
 
   return (
-    <form action={action}>
+    <form
+      action={action}
+      onSubmit={(e) => {
+        if (!window.confirm("Delete this testimonial? This cannot be undone.")) {
+          e.preventDefault();
+        }
+      }}
+    >
       <Button type="submit" size="sm" variant="outline" isLoading={pending}>
         Delete
       </Button>

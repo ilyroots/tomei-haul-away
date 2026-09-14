@@ -40,6 +40,8 @@ export async function createTestimonial(formData: FormData): Promise<ActionResul
       metadata: { authorName: parsed.data.authorName },
     });
     revalidatePath("/admin/testimonials");
+    revalidatePath("/reviews");
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     logger.error("Failed to create testimonial", { error });
@@ -64,6 +66,8 @@ export async function updateTestimonial(id: string, formData: FormData): Promise
       metadata: { authorName: parsed.data.authorName },
     });
     revalidatePath("/admin/testimonials");
+    revalidatePath("/reviews");
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     logger.error("Failed to update testimonial", { error, id });
@@ -82,6 +86,8 @@ export async function deleteTestimonial(id: string): Promise<ActionResult> {
       entityId: id,
     });
     revalidatePath("/admin/testimonials");
+    revalidatePath("/reviews");
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     logger.error("Failed to delete testimonial", { error, id });
@@ -103,6 +109,8 @@ export async function toggleTestimonialApproval(
       entityId: id,
     });
     revalidatePath("/admin/testimonials");
+    revalidatePath("/reviews");
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     logger.error("Failed to toggle testimonial approval", { error, id });
