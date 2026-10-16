@@ -23,7 +23,7 @@ const config: Config = {
         },
         // Legacy named colors (kept for backwards compatibility)
         navy: {
-          DEFAULT: "#0B1F33",
+          DEFAULT: "#172D3A",
           50: "#E6EBF0",
           100: "#C1CED9",
           200: "#9AB0C2",
@@ -34,7 +34,7 @@ const config: Config = {
           700: "#26455C",
           800: "#1F3749",
           900: "#172935",
-          950: "#0B1F33",
+          950: "#172D3A",
         },
         orange: {
           DEFAULT: "#F26A21",

@@ -4,21 +4,21 @@
 
 :root {
   /* Brand colors */
-  --color-navy: #123b6d;
+  --color-navy: #172d3a;
   --color-orange: #f47b20;
   --color-white: #ffffff;
   --color-charcoal: #16324f;
   --color-blue-muted: #5b6f84;
 
   /* Semantic brand tokens */
-  --brand-primary: #123b6d;
+  --brand-primary: #172d3a;
   --brand-accent: #f47b20;
   --brand-background: #f7fbff;
   --brand-surface: #ffffff;
   --brand-text: #16324f;
   --brand-muted: #5b6f84;
   --brand-border: #dce6ef;
-  --brand-navy-hover: #0d2d54;
+  --brand-navy-hover: #10232d;
   --brand-accent-hover: #d96212;
 
   /* Semantic tokens */
