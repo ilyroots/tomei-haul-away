@@ -25,10 +25,10 @@ export interface SiteImage {
 // ---------------------------------------------------------------------------
 
 export const logoHorizontal: SiteImage = {
-  src: "/images/logos/drehauling-horizontal.png",
+  src: "/images/logos/drehauling-logo.png",
   alt: "DreHauling logo",
-  width: 2089,
-  height: 753,
+  width: 1792,
+  height: 1024,
   category: "logo",
   isPlaceholder: false,
   replacementNotes: "Master horizontal logo. Use for desktop header, emails, and social sharing.",

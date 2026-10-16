@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Button } from "@/components/ui/Button";
 import { getServiceImage } from "@/lib/public/images";
 
 interface ServiceCardProps {
@@ -26,16 +25,13 @@ export function ServiceCard({ slug, title, shortDescription }: ServiceCardProps)
       <div className="flex flex-1 flex-col p-5 md:p-6">
         <h3 className="text-xl font-bold text-brand-primary">{title}</h3>
         <p className="mt-2 flex-1 text-brand-text/80">{shortDescription}</p>
-        <div className="mt-4 flex items-center gap-3">
+        <div className="mt-4">
           <Link
             href={`/services/${slug}`}
-            className="text-sm font-semibold text-brand-primary hover:text-brand-accent hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
+            className="inline-flex min-h-11 items-center text-sm font-semibold text-brand-primary underline decoration-brand-accent decoration-2 underline-offset-4 hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
           >
-            Learn more
+            Learn about {title.toLowerCase()}
           </Link>
-          <Button asChild variant="primary" size="sm">
-            <Link href={`/quote?service=${slug}`}>Get a quote</Link>
-          </Button>
         </div>
       </div>
     </article>

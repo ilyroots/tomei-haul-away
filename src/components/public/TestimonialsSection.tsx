@@ -3,6 +3,7 @@ import { getApprovedTestimonials, getReviewStats } from "@/lib/public/data";
 import { StarRating } from "@/components/public/StarRating";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { Button } from "@/components/ui/Button";
+import { TestimonialsCarousel } from "@/components/public/TestimonialsCarousel";
 
 export async function TestimonialsSection() {
   const [testimonials, stats] = await Promise.all([getApprovedTestimonials(3), getReviewStats()]);
@@ -12,7 +13,7 @@ export async function TestimonialsSection() {
   }
 
   return (
-    <section className="bg-brand-background py-12 md:py-14" aria-labelledby="testimonials-heading">
+    <section className="bg-brand-background py-12 md:py-16" aria-labelledby="testimonials-heading">
       <div className="container mx-auto px-4">
         <SectionHeading id="testimonials-heading" title="What customers say" centered />
         {stats.total > 0 && (
@@ -26,20 +27,7 @@ export async function TestimonialsSection() {
             </p>
           </div>
         )}
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((testimonial) => (
-            <blockquote key={testimonial.id} className="rounded-xl bg-brand-surface p-6 shadow-sm">
-              {testimonial.rating && <StarRating rating={testimonial.rating} size="sm" />}
-              <p className="mt-3 text-brand-text/90">{testimonial.content}</p>
-              <footer className="mt-4">
-                <p className="font-semibold text-brand-primary">{testimonial.authorName}</p>
-                {testimonial.location && (
-                  <p className="text-sm text-brand-muted">{testimonial.location}</p>
-                )}
-              </footer>
-            </blockquote>
-          ))}
-        </div>
+        <TestimonialsCarousel testimonials={testimonials} />
         <div className="mt-10 text-center">
           <Button asChild variant="outline">
             <Link href="/reviews">Read all reviews</Link>
