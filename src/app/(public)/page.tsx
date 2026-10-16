@@ -7,7 +7,8 @@ import { heroImage, finalCtaImage } from "@/lib/public/images";
 import { Button } from "@/components/ui/Button";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { TrustRow } from "@/components/public/TrustRow";
-import { ServiceCard } from "@/components/public/ServiceCard";
+import { HeroQuoteStart } from "@/components/public/HeroQuoteStart";
+import { ServiceShowcase } from "@/components/public/ServiceShowcase";
 import { TestimonialsSection } from "@/components/public/TestimonialsSection";
 import { FaqStructuredData } from "@/components/public/FaqStructuredData";
 
@@ -32,31 +33,37 @@ const HOME_SERVICES = [
     slug: "furniture-removal",
     title: "Furniture Removal",
     shortDescription: "Couches, mattresses, dressers, and more — we carry it out carefully.",
+    category: "Home" as const,
   },
   {
     slug: "appliance-removal",
     title: "Appliance Removal",
     shortDescription: "Refrigerators, washers, dryers, and ovens hauled away safely.",
+    category: "Home" as const,
   },
   {
     slug: "garage-home-cleanouts",
     title: "Home & Garage Cleanouts",
     shortDescription: "Reclaim your garage, basement, or attic — we handle the whole cleanout.",
+    category: "Home" as const,
   },
   {
     slug: "yard-debris",
     title: "Yard Debris",
     shortDescription: "Branches, brush, and storm debris hauled off your property.",
+    category: "Property" as const,
   },
   {
     slug: "construction-renovation-debris",
     title: "Renovation Debris",
     shortDescription: "Drywall, lumber, and remodel leftovers off your job site.",
+    category: "Property" as const,
   },
   {
     slug: "estate-cleanouts",
     title: "Commercial & Estate Cleanouts",
     shortDescription: "Respectful, efficient cleanouts for estates, offices, and rentals.",
+    category: "Business" as const,
   },
 ];
 
@@ -131,9 +138,6 @@ export default async function HomePage() {
               businesses across the San Diego area — you point, we haul.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button asChild size="lg">
-                <Link href="/quote">Get a Free Quote</Link>
-              </Button>
               <Button
                 asChild
                 variant="outline"
@@ -143,6 +147,7 @@ export default async function HomePage() {
                 <a href={`tel:${PHONE}`}>Call {formatPhone(PHONE)}</a>
               </Button>
             </div>
+            <HeroQuoteStart />
           </div>
         </div>
       </section>
@@ -159,20 +164,8 @@ export default async function HomePage() {
             subtitle="Six services, one call. If it needs to go, we can probably take it."
             centered
           />
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-6">
-            {HOME_SERVICES.map((service) => (
-              <ServiceCard
-                key={service.slug}
-                slug={service.slug}
-                title={service.title}
-                shortDescription={service.shortDescription}
-              />
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Button asChild variant="outline">
-              <Link href="/services">View all services</Link>
-            </Button>
+          <div className="mt-8">
+            <ServiceShowcase services={HOME_SERVICES} />
           </div>
         </div>
       </section>
@@ -189,14 +182,21 @@ export default async function HomePage() {
             subtitle="Three steps and your space is clear."
             centered
           />
-          <div className="mx-auto mt-10 grid max-w-4xl gap-8 md:mt-12 md:grid-cols-3 md:gap-10">
+          <div className="mx-auto mt-10 grid max-w-5xl gap-8 md:mt-12 md:grid-cols-[0.7fr_1.3fr] md:gap-12">
+            <div className="md:sticky md:top-24 md:self-start">
+              <p className="text-sm font-semibold text-brand-accent">A simple three-step pickup</p>
+              <h3 className="mt-2 text-2xl font-bold text-brand-background md:text-3xl">From “what is this?” to “it’s gone.”</h3>
+              <p className="mt-4 max-w-sm text-brand-background/75">Tell us what you need cleared, choose a window, and let the crew handle the heavy lifting.</p>
+            </div>
+            <div className="relative space-y-8 border-l border-brand-background/25 pl-6 md:space-y-12">
             {STEPS.map((step, index) => (
-              <div key={step.title} className="text-center">
-                <span className="text-4xl font-bold text-brand-accent">{index + 1}</span>
-                <h3 className="mt-3 text-xl font-bold text-brand-background">{step.title}</h3>
-                <p className="mt-2 text-brand-background/80">{step.description}</p>
+              <div key={step.title} className="relative">
+                <span className="absolute -left-[2.05rem] top-0 flex h-8 w-8 items-center justify-center rounded-full bg-brand-accent text-sm font-bold text-brand-primary">{index + 1}</span>
+                <h3 className="text-xl font-bold text-brand-background">{step.title}</h3>
+                <p className="mt-2 max-w-xl text-brand-background/80">{step.description}</p>
               </div>
             ))}
+            </div>
           </div>
           <div className="mt-12 text-center">
             <Button asChild size="lg">
