@@ -1,7 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
 import { COMPANY_NAME, HOME_CITY, PHONE, EMAIL, formatPhone } from "@/lib/business/config";
-import { logoStacked } from "@/lib/public/images";
 
 const FOOTER_LINKS = [
   { href: "/services", label: "Services" },
@@ -31,13 +29,14 @@ export function Footer() {
             className="inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
             aria-label={`${COMPANY_NAME} home`}
           >
-            <Image
-              src={logoStacked.src}
-              alt={logoStacked.alt}
-              width={160}
-              height={182}
-              className="h-auto w-20"
-            />
+            <span className="flex items-center gap-2" aria-label={COMPANY_NAME}>
+              <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-accent text-lg font-black text-white">
+                D
+              </span>
+              <span className="font-headline text-2xl font-bold tracking-tight text-white">
+                Dre<span className="text-brand-accent">Hauling</span>
+              </span>
+            </span>
           </Link>
 
           <nav aria-label="Footer">

@@ -84,7 +84,7 @@ export function AdminSidebar({
               href="/admin"
               className="font-headline text-2xl font-bold text-brand-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent"
             >
-              Tomei <span className="text-brand-accent">Admin</span>
+              DreHauling <span className="text-brand-accent">Admin</span>
             </Link>
           </div>
 

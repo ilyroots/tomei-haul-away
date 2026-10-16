@@ -206,12 +206,12 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* 5. Why Tomei */}
+      {/* 5. Why DreHauling */}
       <section className="bg-brand-background py-12 md:py-14" aria-labelledby="why-heading">
         <div className="container mx-auto px-4">
           <SectionHeading
             id="why-heading"
-            title="Why homeowners call Tomei"
+            title="Why homeowners call DreHauling"
             subtitle="Three things you can count on every time."
             centered
           />

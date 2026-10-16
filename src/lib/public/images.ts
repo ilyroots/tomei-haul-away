@@ -1,7 +1,7 @@
 /**
- * Centralized public image content for the Tomei Haul Away site.
+ * Centralized public image content for the DreHauling site.
  *
- * Real Tomei photography lives in /public/images/tomei (isPlaceholder: false).
+ * Existing job photography lives in /public/images/tomei (isPlaceholder: false).
  * Remaining AI-generated placeholders are flagged with isPlaceholder: true and
  * should be replaced with real photography as it becomes available.
  */
@@ -26,7 +26,7 @@ export interface SiteImage {
 
 export const logoHorizontal: SiteImage = {
   src: "/images/logos/tomei-logo-horizontal.png",
-  alt: "Tomei Haul Away logo",
+  alt: "DreHauling logo",
   width: 2089,
   height: 753,
   category: "logo",
@@ -36,7 +36,7 @@ export const logoHorizontal: SiteImage = {
 
 export const logoIcon: SiteImage = {
   src: "/images/logos/tomei-logo-icon.png",
-  alt: "Tomei Haul Away icon mark",
+  alt: "DreHauling icon mark",
   width: 512,
   height: 512,
   category: "logo",
@@ -46,7 +46,7 @@ export const logoIcon: SiteImage = {
 
 export const logoStacked: SiteImage = {
   src: "/images/logos/tomei-logo-stacked.png",
-  alt: "Tomei Haul Away stacked logo",
+  alt: "DreHauling stacked logo",
   width: 1268,
   height: 1444,
   category: "logo",
@@ -56,7 +56,7 @@ export const logoStacked: SiteImage = {
 
 export const logoSocial: SiteImage = {
   src: "/images/logos/tomei-logo-social.webp",
-  alt: "Tomei Haul Away",
+  alt: "DreHauling",
   width: 1200,
   height: 630,
   category: "logo",
@@ -70,13 +70,13 @@ export const logoSocial: SiteImage = {
 
 export const heroImage: SiteImage = {
   src: "/images/tomei/hero-truck-crew.webp",
-  alt: "Tomei Haul Away truck and crew ready for a junk removal job",
+  alt: "DreHauling truck and crew ready for a junk removal job",
   width: 1600,
   height: 800,
   category: "hero",
   caption: "Serving homes, businesses, and estates across the San Diego area.",
   isPlaceholder: false,
-  replacementNotes: "Real Tomei photography: crew and truck on location.",
+  replacementNotes: "Existing job photography: crew and truck on location.",
 };
 
 export const quickQuoteImage: SiteImage = {
@@ -129,13 +129,13 @@ export const scheduleImage: SiteImage = {
 
 export const finalCtaImage: SiteImage = {
   src: "/images/tomei/garage-empty-after.webp",
-  alt: "Clean, empty garage after a Tomei Haul Away cleanout",
+  alt: "Clean, empty garage after a DreHauling cleanout",
   width: 1200,
   height: 800,
   category: "page",
   caption: "Ready to reclaim your space?",
   isPlaceholder: false,
-  replacementNotes: "Real Tomei photography: completed garage cleanout.",
+  replacementNotes: "Existing job photography: completed garage cleanout.",
 };
 
 // ---------------------------------------------------------------------------
@@ -144,7 +144,7 @@ export const finalCtaImage: SiteImage = {
 
 export const sofaRemovalImage: SiteImage = {
   src: "/images/tomei/sofa-removal.webp",
-  alt: "Tomei crew members carrying a sofa out of a home",
+  alt: "DreHauling crew members carrying a sofa out of a home",
   width: 1200,
   height: 900,
   category: "service",
@@ -154,7 +154,7 @@ export const sofaRemovalImage: SiteImage = {
 
 export const refrigeratorRemovalImage: SiteImage = {
   src: "/images/tomei/refrigerator-removal.webp",
-  alt: "Tomei crew loading a refrigerator for appliance removal",
+  alt: "DreHauling crew loading a refrigerator for appliance removal",
   width: 1200,
   height: 900,
   category: "service",
@@ -188,7 +188,7 @@ export const renovationDebrisTrailerImage: SiteImage = {
 
 export const aboutOwnerImage: SiteImage = {
   src: "/images/placeholders/pages/tomei-about-owner-placeholder.webp",
-  alt: "Tomei Haul Away owner",
+  alt: "DreHauling owner",
   width: 1200,
   height: 800,
   category: "page",
@@ -199,7 +199,7 @@ export const aboutOwnerImage: SiteImage = {
 
 export const aboutCrewImage: SiteImage = {
   src: "/images/placeholders/pages/tomei-about-crew-placeholder.webp",
-  alt: "Tomei Haul Away crew",
+  alt: "DreHauling crew",
   width: 1200,
   height: 800,
   category: "page",
@@ -210,7 +210,7 @@ export const aboutCrewImage: SiteImage = {
 
 export const aboutTruckImage: SiteImage = {
   src: "/images/placeholders/pages/tomei-about-truck-placeholder.webp",
-  alt: "Tomei Haul Away truck and equipment",
+  alt: "DreHauling truck and equipment",
   width: 1200,
   height: 800,
   category: "page",
@@ -222,7 +222,7 @@ export const aboutTruckImage: SiteImage = {
 
 export const aboutCommunityImage: SiteImage = {
   src: "/images/placeholders/pages/tomei-about-community-placeholder.webp",
-  alt: "Communities served by Tomei Haul Away",
+  alt: "Communities served by DreHauling",
   width: 1200,
   height: 800,
   category: "page",
@@ -238,7 +238,7 @@ export const aboutCommunityImage: SiteImage = {
 
 export const contactImage: SiteImage = {
   src: "/images/placeholders/pages/tomei-contact-placeholder.webp",
-  alt: "Friendly Tomei Haul Away crew member",
+  alt: "Friendly DreHauling crew member",
   width: 1200,
   height: 800,
   category: "page",
@@ -400,7 +400,7 @@ export const galleryPairs: Array<{ before: SiteImage; after: SiteImage }> = Arra
 
 export const teamImage: SiteImage = {
   src: "/images/placeholders/team/tomei-team-placeholder.webp",
-  alt: "Tomei Haul Away team members",
+  alt: "DreHauling team members",
   width: 1200,
   height: 800,
   category: "team",
@@ -457,7 +457,7 @@ export const serviceAreaImages: SiteImage[] = Array.from({ length: 5 }, (_, i) =
   const num = String(i + 1).padStart(2, "0");
   return {
     src: `/images/placeholders/service-areas/tomei-service-area-${num}-placeholder.webp`,
-    alt: `Residential neighborhood in the Tomei Haul Away service area`,
+    alt: `Residential neighborhood in the DreHauling service area`,
     width: 1200,
     height: 800,
     category: "service-area",

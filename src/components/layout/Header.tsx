@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { COMPANY_NAME, PHONE, formatPhone } from "@/lib/business/config";
-import { logoHorizontal, logoIcon } from "@/lib/public/images";
 
 const NAV_LINKS = [
   { href: "/services", label: "Services" },
@@ -26,22 +24,14 @@ export function Header() {
           className="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
           aria-label={`${COMPANY_NAME} home`}
         >
-          <Image
-            src={logoHorizontal.src}
-            alt={logoHorizontal.alt}
-            width={180}
-            height={65}
-            priority
-            className="hidden h-auto w-44 md:block"
-          />
-          <Image
-            src={logoIcon.src}
-            alt={logoIcon.alt}
-            width={48}
-            height={48}
-            priority
-            className="block h-12 w-auto md:hidden"
-          />
+          <span className="flex items-center gap-2" aria-label={COMPANY_NAME}>
+            <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-accent text-lg font-black text-white shadow-sm">
+              D
+            </span>
+            <span className="font-headline text-2xl font-bold tracking-tight text-brand-primary">
+              Dre<span className="text-brand-accent">Hauling</span>
+            </span>
+          </span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">

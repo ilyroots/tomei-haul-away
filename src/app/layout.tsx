@@ -18,8 +18,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Tomei Haul Away | Junk Removal",
-    template: "%s | Tomei Haul Away",
+    default: "DreHauling | Junk Removal",
+    template: "%s | DreHauling",
   },
   description:
     "Reliable junk removal and cleanout services for homes, businesses, and estates in the San Diego area. Request a free quote today.",

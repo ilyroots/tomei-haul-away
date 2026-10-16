@@ -4,22 +4,22 @@
 
 :root {
   /* Brand colors */
-  --color-navy: #0b1f33;
-  --color-orange: #f26a21;
-  --color-cream: #f7f4ed;
-  --color-charcoal: #17212b;
-  --color-sage: #728477;
+  --color-navy: #123b6d;
+  --color-orange: #f47b20;
+  --color-white: #ffffff;
+  --color-charcoal: #16324f;
+  --color-blue-muted: #5b6f84;
 
   /* Semantic brand tokens */
-  --brand-primary: #0b1f33;
-  --brand-accent: #f26a21;
-  --brand-background: #f7f4ed;
+  --brand-primary: #123b6d;
+  --brand-accent: #f47b20;
+  --brand-background: #f7fbff;
   --brand-surface: #ffffff;
-  --brand-text: #17212b;
-  --brand-muted: #607080;
-  --brand-border: #d8dad8;
-  --brand-navy-hover: #071625;
-  --brand-accent-hover: #d95712;
+  --brand-text: #16324f;
+  --brand-muted: #5b6f84;
+  --brand-border: #dce6ef;
+  --brand-navy-hover: #0d2d54;
+  --brand-accent-hover: #d96212;
 
   /* Semantic tokens */
   --background: var(--brand-background);
@@ -98,7 +98,7 @@
     top: -40px;
     left: 0;
     background: var(--color-navy);
-    color: var(--color-cream);
+    color: #ffffff;
     padding: 0.5rem 1rem;
     z-index: 100;
     transition: top 0.2s;

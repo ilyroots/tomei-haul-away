@@ -236,7 +236,7 @@ export async function previewEmailTemplate(templateName: EmailTemplateName): Pro
     case "quoteReceived":
       return `
         <p>Hi ${sample.name},</p>
-        <p>Thanks for contacting Tomei Haul Away. We received your request and will review it shortly.</p>
+        <p>Thanks for contacting DreHauling. We received your request and will review it shortly.</p>
         <p><strong>Reference:</strong> ${sample.referenceNumber}</p>
       `;
     case "moreInfoRequested":

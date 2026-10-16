@@ -22,7 +22,7 @@ function previewEmail(to: string | string[], subject: string, html: string) {
 }
 
 async function sendEmail(to: string | string[], subject: string, html: string) {
-  const from = RESEND_FROM_EMAIL ?? "Tomei Haul Away <hello@example.com>";
+  const from = RESEND_FROM_EMAIL ?? "DreHauling <hello@example.com>";
 
   if (!RESEND_FROM_EMAIL && process.env.NODE_ENV === "production") {
     throw new Error("RESEND_FROM_EMAIL is required in production.");
@@ -98,7 +98,7 @@ export const email = {
     const subject = `We received your quote request — ${payload.referenceNumber}`;
     const html = `
       <p>Hi ${payload.name},</p>
-      <p>Thanks for contacting Tomei Haul Away. We received your request and will review it shortly.</p>
+      <p>Thanks for contacting DreHauling. We received your request and will review it shortly.</p>
       <p><strong>Reference:</strong> ${payload.referenceNumber}</p>
       <p><a href="${APP_URL}">Visit our site</a></p>
     `;

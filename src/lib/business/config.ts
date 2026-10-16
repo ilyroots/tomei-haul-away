@@ -1,5 +1,5 @@
-export const COMPANY_NAME = "Tomei Haul Away" as const;
-export const OWNER_NAME = "Tomei" as const;
+export const COMPANY_NAME = "DreHauling" as const;
+export const OWNER_NAME = "DreHauling" as const;
 export const HOME_CITY = "San Diego, CA" as const;
 export const HOME_STATE = "CA" as const;
 
