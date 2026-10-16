@@ -25,7 +25,7 @@ export interface SiteImage {
 // ---------------------------------------------------------------------------
 
 export const logoHorizontal: SiteImage = {
-  src: "/images/logos/tomei-logo-horizontal.png",
+  src: "/images/logos/drehauling-logo.png",
   alt: "DreHauling logo",
   width: 2089,
   height: 753,
@@ -35,7 +35,7 @@ export const logoHorizontal: SiteImage = {
 };
 
 export const logoIcon: SiteImage = {
-  src: "/images/logos/tomei-logo-icon.png",
+  src: "/images/logos/drehauling-logo.png",
   alt: "DreHauling icon mark",
   width: 512,
   height: 512,
@@ -45,7 +45,7 @@ export const logoIcon: SiteImage = {
 };
 
 export const logoStacked: SiteImage = {
-  src: "/images/logos/tomei-logo-stacked.png",
+  src: "/images/logos/drehauling-logo.png",
   alt: "DreHauling stacked logo",
   width: 1268,
   height: 1444,
@@ -55,7 +55,7 @@ export const logoStacked: SiteImage = {
 };
 
 export const logoSocial: SiteImage = {
-  src: "/images/logos/tomei-logo-social.webp",
+  src: "/images/logos/drehauling-logo.png",
   alt: "DreHauling",
   width: 1200,
   height: 630,
