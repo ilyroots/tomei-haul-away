@@ -486,6 +486,7 @@ export async function submitScheduleRequest(formData: FormData): Promise<Schedul
         address: `${result.address.line1}, ${result.address.city}, ${result.address.state} ${result.address.zip}`,
       }),
       email.internalNewLead({
+        leadId: result.lead.id,
         referenceNumber,
         name: data.contact.name,
         email: normalizedEmail,

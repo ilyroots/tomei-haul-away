@@ -84,7 +84,7 @@ function recordRateLimit(key: string): void {
 // ---------------------------------------------------------------------------
 
 export type SubmissionResult =
-  | { success: true; referenceNumber: string }
+  | { success: true; referenceNumber: string; notificationWarning?: string }
   | {
       success: false;
       message: string;
@@ -406,6 +406,7 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
         services: serviceTitles,
       }),
       email.internalNewLead({
+        leadId: lead.id,
         referenceNumber,
         name: contactName,
         email: normalizedEmail,
@@ -423,9 +424,10 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
         failureCount: failedNotifications.length,
       });
       return {
-        success: false,
-        message:
-          "Your quote request was saved, but we could not send a confirmation notification. Please call us so we can confirm receipt.",
+        success: true,
+        referenceNumber,
+        notificationWarning:
+          "Your request was saved. We are having trouble sending the confirmation email, so please keep your reference number.",
       };
     }
 

@@ -7,6 +7,19 @@ const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
 const BUSINESS_NOTIFICATION_EMAIL = process.env.BUSINESS_NOTIFICATION_EMAIL ?? EMAIL;
 const APP_URL = process.env.APP_URL ?? "http://localhost:3000";
 
+function escapeHtml(value: string): string {
+  return value.replace(/[&<>"']/g, (character) => {
+    const entities: Record<string, string> = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+    return entities[character] ?? character;
+  });
+}
+
 function getClient(): Resend | null {
   if (!RESEND_API_KEY) {
     if (process.env.NODE_ENV === "production") {
@@ -21,7 +34,12 @@ function previewEmail(to: string | string[], subject: string, html: string) {
   logger.info("[EMAIL PREVIEW]", { to, subject, htmlLength: html.length });
 }
 
-async function sendEmail(to: string | string[], subject: string, html: string) {
+async function sendEmail(
+  to: string | string[],
+  subject: string,
+  html: string,
+  options?: { replyTo?: string }
+) {
   const from = RESEND_FROM_EMAIL ?? "DreHauling <hello@example.com>";
 
   if (!RESEND_FROM_EMAIL && process.env.NODE_ENV === "production") {
@@ -40,6 +58,7 @@ async function sendEmail(to: string | string[], subject: string, html: string) {
     to: Array.isArray(to) ? to : [to],
     subject,
     html,
+    ...(options?.replyTo ? { replyTo: options.replyTo } : {}),
   });
 
   if (error) {
@@ -86,6 +105,7 @@ export type AppointmentPayload = {
 export type AppointmentReminderPayload = AppointmentPayload;
 
 export type InternalNewLeadPayload = {
+  leadId: string;
   referenceNumber: string;
   name: string;
   email: string;
@@ -175,13 +195,13 @@ export const email = {
     const html = `
       <p>A new quote request was submitted.</p>
       <ul>
-        <li><strong>Reference:</strong> ${payload.referenceNumber}</li>
-        <li><strong>Name:</strong> ${payload.name}</li>
-        <li><strong>Email:</strong> ${payload.email}</li>
-        ${payload.phone ? `<li><strong>Phone:</strong> ${payload.phone}</li>` : ""}
-        ${payload.services?.length ? `<li><strong>Services:</strong> ${payload.services.join(", ")}</li>` : ""}
+        <li><strong>Reference:</strong> ${escapeHtml(payload.referenceNumber)}</li>
+        <li><strong>Name:</strong> ${escapeHtml(payload.name)}</li>
+        <li><strong>Email:</strong> ${escapeHtml(payload.email)}</li>
+        ${payload.phone ? `<li><strong>Phone:</strong> ${escapeHtml(payload.phone)}</li>` : ""}
+        ${payload.services?.length ? `<li><strong>Services:</strong> ${payload.services.map(escapeHtml).join(", ")}</li>` : ""}
       </ul>
-      <p><a href="${APP_URL}/admin/leads/${payload.referenceNumber}">View in admin</a></p>
+      <p><a href="${APP_URL}/admin/leads/${encodeURIComponent(payload.leadId)}">View in admin</a></p>
     `;
     return sendEmail(BUSINESS_NOTIFICATION_EMAIL, subject, html);
   },

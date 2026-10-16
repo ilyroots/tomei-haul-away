@@ -277,7 +277,8 @@ export function QuoteForm({
       const result = await submitQuote(formData);
       if (result.success) {
         localStorage.removeItem(DRAFT_KEY);
-        router.push(`/thank-you?ref=${encodeURIComponent(result.referenceNumber)}`);
+        const warning = result.notificationWarning ? "&notification=warning" : "";
+        router.push(`/thank-you?ref=${encodeURIComponent(result.referenceNumber)}${warning}`);
       } else {
         setServerResult(result);
         setFieldErrors(result.errors);

@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 };
 
 interface ThankYouPageProps {
-  searchParams: Promise<{ ref?: string; scheduled?: string }>;
+  searchParams: Promise<{ ref?: string; scheduled?: string; notification?: string }>;
 }
 
 export default async function ThankYouPage({ searchParams }: ThankYouPageProps) {
-  const { ref, scheduled } = await searchParams;
+  const { ref, scheduled, notification } = await searchParams;
 
   return (
     <div className="container mx-auto px-4 py-16">
@@ -33,6 +33,12 @@ export default async function ThankYouPage({ searchParams }: ThankYouPageProps) 
         <p className="mt-3 text-lg text-brand-text/80">
           Your {scheduled ? "appointment request" : "quote request"} has been submitted.
         </p>
+
+        {notification === "warning" && (
+          <p className="mx-auto mt-4 max-w-xl rounded-md border border-brand-accent/40 bg-brand-accent/10 px-4 py-3 text-sm text-brand-primary">
+            We saved your request, but the confirmation email could not be sent. Keep your reference number and call or text us if you do not hear back.
+          </p>
+        )}
 
         {ref && (
           <div className="mt-6 rounded-lg bg-brand-background p-4">
