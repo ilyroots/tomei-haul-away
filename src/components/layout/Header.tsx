@@ -20,7 +20,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-brand-border bg-brand-background shadow-sm">
-      <div className="container mx-auto flex min-h-[4.5rem] items-center justify-between px-4 py-2 md:min-h-[5rem] md:px-6 md:py-2">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:h-[4.5rem] md:px-6">
         <Link
           href="/"
           className="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
@@ -33,7 +33,7 @@ export function Header() {
               width={190}
               height={108}
               priority
-              className="hidden h-auto w-44 md:block lg:w-48"
+              className="hidden h-11 w-auto object-contain md:block lg:h-12"
             />
             <Image
               src={logoIcon.src}
@@ -41,7 +41,7 @@ export function Header() {
               width={96}
               height={55}
               priority
-              className="block h-auto w-24 md:hidden"
+              className="block h-12 w-12 object-contain md:hidden"
             />
           </>
         </Link>

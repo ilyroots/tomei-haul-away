@@ -121,11 +121,8 @@ export default async function HomePage() {
           />
           <div className="absolute inset-0 bg-navy-950/65" />
         </div>
-        <div className="container relative z-10 mx-auto flex min-h-[62vh] flex-col justify-center px-4 py-20 md:min-h-[68vh] md:py-24">
+        <div className="container relative z-10 mx-auto flex min-h-[58vh] flex-col justify-center px-4 py-16 md:min-h-[64vh] md:py-20">
           <div className="max-w-2xl">
-            <p className="mb-4 text-sm font-semibold tracking-wide text-brand-accent md:text-base">
-              Junk removal across San Diego County
-            </p>
             <h1 className="text-balance text-4xl font-bold leading-[1.05] text-white md:text-5xl lg:text-6xl">
               Make Room for What&apos;s Next.
             </h1>
@@ -154,7 +151,7 @@ export default async function HomePage() {
       <TrustRow />
 
       {/* 3. Services */}
-      <section className="py-16 md:py-20" aria-labelledby="services-heading">
+      <section className="py-12 md:py-16" aria-labelledby="services-heading">
         <div className="container mx-auto px-4">
           <SectionHeading
             id="services-heading"
@@ -182,7 +179,7 @@ export default async function HomePage() {
 
       {/* 4. How it works */}
       <section
-        className="bg-brand-primary py-16 text-brand-background md:py-20"
+        className="bg-brand-primary py-12 text-brand-background md:py-16"
         aria-labelledby="how-it-works-heading"
       >
         <div className="container mx-auto px-4">
@@ -210,7 +207,7 @@ export default async function HomePage() {
       </section>
 
       {/* 5. Why DreHauling */}
-      <section className="bg-brand-background py-16 md:py-20" aria-labelledby="why-heading">
+      <section className="bg-brand-background py-12 md:py-16" aria-labelledby="why-heading">
         <div className="container mx-auto px-4">
           <SectionHeading
             id="why-heading"
