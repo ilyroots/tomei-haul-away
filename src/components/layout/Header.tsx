@@ -19,8 +19,8 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-brand-border bg-brand-background/95 backdrop-blur-sm">
-      <div className="container mx-auto flex items-center justify-between px-4 py-4">
+    <header className="sticky top-0 z-40 w-full border-b border-brand-border bg-brand-background shadow-sm">
+      <div className="container mx-auto flex min-h-[4.5rem] items-center justify-between px-4 py-2 md:min-h-[5rem] md:px-6 md:py-2">
         <Link
           href="/"
           className="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
@@ -30,45 +30,45 @@ export function Header() {
             <Image
               src={logoHorizontal.src}
               alt={logoHorizontal.alt}
-              width={220}
-              height={124}
+              width={190}
+              height={108}
               priority
-              className="hidden h-auto w-52 md:block"
+              className="hidden h-auto w-44 md:block lg:w-48"
             />
             <Image
               src={logoIcon.src}
               alt={logoIcon.alt}
-              width={120}
-              height={68}
+              width={96}
+              height={55}
               priority
-              className="block h-auto w-28 md:hidden"
+              className="block h-auto w-24 md:hidden"
             />
           </>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-8 md:flex">
-          <ul className="flex items-center gap-6">
+        <nav aria-label="Primary" className="hidden items-center gap-5 md:flex lg:gap-7">
+          <ul className="flex items-center gap-4 lg:gap-5">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="text-base font-medium text-brand-text transition-colors hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
+                  className="text-[0.9375rem] font-medium text-brand-text transition-colors hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
                 >
                   {link.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3 lg:gap-4">
             <a
               href={`tel:${PHONE}`}
-              className="text-base font-semibold text-brand-primary hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
+              className="text-[0.9375rem] font-semibold text-brand-primary hover:text-brand-accent focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
             >
               {formatPhone(PHONE)}
             </a>
             <Link
               href="/quote"
-              className="rounded-md bg-brand-accent px-5 py-2.5 text-base font-semibold text-brand-primary transition-colors hover:bg-brand-accent-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
+              className="rounded-md bg-brand-accent px-4 py-2 text-[0.9375rem] font-semibold text-brand-primary transition-colors hover:bg-brand-accent-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent focus-visible:ring-offset-2"
             >
               Get a Free Quote
             </Link>
