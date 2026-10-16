@@ -6,12 +6,12 @@ export function MobileBottomBar() {
     <div
       role="toolbar"
       aria-label="Quick contact"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-brand-border bg-brand-surface pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] md:hidden"
+      className="fixed bottom-0 left-0 right-0 z-50 border-t border-brand-border bg-brand-surface/98 pb-[env(safe-area-inset-bottom)] shadow-[0_-4px_12px_-4px_rgba(23,45,58,0.18)] backdrop-blur-sm md:hidden"
     >
       <div className="grid grid-cols-3 divide-x divide-brand-border">
         <a
           href={`tel:${PHONE}`}
-          className="flex flex-col items-center justify-center gap-1 px-2 py-3 text-brand-primary active:bg-brand-background focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent"
+          className="flex min-h-14 touch-manipulation flex-col items-center justify-center gap-1 px-2 py-2 text-brand-primary active:bg-brand-background focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent"
         >
           <svg
             className="h-5 w-5"
@@ -31,7 +31,7 @@ export function MobileBottomBar() {
         </a>
         <a
           href={`sms:${TEXT_NUMBER}`}
-          className="flex flex-col items-center justify-center gap-1 px-2 py-3 text-brand-primary active:bg-brand-background focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent"
+          className="flex min-h-14 touch-manipulation flex-col items-center justify-center gap-1 px-2 py-2 text-brand-primary active:bg-brand-background focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent"
         >
           <svg
             className="h-5 w-5"
@@ -51,7 +51,7 @@ export function MobileBottomBar() {
         </a>
         <Link
           href="/quote"
-          className="flex flex-col items-center justify-center gap-1 bg-brand-accent px-2 py-3 text-brand-primary active:bg-brand-accent-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent"
+          className="flex min-h-14 touch-manipulation flex-col items-center justify-center gap-1 bg-brand-accent px-2 py-2 text-brand-primary active:bg-brand-accent-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-brand-accent"
         >
           <svg
             className="h-5 w-5"

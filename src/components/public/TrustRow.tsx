@@ -8,12 +8,12 @@ const TRUST_ITEMS = [
 export function TrustRow() {
   return (
     <div className="border-b border-brand-border bg-brand-surface">
-      <div className="container mx-auto px-4 py-6">
-        <ul className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
+      <div className="container mx-auto px-4 py-4 md:py-5">
+        <ul className="flex flex-wrap items-center justify-center gap-x-7 gap-y-2 md:gap-x-10">
           {TRUST_ITEMS.map((item) => (
             <li
               key={item}
-              className="flex items-center gap-2 text-sm font-semibold text-brand-primary"
+              className="flex items-center gap-2 text-xs font-semibold text-brand-primary md:text-sm"
             >
               <svg
                 className="h-4 w-4 shrink-0 text-brand-accent"

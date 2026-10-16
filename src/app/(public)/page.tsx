@@ -119,14 +119,17 @@ export default async function HomePage() {
             sizes="100vw"
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-navy-950/60" />
+          <div className="absolute inset-0 bg-navy-950/65" />
         </div>
-        <div className="container relative z-10 mx-auto flex min-h-[70vh] flex-col justify-center px-4 py-24 md:py-32">
+        <div className="container relative z-10 mx-auto flex min-h-[62vh] flex-col justify-center px-4 py-20 md:min-h-[68vh] md:py-24">
           <div className="max-w-2xl">
-            <h1 className="text-4xl font-bold leading-tight text-white md:text-5xl lg:text-6xl">
+            <p className="mb-4 text-sm font-semibold tracking-wide text-brand-accent md:text-base">
+              Junk removal across San Diego County
+            </p>
+            <h1 className="text-balance text-4xl font-bold leading-[1.05] text-white md:text-5xl lg:text-6xl">
               Make Room for What&apos;s Next.
             </h1>
-            <p className="mt-5 max-w-xl text-lg text-white/90">
+            <p className="mt-5 max-w-xl text-base leading-7 text-white/90 md:text-lg">
               {COMPANY_NAME} removes junk, furniture, appliances, and debris from homes and
               businesses across the San Diego area — you point, we haul.
             </p>
@@ -151,7 +154,7 @@ export default async function HomePage() {
       <TrustRow />
 
       {/* 3. Services */}
-      <section className="py-12 md:py-14" aria-labelledby="services-heading">
+      <section className="py-16 md:py-20" aria-labelledby="services-heading">
         <div className="container mx-auto px-4">
           <SectionHeading
             id="services-heading"
@@ -159,7 +162,7 @@ export default async function HomePage() {
             subtitle="Six services, one call. If it needs to go, we can probably take it."
             centered
           />
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-6">
             {HOME_SERVICES.map((service) => (
               <ServiceCard
                 key={service.slug}
@@ -179,7 +182,7 @@ export default async function HomePage() {
 
       {/* 4. How it works */}
       <section
-        className="bg-brand-primary py-12 text-brand-background md:py-14"
+        className="bg-brand-primary py-16 text-brand-background md:py-20"
         aria-labelledby="how-it-works-heading"
       >
         <div className="container mx-auto px-4">
@@ -189,7 +192,7 @@ export default async function HomePage() {
             subtitle="Three steps and your space is clear."
             centered
           />
-          <div className="mx-auto mt-12 grid max-w-4xl gap-10 md:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-8 md:mt-12 md:grid-cols-3 md:gap-10">
             {STEPS.map((step, index) => (
               <div key={step.title} className="text-center">
                 <span className="text-4xl font-bold text-brand-accent">{index + 1}</span>
@@ -207,7 +210,7 @@ export default async function HomePage() {
       </section>
 
       {/* 5. Why DreHauling */}
-      <section className="bg-brand-background py-12 md:py-14" aria-labelledby="why-heading">
+      <section className="bg-brand-background py-16 md:py-20" aria-labelledby="why-heading">
         <div className="container mx-auto px-4">
           <SectionHeading
             id="why-heading"
@@ -215,7 +218,7 @@ export default async function HomePage() {
             subtitle="Three things you can count on every time."
             centered
           />
-          <div className="mx-auto mt-12 grid max-w-4xl gap-8 md:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-8 md:mt-12 md:grid-cols-3">
             {WHY_ITEMS.map((item) => (
               <div key={item.title} className="border-t-4 border-brand-accent pt-5">
                 <h3 className="text-xl font-bold text-brand-primary">{item.title}</h3>

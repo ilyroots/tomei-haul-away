@@ -13,7 +13,7 @@ export function ServiceCard({ slug, title, shortDescription }: ServiceCardProps)
   const image = getServiceImage(slug);
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl bg-brand-surface shadow-sm transition-shadow hover:shadow-md">
+    <article className="flex flex-col overflow-hidden rounded-lg border border-brand-border bg-brand-surface shadow-sm transition-shadow hover:shadow-md">
       <div className="relative aspect-[3/2] w-full bg-brand-background">
         <Image
           src={image.src}
@@ -23,7 +23,7 @@ export function ServiceCard({ slug, title, shortDescription }: ServiceCardProps)
           className="object-cover"
         />
       </div>
-      <div className="flex flex-1 flex-col p-5">
+      <div className="flex flex-1 flex-col p-5 md:p-6">
         <h3 className="text-xl font-bold text-brand-primary">{title}</h3>
         <p className="mt-2 flex-1 text-brand-text/80">{shortDescription}</p>
         <div className="mt-4 flex items-center gap-3">
