@@ -1,9 +1,10 @@
 import { Resend } from "resend";
 import { logger } from "@/lib/logging/logger";
+import { EMAIL } from "@/lib/business/config";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
-const BUSINESS_NOTIFICATION_EMAIL = process.env.BUSINESS_NOTIFICATION_EMAIL;
+const BUSINESS_NOTIFICATION_EMAIL = process.env.BUSINESS_NOTIFICATION_EMAIL ?? EMAIL;
 const APP_URL = process.env.APP_URL ?? "http://localhost:3000";
 
 function getClient(): Resend | null {
@@ -170,14 +171,6 @@ export const email = {
   },
 
   internalNewLead: async (payload: InternalNewLeadPayload) => {
-    if (!BUSINESS_NOTIFICATION_EMAIL) {
-      if (process.env.NODE_ENV === "production") {
-        throw new Error("BUSINESS_NOTIFICATION_EMAIL is required in production.");
-      }
-      previewEmail("business@example.com", "New lead", JSON.stringify(payload));
-      return { id: "preview", preview: true };
-    }
-
     const subject = `New lead: ${payload.referenceNumber}`;
     const html = `
       <p>A new quote request was submitted.</p>

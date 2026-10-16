@@ -383,9 +383,22 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
     recordRateLimit(String(ip));
     recordRateLimit(data.email);
 
-    // Send emails
     const serviceTitles = serviceRecords.map((service) => service.title);
-    await Promise.allSettled([
+
+    await prisma.auditLog.create({
+      data: {
+        action: "QUOTE_SUBMITTED",
+        entityType: "Lead",
+        entityId: lead.id,
+        actorType: "Customer",
+        metadata: { referenceNumber, inServiceArea },
+        ipAddress: String(ip),
+        userAgent,
+      },
+    });
+
+    // Send emails after the lead and audit record are safely stored.
+    const notificationResults = await Promise.allSettled([
       email.quoteReceived({
         name: contactName,
         email: normalizedEmail,
@@ -401,17 +414,20 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
       }),
     ]);
 
-    await prisma.auditLog.create({
-      data: {
-        action: "QUOTE_SUBMITTED",
-        entityType: "Lead",
-        entityId: lead.id,
-        actorType: "Customer",
-        metadata: { referenceNumber, inServiceArea },
-        ipAddress: String(ip),
-        userAgent,
-      },
-    });
+    const failedNotifications = notificationResults.filter(
+      (result): result is PromiseRejectedResult => result.status === "rejected"
+    );
+    if (failedNotifications.length > 0) {
+      logger.error("Quote saved but one or more notifications failed", {
+        referenceNumber,
+        failureCount: failedNotifications.length,
+      });
+      return {
+        success: false,
+        message:
+          "Your quote request was saved, but we could not send a confirmation notification. Please call us so we can confirm receipt.",
+      };
+    }
 
     revalidatePath("/quote");
 

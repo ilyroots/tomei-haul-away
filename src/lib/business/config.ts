@@ -3,9 +3,8 @@ export const OWNER_NAME = "Tomei" as const;
 export const HOME_CITY = "San Diego, CA" as const;
 export const HOME_STATE = "CA" as const;
 
-// TODO(owner): replace with the real business number before launch — currently a placeholder 555 number
-export const PHONE = "+16195550100" as const;
-export const TEXT_NUMBER = "+16195550100" as const;
+export const PHONE = "+17607172074" as const;
+export const TEXT_NUMBER = "+17607172074" as const;
 export const EMAIL = "elexcruz226@gmail.com" as const;
 
 export const BUSINESS_HOURS = [
