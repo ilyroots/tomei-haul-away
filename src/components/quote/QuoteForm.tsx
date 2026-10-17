@@ -698,8 +698,17 @@ export function QuoteForm({
             {turnstileSiteKey && (
               <Turnstile
                 siteKey={turnstileSiteKey}
-                onVerify={setTurnstileToken}
-                onError={() => setTurnstileToken("")}
+                onVerify={(token) => {
+                  setTurnstileToken(token);
+                  setServerResult(null);
+                }}
+                onError={() => {
+                  setTurnstileToken("");
+                  setServerResult({
+                    success: false,
+                    message: "The security check expired or could not finish. Please try it again.",
+                  });
+                }}
               />
             )}
 

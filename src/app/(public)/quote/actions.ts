@@ -107,6 +107,14 @@ function parseArrivalWindow(value: string | undefined): {
   return { arrivalWindowLabel: value };
 }
 
+async function findSubmittedLead(token: string): Promise<string | null> {
+  const existing = await prisma.lead.findUnique({
+    where: { submissionToken: token },
+    select: { referenceNumber: true },
+  });
+  return existing?.referenceNumber ?? null;
+}
+
 async function uploadPhotos(
   files: File[],
   ownerType: string,
@@ -187,6 +195,10 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
         : generateSubmissionToken();
 
     if (isSubmissionTokenUsed(token)) {
+      const existingReference = await findSubmittedLead(token);
+      if (existingReference) {
+        return { success: true, referenceNumber: existingReference };
+      }
       return {
         success: false,
         message:
@@ -451,6 +463,20 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
 
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
+        const token = formData.get("data")?.toString();
+        if (token) {
+          try {
+            const parsed = JSON.parse(token) as { submissionToken?: unknown };
+            if (typeof parsed.submissionToken === "string") {
+              const existingReference = await findSubmittedLead(parsed.submissionToken);
+              if (existingReference) {
+                return { success: true, referenceNumber: existingReference };
+              }
+            }
+          } catch {
+            // Fall through to the generic duplicate response for malformed data.
+          }
+        }
         return {
           success: false,
           message: "A duplicate submission was detected. Please refresh and try again.",
