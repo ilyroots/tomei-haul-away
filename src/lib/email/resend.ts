@@ -1,10 +1,9 @@
 import { Resend } from "resend";
 import { logger } from "@/lib/logging/logger";
-import { EMAIL } from "@/lib/business/config";
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const RESEND_FROM_EMAIL = process.env.RESEND_FROM_EMAIL;
-const BUSINESS_NOTIFICATION_EMAIL = process.env.BUSINESS_NOTIFICATION_EMAIL ?? EMAIL;
+const BUSINESS_NOTIFICATION_EMAIL = process.env.BUSINESS_NOTIFICATION_EMAIL?.trim();
 const APP_URL = process.env.APP_URL ?? "http://localhost:3000";
 
 function escapeHtml(value: string): string {
@@ -32,6 +31,14 @@ function getClient(): Resend | null {
 
 function previewEmail(to: string | string[], subject: string, html: string) {
   logger.info("[EMAIL PREVIEW]", { to, subject, htmlLength: html.length });
+}
+
+function getBusinessNotificationEmail(): string {
+  if (BUSINESS_NOTIFICATION_EMAIL) return BUSINESS_NOTIFICATION_EMAIL;
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("BUSINESS_NOTIFICATION_EMAIL is required in production.");
+  }
+  return "quotes@drehauling.com";
 }
 
 async function sendEmail(
@@ -203,6 +210,6 @@ export const email = {
       </ul>
       <p><a href="${APP_URL}/admin/leads/${encodeURIComponent(payload.leadId)}">View in admin</a></p>
     `;
-    return sendEmail(BUSINESS_NOTIFICATION_EMAIL, subject, html);
+    return sendEmail(getBusinessNotificationEmail(), subject, html);
   },
 };

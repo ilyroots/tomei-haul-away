@@ -427,13 +427,19 @@ export async function submitQuote(formData: FormData): Promise<SubmissionResult>
       }),
     ]);
 
-    const failedNotifications = notificationResults.filter(
-      (result): result is PromiseRejectedResult => result.status === "rejected"
+    const failedNotifications = notificationResults.flatMap((result, index) =>
+      result.status === "rejected"
+        ? [{ channel: index === 0 ? "customer_confirmation" : "owner_notification", error: result.reason }]
+        : []
     );
     if (failedNotifications.length > 0) {
       logger.error("Quote saved but one or more notifications failed", {
         referenceNumber,
         failureCount: failedNotifications.length,
+        failures: failedNotifications.map(({ channel, error }) => ({
+          channel,
+          error: error instanceof Error ? error.message : String(error),
+        })),
       });
       return {
         success: true,
