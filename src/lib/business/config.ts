@@ -5,7 +5,7 @@ export const HOME_STATE = "CA" as const;
 
 export const PHONE = "+17607172074" as const;
 export const TEXT_NUMBER = "+17607172074" as const;
-export const EMAIL = "elexcruz226@gmail.com" as const;
+export const EMAIL = "quotes@drehauling.com" as const;
 
 export const BUSINESS_HOURS = [
   { day: "Monday", hours: "7:00 AM – 7:00 PM" },
