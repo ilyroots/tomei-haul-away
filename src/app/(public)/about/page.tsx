@@ -36,6 +36,10 @@ export default function AboutPage() {
           centered
         />
 
+        <div className="mt-10">
+          <CleanoutPhotos />
+        </div>
+
         <div className="mt-10 grid gap-8 md:grid-cols-2">
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl md:aspect-square">
             <Image
@@ -99,7 +103,6 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-10">
-          <CleanoutPhotos />
           <p className="mt-3 text-center text-sm text-brand-muted">
             Proudly serving the {HOME_CITY} area and surrounding communities.
           </p>
