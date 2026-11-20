@@ -2,11 +2,11 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { COMPANY_NAME, OWNER_NAME, HOME_CITY } from "@/lib/business/config";
 import { SectionHeading } from "@/components/public/SectionHeading";
+import { CleanoutPhotos } from "@/components/public/CleanoutPhotos";
 import {
   aboutOwnerImage,
   aboutCrewImage,
   aboutTruckImage,
-  aboutCommunityImage,
 } from "@/lib/public/images";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
@@ -99,15 +99,7 @@ export default function AboutPage() {
         </div>
 
         <div className="mt-10">
-          <div className="relative aspect-[21/9] w-full overflow-hidden rounded-xl">
-            <Image
-              src={aboutCommunityImage.src}
-              alt={aboutCommunityImage.alt}
-              fill
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
+          <CleanoutPhotos />
           <p className="mt-3 text-center text-sm text-brand-muted">
             Proudly serving the {HOME_CITY} area and surrounding communities.
           </p>

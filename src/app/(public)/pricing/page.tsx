@@ -1,11 +1,10 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { COMPANY_NAME } from "@/lib/business/config";
 import { SectionHeading } from "@/components/public/SectionHeading";
+import { CleanoutPhotos } from "@/components/public/CleanoutPhotos";
 import { PricingFactors } from "@/components/public/PricingFactors";
 import { Button } from "@/components/ui/Button";
-import { pricingImage } from "@/lib/public/images";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
@@ -45,15 +44,7 @@ export default function PricingPage() {
             </Button>
           </div>
         </div>
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
-          <Image
-            src={pricingImage.src}
-            alt={pricingImage.alt}
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
-          />
-        </div>
+        <CleanoutPhotos />
       </div>
 
       <div className="mx-auto mt-16 max-w-4xl">
