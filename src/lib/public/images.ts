@@ -362,6 +362,39 @@ export function getServiceImage(slug: string): SiteImage {
 }
 
 // ---------------------------------------------------------------------------
+// Gallery before/after pairs
+// ---------------------------------------------------------------------------
+
+export const galleryPairs: Array<{ before: SiteImage; after: SiteImage }> = Array.from(
+  { length: 6 },
+  (_, i) => {
+    const num = String(i + 1).padStart(2, "0");
+    return {
+      before: {
+        src: `/images/placeholders/gallery/tomei-gallery-before-${num}-placeholder.webp`,
+        alt: `Representative before example ${i + 1} of a junk removal job`,
+        width: 1200,
+        height: 800,
+        category: "gallery",
+        caption: `Before — Example ${i + 1}`,
+        isPlaceholder: true,
+        replacementNotes: `AI-generated placeholder. Replace before photo ${i + 1} with a real before shot from a completed job.`,
+      },
+      after: {
+        src: `/images/placeholders/gallery/tomei-gallery-after-${num}-placeholder.webp`,
+        alt: `Representative after example ${i + 1} of a junk removal job`,
+        width: 1200,
+        height: 800,
+        category: "gallery",
+        caption: `After — Example ${i + 1}`,
+        isPlaceholder: true,
+        replacementNotes: `AI-generated placeholder. Replace after photo ${i + 1} with the matching real after shot.`,
+      },
+    };
+  }
+);
+
+// ---------------------------------------------------------------------------
 // Team image
 // ---------------------------------------------------------------------------
 

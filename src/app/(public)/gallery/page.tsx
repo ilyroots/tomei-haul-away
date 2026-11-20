@@ -3,14 +3,13 @@ import { COMPANY_NAME } from "@/lib/business/config";
 import { getActiveGalleryItems } from "@/lib/public/data";
 import { SectionHeading } from "@/components/public/SectionHeading";
 import { GalleryImage } from "@/components/public/GalleryImage";
-
-export const dynamic = "force-dynamic";
+import { galleryPairs } from "@/lib/public/images";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   title: "Gallery",
-  description: `See before-and-after junk removal photos from ${COMPANY_NAME}.`,
+  description: `See before-and-after junk removal photos from ${COMPANY_NAME}. Real job photos are added as they come in; illustrative placeholders are labeled as examples.`,
   alternates: {
     canonical: `${appUrl}/gallery`,
   },
@@ -23,44 +22,47 @@ export const metadata: Metadata = {
 };
 
 export default async function GalleryPage() {
-  const galleryItems = (await getActiveGalleryItems()).filter((item) => item.assetKey);
+  const galleryItems = await getActiveGalleryItems();
+  const hasItems = galleryItems.length > 0;
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <SectionHeading title="Gallery" subtitle="Before and after a DreHauling cleanout." centered />
+      <SectionHeading
+        title="Gallery"
+        subtitle="A look at the transformations we deliver. Real job photos are added as they come in — some images below are representative examples, not actual customer jobs."
+        centered
+      />
 
-      <section aria-labelledby="front-yard-cleanout" className="mx-auto mt-10 max-w-5xl">
-        <h2 id="front-yard-cleanout" className="mb-4 text-xl font-semibold text-brand-primary">
-          Front yard cleanout
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <GalleryImage
-            src="/images/gallery/front-yard-cleanout-before.jpg"
-            alt="Cardboard and debris piled beside the front walkway"
-            caption="Before"
-            sizes="(max-width: 640px) 100vw, 50vw"
-          />
-          <GalleryImage
-            src="/images/gallery/front-yard-cleanout-after.jpg"
-            alt="The same front yard and walkway cleared of cardboard and debris"
-            caption="After"
-            sizes="(max-width: 640px) 100vw, 50vw"
-          />
-        </div>
-      </section>
-
-      {galleryItems.length > 0 && (
+      {hasItems ? (
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {galleryItems.map((item, index) => (
             <GalleryImage
               key={item.id}
-              src={`/api/gallery/${encodeURIComponent(item.id)}/image`}
+              src={item.assetKey ? `/api/assets/${item.assetKey}` : galleryPairs[0].before.src}
               alt={item.description ?? item.title ?? "Gallery photo"}
               caption={item.title}
               priority={index < 3}
-              unoptimized
             />
           ))}
+        </div>
+      ) : (
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {galleryPairs
+            .slice(0, 6)
+            .flatMap((pair, i) => [
+              <GalleryImage
+                key={`before-${i}`}
+                src={pair.before.src}
+                alt={pair.before.alt}
+                caption={pair.before.caption}
+              />,
+              <GalleryImage
+                key={`after-${i}`}
+                src={pair.after.src}
+                alt={pair.after.alt}
+                caption={pair.after.caption}
+              />,
+            ])}
         </div>
       )}
     </div>
