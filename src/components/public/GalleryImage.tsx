@@ -5,9 +5,18 @@ interface GalleryImageProps {
   alt: string;
   caption?: string | null;
   priority?: boolean;
+  sizes?: string;
+  unoptimized?: boolean;
 }
 
-export function GalleryImage({ src, alt, caption, priority = false }: GalleryImageProps) {
+export function GalleryImage({
+  src,
+  alt,
+  caption,
+  priority = false,
+  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw",
+  unoptimized = false,
+}: GalleryImageProps) {
   return (
     <figure className="group relative overflow-hidden rounded-xl bg-brand-background shadow-sm">
       <div className="relative aspect-[4/3] w-full">
@@ -15,9 +24,10 @@ export function GalleryImage({ src, alt, caption, priority = false }: GalleryIma
           src={src}
           alt={alt}
           fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          sizes={sizes}
           className="object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           priority={priority}
+          unoptimized={unoptimized}
         />
       </div>
       {caption && (
