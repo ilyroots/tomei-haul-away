@@ -1,13 +1,6 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import { COMPANY_NAME, OWNER_NAME, HOME_CITY } from "@/lib/business/config";
 import { SectionHeading } from "@/components/public/SectionHeading";
-import { CleanoutPhotos } from "@/components/public/CleanoutPhotos";
-import {
-  aboutOwnerImage,
-  aboutCrewImage,
-  aboutTruckImage,
-} from "@/lib/public/images";
 
 const appUrl = process.env.APP_URL ?? "http://localhost:3000";
 
@@ -36,31 +29,6 @@ export default function AboutPage() {
           centered
         />
 
-        <div className="mt-10">
-          <CleanoutPhotos />
-        </div>
-
-        <div className="mt-10 grid gap-8 md:grid-cols-2">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl md:aspect-square">
-            <Image
-              src={aboutOwnerImage.src}
-              alt={aboutOwnerImage.alt}
-              fill
-              sizes="(max-width: 768px) 100vw, 400px"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl md:aspect-square">
-            <Image
-              src={aboutCrewImage.src}
-              alt={aboutCrewImage.alt}
-              fill
-              sizes="(max-width: 768px) 100vw, 400px"
-              className="object-cover"
-            />
-          </div>
-        </div>
-
         <div className="mt-10 space-y-4 text-brand-text/90">
           <p>
             {COMPANY_NAME} is a locally owned junk removal and cleanout business serving homes,
@@ -81,16 +49,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-8 md:grid-cols-2">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
-            <Image
-              src={aboutTruckImage.src}
-              alt={aboutTruckImage.alt}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
-            />
-          </div>
+        <div className="mt-10">
           <div className="rounded-xl bg-brand-background p-6">
             <h2 className="text-xl font-bold text-brand-primary">What we believe</h2>
             <ul className="mt-3 list-inside list-disc space-y-2 text-brand-text/90">

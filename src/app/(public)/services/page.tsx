@@ -27,8 +27,8 @@ export default function ServicesPage() {
     <>
       <section className="bg-brand-primary py-16 md:py-24">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold text-brand-background md:text-5xl">Our services</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-brand-background/90">
+          <h1 className="font-[family-name:var(--font-inter)] text-4xl font-bold text-white md:text-5xl">Our services</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-white">
             From single-item pickups to full-property cleanouts, we handle the heavy lifting.
           </p>
         </div>
