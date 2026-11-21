@@ -16,6 +16,7 @@ const navItems = [
   { href: "/admin/services", label: "Services" },
   { href: "/admin/service-areas", label: "Service Areas" },
   { href: "/admin/settings", label: "Settings" },
+  { href: "/admin/password", label: "Change password" },
 ];
 
 export function AdminSidebar({
