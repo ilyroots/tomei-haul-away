@@ -46,6 +46,11 @@ export default function PhotoCreditsPage() {
             original file page on Wikimedia Commons.
           </p>
 
+          <p className="mt-4 text-brand-text/80">
+            The Storage-Unit Cleanouts, Single-Item Pickup, and Specialty-Item Removal service
+            images are AI-generated illustrations.
+          </p>
+
           <div className="mt-10 space-y-8">
             {REGIONS.map((region) => {
               const entries: CreditEntry[] = [
